@@ -1,6 +1,8 @@
-----------------------------------------------------------
-                     Compiling
-----------------------------------------------------------
+qemacs 0.3.3 [jdog fork]
+---
+
+
+## Compiling
 
 * If you want image, audio and video support, download FFmpeg at
   http://ffmpeg.org. Compile, then install it in the qemacs/ directory (it should
@@ -13,22 +15,17 @@
 
 * type 'make install' as root to install it in /usr/local.
 
-----------------------------------------------------------
-                     Documentation
-----------------------------------------------------------
+
+## Documentation
 
 Read the file qe-doc.html.
 
-----------------------------------------------------------
-                     Licensing
-----------------------------------------------------------
+
+
+## Licensing
+
 
 QEmacs is released under the GNU Lesser General Public License (read
-the accompagning COPYING file).
+the accompanying LICENSE.md file).
 
 Fabrice Bellard.
-
-
-osx config
-
-./configure --with-ffmpegdir=/usr/local/cellar/ffmpeg/2.2.3/include --with-ffmpeglibdir=/usr/local/cellar/ffmpeg/2.2.3/lib
