@@ -1,3 +1,7 @@
+# Executables
+qe
+qe_g
+
 # Object files
 *.o
 *.ko
