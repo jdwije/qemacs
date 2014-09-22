@@ -17,6 +17,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 #include "qe.h"
+#include "dirent.h"
 
 typedef struct DiredState {
     StringArray items;
@@ -30,7 +31,7 @@ static void dired_display(EditState *s)
 {
     DiredState *ds = s->mode_data;
     int pos;
-
+       
     list_mode.display(s);
 
     /* open file so that user can see it before it is selected */
@@ -170,6 +171,7 @@ void build_dired_list(EditState *s, const char *path)
     b->modified = 0;
 }
 
+/* XXX: this is likely where the dired SEGFAULT bug is occuring */
 static void get_dired_filename(EditState *s, 
                                char *buf, int buf_size, int index)
 {
@@ -185,7 +187,7 @@ static void get_dired_filename(EditState *s,
     /* build filename */
     pstrcpy(buf, buf_size, hs->path);
     pstrcat(buf, buf_size, "/");
-    pstrcat(buf, buf_size, (const char *)item->opaque);
+    pstrcat(buf, buf_size, (const char *) item->opaque);
 }
 
 
@@ -294,8 +296,10 @@ static int dired_mode_probe(ModeProbeData *p)
 
 ModeDef dired_mode;
 
-/* open dired window on the left. The directory of the current file is
-   used */
+/* 
+*   open dired window on the left The directory of the current file is
+*   used
+*/
 void do_dired(EditState *s)
 {
     DiredState *hs;
@@ -303,15 +307,25 @@ void do_dired(EditState *s)
     EditBuffer *b;
     EditState *e;
     int width, i;
+    char origname[1024], *pp; /* add this to fix segfault issue *s is overriden sometimes it seems */
     char filename[1024], *p;
+    DIR *pDir;
 
     b = eb_new("*dired*", BF_READONLY | BF_SYSTEM);
+    
+    // exit if editstate *s null
+    if (!s) {
+        return;
+    }
 
     /* set the filename to the directory of the current file */
     pstrcpy(filename, sizeof(filename), s->b->filename);
+    pstrcpy(origname, sizeof(origname), s->b->filename);
+
     p = strrchr(filename, '/');
     if (p)
         *p = '\0';
+
     set_filename(b, filename);
     
     width = qs->width / 4;
@@ -320,9 +334,9 @@ void do_dired(EditState *s)
     hs = e->mode_data;
 
     /* if active file is found, go directly on it */
-    for(i=0;i<hs->items.nb_items;i++) {
+    for(i=0;i<hs->items.nb_items;i++) {        
         get_dired_filename(e, filename, sizeof(filename), i);
-        if (!strcmp(filename, s->b->filename)) {
+        if (!strcmp( filename, origname )) { // this LOC causes a segfault on osx
             e->offset = eb_goto_pos(e->b, i, 0);
             break;
         }

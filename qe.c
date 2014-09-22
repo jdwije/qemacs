@@ -3059,7 +3059,7 @@ void exec_command(EditState *s, CmdDef *d, int argval)
     es->nb_args = 0;
 
     /* first argument is always the window */
-    es->args[es->nb_args] = (void *)s;
+    es->args[es->nb_args] = s;
     es->args_type[es->nb_args] = CMD_ARG_WINDOW;
     es->nb_args++;
     es->ptype = d->name + strlen(d->name) + 1;
@@ -3111,7 +3111,7 @@ static void parse_args(ExecCmdState *es)
             break;
         }
         es->nb_args++;
-        /* if no argument specified, try to ask it to the user */
+        /* if no argument specified, try to ask it of the user */
         if (no_arg && prompt[0] != '\0') {
             char def_input[1024];
 

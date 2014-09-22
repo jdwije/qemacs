@@ -16,4 +16,4 @@ CONFIG_HTML=yes
 CONFIG_DLL=yes
 CONFIG_UNICODE_JOIN=yes
 CONFIG_ALL_KMAPS=yes
-SRC_PATH=/Users/JWIJESWWW/Desktop/development/qemacs-0.3.3
+SRC_PATH=/Users/JWIJESWWW/desktop/development/qemacs-0.3.3
