@@ -93,6 +93,7 @@ void build_dired_list(EditState *s, const char *path)
 
     /* free previous list, if any */
     dired_free(s);
+
     hs->last_pos = -1;
 
     canonize_path(hs->path, sizeof(hs->path), path);

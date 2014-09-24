@@ -1,6 +1,7 @@
 # Executables
 qe
 qe_g
+qe.exe
 
 # Object files
 *.o

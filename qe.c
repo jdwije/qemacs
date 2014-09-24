@@ -2787,9 +2787,12 @@ int text_display(EditState *s, DisplayState *ds, int offset)
 /* Generic display algorithm with automatic fit */
 void generic_text_display(EditState *s)
 {
-    CursorContext m1, *m = &m1;
-    DisplayState ds1, *ds = &ds1;
+    CursorContext m1, *m;
+    DisplayState ds1, *ds;
     int x1, xc, yc, offset;
+    
+    m = &m1;
+    ds  = &ds1;
 
     /* if the cursor is before the top of the display zone, we must
        resync backward */
@@ -3052,7 +3055,7 @@ void exec_command(EditState *s, CmdDef *d, int argval)
     es = malloc(sizeof(ExecCmdState));
     if (!es)
         return;
-
+    
     es->s = s;
     es->d = d;
     es->argval= argval;
@@ -3063,7 +3066,7 @@ void exec_command(EditState *s, CmdDef *d, int argval)
     es->args_type[es->nb_args] = CMD_ARG_WINDOW;
     es->nb_args++;
     es->ptype = d->name + strlen(d->name) + 1;
-
+    
     parse_args(es);
 }
 
@@ -3077,7 +3080,7 @@ static void parse_args(ExecCmdState *es)
     char history[32];
     unsigned char arg_type;
     int ret, rep_count, no_arg;
-
+    
     for(;;) {
         ret = parse_arg(&es->ptype, &arg_type, 
                         prompt, sizeof(prompt),
@@ -5877,22 +5880,22 @@ void text_mode_close(EditState *s)
 
 ModeDef text_mode = {
     "text", 
-    instance_size: 0,
-    mode_probe: text_mode_probe,
-    mode_init: text_mode_init,
-    mode_close: text_mode_close,
+    .instance_size = 0,
+    .mode_probe = text_mode_probe,
+    .mode_init = text_mode_init,
+    .mode_close = text_mode_close,
 
-    text_display: text_display,
-    text_backward_offset: text_backward_offset, 
+    .text_display = text_display,
+    .text_backward_offset = text_backward_offset, 
 
-    move_up_down: text_move_up_down,
-    move_left_right: text_move_left_right_visual,
-    move_bol: text_move_bol,
-    move_eol: text_move_eol,
-    move_word_left_right: text_move_word_left_right,
-    scroll_up_down: text_scroll_up_down,
-    write_char: text_write_char,
-    mouse_goto: text_mouse_goto,
+    .move_up_down = text_move_up_down,
+    .move_left_right = text_move_left_right_visual,
+    .move_bol = text_move_bol,
+    .move_eol = text_move_eol,
+    .move_word_left_right = text_move_word_left_right,
+    .scroll_up_down = text_scroll_up_down,
+    .write_char = text_write_char,
+    .mouse_goto = text_mouse_goto,
 };
 
 ModeDef minibuffer_mode;
@@ -6159,7 +6162,7 @@ static void show_help(void)
 
 static CmdOptionDef cmd_options[] = {
     { "h", NULL, 0, "show help", 
-      {func_noarg: show_help}},
+      {.func_noarg = show_help}},
     { NULL },
 };
 
