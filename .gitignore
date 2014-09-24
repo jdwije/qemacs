@@ -36,3 +36,18 @@ qe.exe
 # tmp files
 *~
 *#
+
+
+config.mak
+config.h
+csstoqe
+html_style.c
+docbook_style.c
+*.o
+gmon.out
+qfribidi
+kmaptoqe
+ligtoqe
+html2png
+fbftoqe
+fbffonts.c
