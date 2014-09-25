@@ -308,4 +308,5 @@ test:
 
 # documentation
 qe-doc.html: qe-doc.texi
-	texi2html -monolithic -number $<
+	pandoc $< -f textile -t html qe-doc.html
+	pandoc $< -f textile -t markdown qe-doc.md
