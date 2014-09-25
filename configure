@@ -61,7 +61,6 @@ kmaps="yes"
 
 # OS specific
 targetos=`uname -s`
-osx="no"
 
 case $targetos in
     BeOS)	
@@ -82,10 +81,8 @@ case $targetos in
 	make="gmake"
 	;;
     *) ;;
-    Darwin)
-	$osx="yes"
-	;;
 esac
+
 
 # find source path
 # XXX: we assume an absolute path is given when launching configure, 
@@ -294,7 +291,7 @@ echo "HOST_CC=$host_cc" >> config.mak
 echo "AR=$ar" >> config.mak
 
 # don't do this on Apple OSX
-if test "$osx" = "no" ; then
+if test "$targetos" != "Darwin" ; then
     echo "STRIP=$strip -s -R .comment -R .note" >> config.mak
 fi
 
