@@ -3062,7 +3062,7 @@ void exec_command(EditState *s, CmdDef *d, int argval)
     es->nb_args = 0;
 
     /* first argument is always the window */
-    es->args[es->nb_args] = s;
+    es->args[es->nb_args] = (void *)s;
     es->args_type[es->nb_args] = CMD_ARG_WINDOW;
     es->nb_args++;
     es->ptype = d->name + strlen(d->name) + 1;

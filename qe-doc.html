@@ -1,252 +1,272 @@
-<HTML>
-<HEAD>
-<!-- Created by texi2html 1.56k from qe-doc.texi on 21 April 2003 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html401/loose.dtd">
+<html>
+<!-- Created on September 25, 2014 by texi2html 1.82
+texi2html was written by: 
+            Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Many creative people.
+Send bugs and suggestions to <texi2html-bug@nongnu.org>
+-->
+<head>
+<title>QEmacs Documentation</title>
 
-<TITLE>QEmacs Documentation</TITLE>
-</HEAD>
-<BODY>
-<H1>QEmacs Documentation</H1>
-<P>
-<P><HR><P>
-<H1>Table of Contents</H1>
-<UL>
-<LI><A NAME="TOC1" HREF="qe-doc.html#SEC1">1. Introduction</A>
-<LI><A NAME="TOC2" HREF="qe-doc.html#SEC2">2. Invocation</A>
-<LI><A NAME="TOC3" HREF="qe-doc.html#SEC3">3. Common editing commands</A>
-<UL>
-<LI><A NAME="TOC4" HREF="qe-doc.html#SEC4">3.1 Concepts</A>
-<LI><A NAME="TOC5" HREF="qe-doc.html#SEC5">3.2 Help</A>
-<LI><A NAME="TOC6" HREF="qe-doc.html#SEC6">3.3 Simple commands</A>
-<LI><A NAME="TOC7" HREF="qe-doc.html#SEC7">3.4 Region handling</A>
-<LI><A NAME="TOC8" HREF="qe-doc.html#SEC8">3.5 Buffer and file handling</A>
-<LI><A NAME="TOC9" HREF="qe-doc.html#SEC9">3.6 Search and replace</A>
-<LI><A NAME="TOC10" HREF="qe-doc.html#SEC10">3.7 Command handling</A>
-<LI><A NAME="TOC11" HREF="qe-doc.html#SEC11">3.8 Window handling</A>
-<LI><A NAME="TOC12" HREF="qe-doc.html#SEC12">3.9 International</A>
-<LI><A NAME="TOC13" HREF="qe-doc.html#SEC13">3.10 Miscellaneous</A>
-</UL>
-<LI><A NAME="TOC14" HREF="qe-doc.html#SEC14">4. Configuration file and resources</A>
-<UL>
-<LI><A NAME="TOC15" HREF="qe-doc.html#SEC15">4.1 Resource path</A>
-<LI><A NAME="TOC16" HREF="qe-doc.html#SEC16">4.2 Configuration file</A>
-<LI><A NAME="TOC17" HREF="qe-doc.html#SEC17">4.3 Plugins</A>
-</UL>
-<LI><A NAME="TOC18" HREF="qe-doc.html#SEC18">5. Internationalization</A>
-<UL>
-<LI><A NAME="TOC19" HREF="qe-doc.html#SEC19">5.1 Charsets</A>
-<LI><A NAME="TOC20" HREF="qe-doc.html#SEC20">5.2 Input methods</A>
-<LI><A NAME="TOC21" HREF="qe-doc.html#SEC21">5.3 Bidirectional editing</A>
-<LI><A NAME="TOC22" HREF="qe-doc.html#SEC22">5.4 Unicode scripts</A>
-</UL>
-<LI><A NAME="TOC23" HREF="qe-doc.html#SEC23">6. Editing Modes</A>
-<UL>
-<LI><A NAME="TOC24" HREF="qe-doc.html#SEC24">6.1 C mode</A>
-<LI><A NAME="TOC25" HREF="qe-doc.html#SEC25">6.2 Hexadecimal, ascii and unihex modes</A>
-<LI><A NAME="TOC26" HREF="qe-doc.html#SEC26">6.3 shell mode</A>
-<LI><A NAME="TOC27" HREF="qe-doc.html#SEC27">6.4 Dired mode</A>
-<LI><A NAME="TOC28" HREF="qe-doc.html#SEC28">6.5 Bufed mode</A>
-<LI><A NAME="TOC29" HREF="qe-doc.html#SEC29">6.6 XML mode</A>
-<LI><A NAME="TOC30" HREF="qe-doc.html#SEC30">6.7 Graphical HTML2/CSS mode</A>
-<UL>
-<LI><A NAME="TOC31" HREF="qe-doc.html#SEC31">6.7.1 Usage</A>
-<LI><A NAME="TOC32" HREF="qe-doc.html#SEC32">6.7.2 Features</A>
-<LI><A NAME="TOC33" HREF="qe-doc.html#SEC33">6.7.3 Known limitations</A>
-<LI><A NAME="TOC34" HREF="qe-doc.html#SEC34">6.7.4 CSS property support</A>
-</UL>
-<LI><A NAME="TOC35" HREF="qe-doc.html#SEC35">6.8 Graphical DocBook mode</A>
-<LI><A NAME="TOC36" HREF="qe-doc.html#SEC36">6.9 Image mode</A>
-<LI><A NAME="TOC37" HREF="qe-doc.html#SEC37">6.10 Audio/Video mode</A>
-</UL>
-<LI><A NAME="TOC38" HREF="qe-doc.html#SEC38">7. Fonts</A>
-<UL>
-<LI><A NAME="TOC39" HREF="qe-doc.html#SEC39">7.1 VT100 display</A>
-<LI><A NAME="TOC40" HREF="qe-doc.html#SEC40">7.2 X11 display</A>
-<LI><A NAME="TOC41" HREF="qe-doc.html#SEC41">7.3 Internal QEmacs fonts</A>
-</UL>
-<LI><A NAME="TOC42" HREF="qe-doc.html#SEC42">8. Html2png Tool</A>
-<UL>
-<LI><A NAME="TOC43" HREF="qe-doc.html#SEC43">8.1 Introduction</A>
-<LI><A NAME="TOC44" HREF="qe-doc.html#SEC44">8.2 Invocation</A>
-</UL>
-<LI><A NAME="TOC45" HREF="qe-doc.html#SEC45">9. Developper's Guide</A>
-<UL>
-<LI><A NAME="TOC46" HREF="qe-doc.html#SEC46">9.1 Plugins</A>
-</UL>
-</UL>
-<P><HR><P>
-
-<P>
-QEmacs Documentation
+<meta name="description" content="QEmacs Documentation">
+<meta name="keywords" content="QEmacs Documentation">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="texi2html 1.82">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+<!--
+a.summary-letter {text-decoration: none}
+blockquote.smallquotation {font-size: smaller}
+pre.display {font-family: serif}
+pre.format {font-family: serif}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: serif; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: serif; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.roman {font-family:serif; font-weight:normal;}
+span.sansserif {font-family:sans-serif; font-weight:normal;}
+ul.toc {list-style: none}
+-->
+</style>
 
 
+</head>
 
+<body lang="en" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#800080" alink="#FF0000">
 
-<H1><A NAME="SEC1" HREF="qe-doc.html#TOC1">1. Introduction</A></H1>
-<P>
-QEmacs (for Quick Emacs) is a very small but powerful
+<a name="Introduction-1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[ &lt; ]</td>
+<td valign="middle" align="left">[<a href="#Invocation-1" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[ &lt;&lt; ]</td>
+<td valign="middle" align="left">[ Up ]</td>
+<td valign="middle" align="left">[<a href="#Invocation-1" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">1. Introduction</h1>
+<p>QEmacs (for Quick Emacs) is a very small but powerful
 UNIX editor. It has features that even big editors lack :
-
-<UL>
-
-<LI>Full screen editor with an Emacs look and feel with all Emacs common
-
+</p><ul>
+<li> Full screen editor with an Emacs look and feel with all Emacs common
   features: multi-buffer, multi-window, command mode, universal
   argument, keyboard macros, config file with C like syntax, minibuffer
   with completion and history.
 
-<LI>Can edit files of hundreds of Megabytes without being slow by using
-
+</li><li> Can edit files of hundreds of Megabytes without being slow by using
   a highly optimized internal representation and by mmaping the file.
 
-<LI>Full <EM>Unicode</EM> support, including multi charset handling
-
+</li><li> Full <em>Unicode</em> support, including multi charset handling 
   (8859-x, UTF8, SJIS, EUC-JP, ...) and bidirectional editing respecting
   the Unicode bidi algorithm. Arabic and Indic scripts handling (in
   progress).
 
-<LI>WYSIWYG <EM>HTML/XML/CSS2</EM> mode graphical editing. Also supports lynx like
-
+</li><li> WYSIWYG <em>HTML/XML/CSS2</em> mode graphical editing. Also supports lynx like
 rendering on VT100 terminals.
 
-<LI>WYSIWYG <EM>DocBook</EM> mode based on XML/CSS2 renderer.
+</li><li> WYSIWYG <em>DocBook</em> mode based on XML/CSS2 renderer.
 
-<LI>C mode: coloring with immediate update. Emacs like auto-indent.
+</li><li> C mode: coloring with immediate update. Emacs like auto-indent.
 
-<LI>Shell mode: colorized VT100 emulation so that your shell work
-
+</li><li> Shell mode: colorized VT100 emulation so that your shell work
   exactly as you expect. Compile mode with next/prev error. 
 
-<LI>Input methods for most languages, including Chinese (input methods
-
+</li><li> Input methods for most languages, including Chinese (input methods
   come from the Yudit editor). 
 
-<LI><EM>Hexadecimal editing</EM> mode with insertion and block commands. Unicode
-
+</li><li> <em>Hexadecimal editing</em> mode with insertion and block commands. Unicode
   hexa editing is also supported.
 
-<LI>Works on any VT100 terminals without termcap. UTF8 VT100 support
-
+</li><li> Works on any VT100 terminals without termcap. UTF8 VT100 support
   included with double width glyphs.
 
-<LI>X11 support. Support multiple proportionnal fonts at the same time
-
+</li><li> X11 support. Support multiple proportionnal fonts at the same time
   (as XEmacs). X Input methods supported. Xft extension supported for
   anti aliased font display.
 
-<LI>
-
+</li><li> 
   Small! Full version (including HTML/XML/CSS2/DocBook rendering and all
   charsets): 200KB big. Basic version (without bidir/unicode
   scripts/input/X11/C/Shell/HTML/dired): 49KB.
 
-</UL>
+</li></ul>
 
+<hr size="6">
+<a name="Invocation-1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction-1" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">2. Invocation</h1>
 
-
-<H1><A NAME="SEC2" HREF="qe-doc.html#TOC2">2. Invocation</A></H1>
-
-
-<PRE>
-usage: qe [-h] [-nw] [-display display] [-geometry WxH] 
+<table><tr><td>&nbsp;</td><td><pre class="example">usage: qe [-h] [-nw] [-display display] [-geometry WxH] 
           [-fs ptsize] [filename...]
-</PRE>
+</pre></td></tr></table>
 
-<DL COMPACT>
+<dl compact="compact">
+<dt> &lsquo;<samp>-h</samp>&rsquo;</dt>
+<dd><p>show help
+</p>
+</dd>
+<dt> &lsquo;<samp>-nw</samp>&rsquo;</dt>
+<dd><p>force tty terminal usage
+</p>
+</dd>
+<dt> &lsquo;<samp>-display display</samp>&rsquo;</dt>
+<dd><p>set X11 display to &rsquo;display&rsquo;
+</p>
+</dd>
+<dt> &lsquo;<samp>-geometry WxH</samp>&rsquo;</dt>
+<dd><p>set X11 display size
+</p>
+</dd>
+<dt> &lsquo;<samp>-fs ptsize</samp>&rsquo;</dt>
+<dd><p>set default font size
+</p>
+</dd>
+</dl>
 
-<DT><SAMP>`-h'</SAMP>
-<DD>
-show help
+<p>When invoked as
+</p><table><tr><td>&nbsp;</td><td><pre class="example">usage: ffplay 
+</pre></td></tr></table>
 
-<DT><SAMP>`-nw'</SAMP>
-<DD>
-force tty terminal usage
+<p>QEmacs goes to <code>dired</code> mode automatically so that you can browse your
+files easily (same as <kbd>C-x C-d</kbd> key).
+</p>
+<hr size="6">
+<a name="Common-editing-commands"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Invocation-1" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Concepts" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Invocation-1" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">3. Common editing commands</h1>
 
-<DT><SAMP>`-display display'</SAMP>
-<DD>
-set X11 display to 'display'
+<hr size="6">
+<a name="Concepts"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Common-editing-commands" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Help" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.1 Concepts</h2>
 
-<DT><SAMP>`-geometry WxH'</SAMP>
-<DD>
-set X11 display size
-
-<DT><SAMP>`-fs ptsize'</SAMP>
-<DD>
-set default font size
-
-</DL>
-
-<P>
-When invoked as
-
-<PRE>
-usage: ffplay 
-</PRE>
-
-<P>
-QEmacs goes to <CODE>dired</CODE> mode automatically so that you can browse your
-files easily (same as <KBD>C-x C-d</KBD> key).
-
-
-
-
-<H1><A NAME="SEC3" HREF="qe-doc.html#TOC3">3. Common editing commands</A></H1>
-
-
-
-<H2><A NAME="SEC4" HREF="qe-doc.html#TOC4">3.1 Concepts</A></H2>
-
-<P>
-QEmacs store file content in <EM>buffers</EM>. Buffers can be seen as big
+<p>QEmacs store file content in <em>buffers</em>. Buffers can be seen as big
 arrays of bytes.
-
-
-<P>
-An <EM>editing mode</EM> tells how to display the content of a buffer and
+</p>
+<p>An <em>editing mode</em> tells how to display the content of a buffer and
 how to interact with the user to modify its content.
-
-
-<P>
-Multiple <EM>Windows</EM> can be shown on the screen at the same time. Each
+</p>
+<p>Multiple <em>Windows</em> can be shown on the screen at the same time. Each
 windows show the content of a buffer with an editing mode. It means that
 you can open several windows which show the same buffer in different
 modes (for example, both text and hexadecimal).
-
-
-<P>
-Each key binding activates a <EM>command</EM>. You can directly execute a
-command by typing <KBD>M-x command RET</KBD>.
-
-
-<P>
-Commands can take arguments. The key binding <KBD>C-u N</KBD> where N is an
+</p>
+<p>Each key binding activates a <em>command</em>. You can directly execute a
+command by typing <kbd>M-x command RET</kbd>.
+</p>
+<p>Commands can take arguments. The key binding <kbd>C-u N</kbd> where N is an
 optional number is used to give a numeric argument to the commands which
 can handle them. If the command cannot handle a numerical argument, it
-is simply repeated <CODE>N</CODE> times.
+is simply repeated <code>N</code> times.
+</p>
+<hr size="6">
+<a name="Help"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Concepts" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Simple-commands" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.2 Help</h2>
 
-
-
-
-<H2><A NAME="SEC5" HREF="qe-doc.html#TOC5">3.2 Help</A></H2>
-
-<P>
-You can press <KBD>C-h b</KBD> to have the list of all the currently active
+<p>You can press <kbd>C-h b</kbd> to have the list of all the currently active
 bindings, including the ones of the current editing mode.
-
-
-
-<PRE>
-C-h C-h, F1             : help-for-help
+</p>
+<table><tr><td>&nbsp;</td><td><pre class="example">C-h C-h, F1             : help-for-help
 C-h b                   : describe-bindings
 C-h c                   : describe-key-briefly
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Simple-commands"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Help" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Region-handling" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.3 Simple commands</h2>
 
-
-<H2><A NAME="SEC6" HREF="qe-doc.html#TOC6">3.3 Simple commands</A></H2>
-
-
-<PRE>
-default                 : self-insert-command
+<table><tr><td>&nbsp;</td><td><pre class="example">default                 : self-insert-command
 C-p, up                 : previous-line
 C-n, down               : next-line
 C-b, left               : backward-char
@@ -260,37 +280,65 @@ end, C-e                : end-of-line
 insert                  : overwrite-mode
 C-d, delete             : delete-char
 backspace               : backward-delete-char
-M-&#60;, C-home             : beginning-of-buffer
-M-&#62;, C-end              : end-of-buffer
+M-&lt;, C-home             : beginning-of-buffer
+M-&gt;, C-end              : end-of-buffer
 C-i                     : tabulate
 C-q                     : quoted-insert
 RET                     : newline
 M-{                     : backward-paragraph
-M-}                     : forward-paragraph
-</PRE>
+M-                     : forward-paragraph
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Region-handling"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Simple-commands" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Buffer-and-file-handling" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.4 Region handling</h2>
 
-
-<H2><A NAME="SEC7" HREF="qe-doc.html#TOC7">3.4 Region handling</A></H2>
-
-
-<PRE>
-C-k                     : kill-line
+<table><tr><td>&nbsp;</td><td><pre class="example">C-k                     : kill-line
 C-space                 : set-mark-command
 C-w                     : kill-region
 M-w                     : copy-region
 C-y                     : yank
 M-y                     : yank-pop
 C-x C-x                 : exchange-point-and-mark
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Buffer-and-file-handling"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Region-handling" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Search-and-replace" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.5 Buffer and file handling</h2>
 
-
-<H2><A NAME="SEC8" HREF="qe-doc.html#TOC8">3.5 Buffer and file handling</A></H2>
-
-
-<PRE>
-C-x C-s                 : save-buffer
+<table><tr><td>&nbsp;</td><td><pre class="example">C-x C-s                 : save-buffer
 C-x C-w                 : write-file
 C-x C-c                 : suspend-emacs
 C-x C-f                 : find-file
@@ -300,67 +348,137 @@ C-x k                   : kill-buffer
 C-x i                   : insert-file
 C-x C-q                 : vc-toggle-read-only
 C-x C-b                 : list-buffers
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Search-and-replace"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Buffer-and-file-handling" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Command-handling" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.6 Search and replace</h2>
 
-
-<H2><A NAME="SEC9" HREF="qe-doc.html#TOC9">3.6 Search and replace</A></H2>
-
-
-<PRE>
-C-s                     : isearch-backward
+<table><tr><td>&nbsp;</td><td><pre class="example">C-s                     : isearch-backward
 C-r                     : isearch-forward
 M-%                     : query-replace
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Command-handling"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Search-and-replace" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Window-handling" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.7 Command handling</h2>
 
-
-<H2><A NAME="SEC10" HREF="qe-doc.html#TOC10">3.7 Command handling</A></H2>
-
-
-<PRE>
-M-x                     : execute-extended-command
+<table><tr><td>&nbsp;</td><td><pre class="example">M-x                     : execute-extended-command
 C-u                     : universal-argument
 C-g                     : abort
 C-x u, C-_              : undo
 C-x (                   : start-kbd-macro
 C-x )                   : end-kbd-macro
 C-x e                   : call-last-kbd-macro
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Window-handling"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Command-handling" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#International" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.8 Window handling</h2>
 
-
-<H2><A NAME="SEC11" HREF="qe-doc.html#TOC11">3.8 Window handling</A></H2>
-
-
-<PRE>
-C-x o                   : other-window
+<table><tr><td>&nbsp;</td><td><pre class="example">C-x o                   : other-window
 C-x 0                   : delete-window
 C-x 1                   : delete-other-windows
 C-x 2                   : split-window-vertically
 C-x 3                   : split-window-horizontally
 C-x f                   : toggle-full-screen
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="International"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Window-handling" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Miscellaneous" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.9 International</h2>
 
-
-<H2><A NAME="SEC12" HREF="qe-doc.html#TOC12">3.9 International</A></H2>
-
-
-<PRE>
-C-x RET f               : set-buffer-file-coding-system
+<table><tr><td>&nbsp;</td><td><pre class="example">C-x RET f               : set-buffer-file-coding-system
 C-x RET b               : toggle-bidir
 C-x RET C-\             : set-input-method
 C-\                     : switch-input-method
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Miscellaneous"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#International" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">3.10 Miscellaneous</h2>
 
-
-<H2><A NAME="SEC13" HREF="qe-doc.html#TOC13">3.10 Miscellaneous</A></H2>
-
-
-<PRE>
-C-l                     : refresh
+<table><tr><td>&nbsp;</td><td><pre class="example">C-l                     : refresh
 M-g                     : goto-line
 M-q                     : fill-paragraph
 C-x RET l               : toggle-line-numbers
@@ -370,872 +488,1364 @@ C-x C-e                 : compile
 C-x C-p                 : previous-error
 C-x C-n                 : next-error
 C-x C-d                 : dired
-</PRE>
+</pre></td></tr></table>
 
+<hr size="6">
+<a name="Configuration-file-and-resources"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Miscellaneous" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Resource-path" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Common-editing-commands" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">4. Configuration file and resources</h1>
 
+<hr size="6">
+<a name="Resource-path"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">4.1 Resource path</h2>
 
-<H1><A NAME="SEC14" HREF="qe-doc.html#TOC14">4. Configuration file and resources</A></H1>
+<p>All resources and configuration files are looked in the following paths:
+&lsquo;<tt>/usr/share/qe:/usr/local/share/qe:/usr/lib/qe:/usr/local/lib/qe:~/.qe</tt>&rsquo;
+</p>
+<hr size="6">
+<a name="Configuration-file"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Resource-path" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Plugins" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">4.2 Configuration file</h2>
 
-
-
-<H2><A NAME="SEC15" HREF="qe-doc.html#TOC15">4.1 Resource path</A></H2>
-
-<P>
-All resources and configuration files are looked in the following paths:
-<TT>`/usr/share/qe:/usr/local/share/qe:/usr/lib/qe:/usr/local/lib/qe:~/.qe'</TT>
-
-
-
-
-<H2><A NAME="SEC16" HREF="qe-doc.html#TOC16">4.2 Configuration file</A></H2>
-
-<P>
-QEmacs tries to load a configuration file in <TT>`~/.qe/config'</TT>. Each
+<p>QEmacs tries to load a configuration file in &lsquo;<tt>~/.qe/config</tt>&rsquo;. Each
 line of the configuration file is a QEmacs command with a C like syntax
-('-' in command name can be replaced by '_'). 
-
-
-<P>
-Read the example file <TT>`config.eg'</TT> to have some examples.
-
-
-<P>
-The following commands are useful:
-
-
-<DL COMPACT>
-
-<DT><CODE>global_set_key(key, command)</CODE>
-<DD>
-Set a global key binding to a command.
-
-<DT><CODE>set_display_size(width, height)</CODE>
-<DD>
-(X11) Set the window size, in character cells.
-
-<DT><CODE>set_system_font(family, system_fonts)</CODE>
-<DD>
-(X11) Maps a system font to a QEmacs font family. Multiple fonts can be
-given as fallback (See section <A HREF="qe-doc.html#SEC38">7. Fonts</A>).
-
-<DT><CODE>set_style(stylename, css_property, css_value)</CODE>
-<DD>
-Set a colorization style (see <TT>`qestyle.h'</TT> and <TT>`config.eg'</TT> for
+(&rsquo;-&rsquo; in command name can be replaced by &rsquo;_&rsquo;). 
+</p>
+<p>Read the example file &lsquo;<tt>config.eg</tt>&rsquo; to have some examples.
+</p>
+<p>The following commands are useful:
+</p>
+<dl compact="compact">
+<dt> <code>global_set_key(key, command)</code></dt>
+<dd><p>Set a global key binding to a command.
+</p>
+</dd>
+<dt> <code>set_display_size(width, height)</code></dt>
+<dd><p>(X11) Set the window size, in character cells.
+</p>
+</dd>
+<dt> <code>set_system_font(family, system_fonts)</code></dt>
+<dd>
+<p>(X11) Maps a system font to a QEmacs font family. Multiple fonts can be
+given as fallback (See section <a href="#fonts">Fonts</a>).
+</p>
+</dd>
+<dt> <code>set_style(stylename, css_property, css_value)</code></dt>
+<dd><p>Set a colorization style (see &lsquo;<tt>qestyle.h</tt>&rsquo; and &lsquo;<tt>config.eg</tt>&rsquo; for
 common style names)
+</p>
+</dd>
+</dl>
 
-</DL>
+<hr size="6">
+<a name="Plugins"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Configuration-file" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">4.3 Plugins</h2>
 
-
-
-<H2><A NAME="SEC17" HREF="qe-doc.html#TOC17">4.3 Plugins</A></H2>
-
-<P>
-Any <TT>`.so'</TT> file found in the qemacs resource paths is considered as
-a <EM>plugin</EM>. It is a piece of code containing new features for
+<p>Any &lsquo;<tt>.so</tt>&rsquo; file found in the qemacs resource paths is considered as
+a <em>plugin</em>. It is a piece of code containing new features for
 qemacs. 
-
-
-<P>
-Currently, no plugins are compiled in, but you can look at the
-<TT>`plugin-example/'</TT> directory to learn how to make one.
-
-
-<P>
-Most QEmacs object files can in fact be compiled either as a plugin or
+</p>
+<p>Currently, no plugins are compiled in, but you can look at the
+&lsquo;<tt>plugin-example/</tt>&rsquo; directory to learn how to make one.
+</p>
+<p>Most QEmacs object files can in fact be compiled either as a plugin or
 be statically linked in qemacs. The plugin system is strongly inspirated
 from the Linux Kernel 2.4 module system.
+</p>
+<hr size="6">
+<a name="Internationalization"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Plugins" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Charsets" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Configuration-file-and-resources" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">5. Internationalization</h1>
 
+<hr size="6">
+<a name="Charsets"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Internationalization" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Input-methods" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">5.1 Charsets</h2>
 
-
-
-<H1><A NAME="SEC18" HREF="qe-doc.html#TOC18">5. Internationalization</A></H1>
-
-
-
-<H2><A NAME="SEC19" HREF="qe-doc.html#TOC19">5.1 Charsets</A></H2>
-
-<P>
-QEmacs supports many common charsets including UTF8, shift JIS and EUC-JP. A
-charset can be selected for each buffer with <KBD>C-x RET f</KBD>
-(<CODE>set-buffer-file-coding-system</CODE>).
-
-
-<P>
-Currently, QEmacs automatically detects the UTF8 encoding. 
-
-
-<P>
-Note that unlike in other editors, changing the charset of a buffer
+<p>QEmacs supports many common charsets including UTF8, shift JIS and EUC-JP. A
+charset can be selected for each buffer with <kbd>C-x RET f</kbd>
+(<code>set-buffer-file-coding-system</code>).
+</p>
+<p>Currently, QEmacs automatically detects the UTF8 encoding. 
+</p>
+<p>Note that unlike in other editors, changing the charset of a buffer
 does not modify its content: buffers always contain bytes, and the charset
 is only used when the buffer content may be converted to characters, for
 example to display it on screen.  
-
-
-<P>
-You can use the UniHex editing mode (<KBD>M-x unihex-mode</KBD>) to see the
+</p>
+<p>You can use the UniHex editing mode (<kbd>M-x unihex-mode</kbd>) to see the
 Unicode values of each character in your file with the associated byte
 offset.
+</p>
+<p>The command <code>convert-buffer-file-coding-system</code> can be used to
+convert the buffer <em>content</em> to another charset.
+</p>
+<hr size="6">
+<a name="Input-methods"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Charsets" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Bidirectional-editing" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">5.2 Input methods</h2>
 
+<p>The current input method can be changed with <kbd>C-x RET \</kbd>
+(<code>set-input-method</code>). You can switch between this input method and
+the default one with &rsquo;C-\&rsquo;. 
+</p>
+<p>The input methods are currently stored in the resource file &lsquo;<tt>kmaps</tt>&rsquo;.
+They are extracted from the <em>Yudit</em> editor keyboard maps.
+</p>
+<hr size="6">
+<a name="Bidirectional-editing"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Input-methods" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Unicode-scripts" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">5.3 Bidirectional editing</h2>
 
-<P>
-The command <CODE>convert-buffer-file-coding-system</CODE> can be used to
-convert the buffer <EM>content</EM> to another charset.
-
-
-
-
-<H2><A NAME="SEC20" HREF="qe-doc.html#TOC20">5.2 Input methods</A></H2>
-
-<P>
-The current input method can be changed with <KBD>C-x RET \</KBD>
-(<CODE>set-input-method</CODE>). You can switch between this input method and
-the default one with 'C-\'. 
-
-
-<P>
-The input methods are currently stored in the resource file <TT>`kmaps'</TT>.
-They are extracted from the <EM>Yudit</EM> editor keyboard maps.
-
-
-
-
-<H2><A NAME="SEC21" HREF="qe-doc.html#TOC21">5.3 Bidirectional editing</A></H2>
-
-<P>
-QEmacs fully supports the Unicode bidi algorithm. 
-
-
-<P>
-By default, in text editing mode, qemacs is not in bidirectionnal mode (it
-may change soon). You can use 'C-x RET b' to toogle between bidi and normal
+<p>QEmacs fully supports the Unicode bidi algorithm. 
+</p>
+<p>By default, in text editing mode, qemacs is not in bidirectionnal mode (it
+may change soon). You can use &rsquo;C-x RET b&rsquo; to toogle between bidi and normal
 editing modes.
-
-
-<P>
-In HTML editing mode, bidi is always activated and all the CSS2 bidi
+</p>
+<p>In HTML editing mode, bidi is always activated and all the CSS2 bidi
 properties are supported.
+</p>
+<hr size="6">
+<a name="Unicode-scripts"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Bidirectional-editing" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">5.4 Unicode scripts</h2>
 
-
-
-
-<H2><A NAME="SEC22" HREF="qe-doc.html#TOC22">5.4 Unicode scripts</A></H2>
-
-<P>
-Currently, QEmacs fully supports Arabic shapping. Devanagari shaping is on
+<p>Currently, QEmacs fully supports Arabic shapping. Devanagari shaping is on
 the way. 
-
-
-<P>
-The resource file <TT>`ligatures'</TT> contains all the standard Unicode rules
+</p>
+<p>The resource file &lsquo;<tt>ligatures</tt>&rsquo; contains all the standard Unicode rules
 to handle character modifiers such as accents. It means that even if your
 font does not support the Unicode character modifiers, QEmacs will do its
 best to handle them.
+</p>
+<hr size="6">
+<a name="Editing-Modes"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Unicode-scripts" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#C-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Internationalization" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">6. Editing Modes</h1>
 
+<hr size="6">
+<a name="C-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Editing-Modes" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Hexadecimal_002c-ascii-and-unihex-modes" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.1 C mode</h2>
 
-
-
-<H1><A NAME="SEC23" HREF="qe-doc.html#TOC23">6. Editing Modes</A></H1>
-
-
-
-<H2><A NAME="SEC24" HREF="qe-doc.html#TOC24">6.1 C mode</A></H2>
-
-<P>
-This mode is currently activated by <SAMP>`M-x c-mode'</SAMP>. It is
+<p>This mode is currently activated by &lsquo;<samp>M-x c-mode</samp>&rsquo;. It is
 activated automatically when a C file is loaded.
+</p>
+<hr size="6">
+<a name="Hexadecimal_002c-ascii-and-unihex-modes"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#C-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#shell-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.2 Hexadecimal, ascii and unihex modes</h2>
 
 
-
-
-<H2><A NAME="SEC25" HREF="qe-doc.html#TOC25">6.2 Hexadecimal, ascii and unihex modes</A></H2>
-
-<P>
-Unlike other editors, QEmacs has powerful hexadecimal editing modes: all
+<p>Unlike other editors, QEmacs has powerful hexadecimal editing modes: all
 common commands are working these modes, including the block commands. 
-
-
-<P>
-The hexadecimal mode (<KBD>M-x hex-mode</KBD>) shows both the hexa decimal
+</p>
+<p>The hexadecimal mode (<kbd>M-x hex-mode</kbd>) shows both the hexa decimal
 and ascii (bytes) values. You can toggle between the hexa and ascii columns
-with 'TAB'.
-
-
-<P>
-The ascii mode (<KBD>M-x ascii-mode</KBD>) only shows the ascii column.
-
-
-<P>
-The unihex mode (<KBD>M-x unihex-mode</KBD>) shows both the unicode and
-glyph associated to each <EM>character</EM> of the buffer by using the current
+with &rsquo;TAB&rsquo;.
+</p>
+<p>The ascii mode (<kbd>M-x ascii-mode</kbd>) only shows the ascii column.
+</p>
+<p>The unihex mode (<kbd>M-x unihex-mode</kbd>) shows both the unicode and
+glyph associated to each <em>character</em> of the buffer by using the current
 buffer charset.
+</p>
+<p>You can change the line width in these modes with &rsquo;C-left&rsquo; and &rsquo;C-right&rsquo;.
+</p>
+<hr size="6">
+<a name="shell-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Hexadecimal_002c-ascii-and-unihex-modes" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Dired-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.3 shell mode</h2>
 
-
-<P>
-You can change the line width in these modes with 'C-left' and 'C-right'.
-
-
-
-
-<H2><A NAME="SEC26" HREF="qe-doc.html#TOC26">6.3 shell mode</A></H2>
-
-<P>
-You can activate it with <KBD>M-x shell</KBD>. Unlike other editors, a very
+<p>You can activate it with <kbd>M-x shell</kbd>. Unlike other editors, a very
 complete colorized VT100 emulation is done [it means you can launch
 qemacs in the qemacs shell :-)].
-
-
-<P>
-By default, <EM>interactive mode</EM> is selected. It means that most keys
+</p>
+<p>By default, <em>interactive mode</em> is selected. It means that most keys
 you type are transmitted to the shell. This way, you can use the shell
-completion and editing functions. By pressing <KBD>C-o</KBD>, you toggle
+completion and editing functions. By pressing <kbd>C-o</kbd>, you toggle
 between interactive and editing mode. In editing mode, you can editing
 the shell buffer as any other buffer.
+</p>
+<hr size="6">
+<a name="Dired-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#shell-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Bufed-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.4 Dired mode</h2>
 
-
-
-
-<H2><A NAME="SEC27" HREF="qe-doc.html#TOC27">6.4 Dired mode</A></H2>
-
-<P>
-You can activate it with <KBD>C-x C-d</KBD>. You can open the selected
-directory with <KBD>RET</KBD> or <KBD>right</KBD>. <KBD>left</KBD> is used to go to the
+<p>You can activate it with <kbd>C-x C-d</kbd>. You can open the selected
+directory with <kbd>RET</kbd> or <kbd>right</kbd>. <kbd>left</kbd> is used to go to the
 parent directory. The current selected is opened in the right window.
+</p>
+<hr size="6">
+<a name="Bufed-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Dired-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#XML-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.5 Bufed mode</h2>
 
+<p>You can activate it with <kbd>C-x C-b</kbd>. You can select with <kbd>RET</kbd> or
+<kbd>right</kbd> the current buffer.
+</p>
+<hr size="6">
+<a name="XML-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Bufed-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Graphical-HTML2_002fCSS-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.6 XML mode</h2>
 
-
-
-<H2><A NAME="SEC28" HREF="qe-doc.html#TOC28">6.5 Bufed mode</A></H2>
-
-<P>
-You can activate it with <KBD>C-x C-b</KBD>. You can select with <KBD>RET</KBD> or
-<KBD>right</KBD> the current buffer.
-
-
-
-
-<H2><A NAME="SEC29" HREF="qe-doc.html#TOC29">6.6 XML mode</A></H2>
-
-<P>
-This mode is currently activated by <KBD>M-x xml-mode</KBD>. It is activated
+<p>This mode is currently activated by <kbd>M-x xml-mode</kbd>. It is activated
 automatically when an XML file is loaded.
-
-
-<P>
-Currently, only specific XML colorization is done in this
+</p>
+<p>Currently, only specific XML colorization is done in this
 mode. Javascript (in SCRIPT tags) is colored as in C mode. CSS Style
 sheets (in STYLE tags) are colorized with a specific color.
+</p>
+<hr size="6">
+<a name="Graphical-HTML2_002fCSS-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#XML-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Usage" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.7 Graphical HTML2/CSS mode</h2>
 
+<hr size="6">
+<a name="Usage"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Graphical-HTML2_002fCSS-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Features" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Graphical-HTML2_002fCSS-mode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">6.7.1 Usage</h3>
 
-
-
-<H2><A NAME="SEC30" HREF="qe-doc.html#TOC30">6.7 Graphical HTML2/CSS mode</A></H2>
-
-
-
-<H3><A NAME="SEC31" HREF="qe-doc.html#TOC31">6.7.1 Usage</A></H3>
-
-<P>
-This mode is currently activated by <KBD>M-x html-mode</KBD>. It is
+<p>This mode is currently activated by <kbd>M-x html-mode</kbd>. It is
 activated automatically when an HTML file is loaded.
+</p>
+<hr size="6">
+<a name="Features"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Usage" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Known-limitations" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Graphical-HTML2_002fCSS-mode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">6.7.2 Features</h3>
 
-
-
-
-<H3><A NAME="SEC32" HREF="qe-doc.html#TOC32">6.7.2 Features</A></H3>
-
-<P>
-The XML/HTML/CSS2 renderer has the following features:
-
-<UL>
-<LI>The parse errors are written in buffer '*xml-error*'.
-
-<LI>Strict XML parser or relaxed mode for HTML pages.
-
-<LI>Letter case can be ignored or strictly respected.
-
-<LI>Integrated HTML to CSS2 converter so that the renderer do not
-
+<p>The XML/HTML/CSS2 renderer has the following features:
+</p><ul>
+<li> The parse errors are written in buffer &rsquo;*xml-error*&rsquo;.
+</li><li> Strict XML parser or relaxed mode for HTML pages.
+</li><li> Letter case can be ignored or strictly respected.
+</li><li> Integrated HTML to CSS2 converter so that the renderer do not
      depend on HTML quirks.
-<LI>Quite complete CSS2 support (including generated content and
-
+</li><li> Quite complete CSS2 support (including generated content and
      counters).
-<LI>Full Bidirectionnal Unicode support.
+</li><li> Full Bidirectionnal Unicode support.
+</li><li> Table support with both &rsquo;fixed&rsquo; and &rsquo;auto&rsquo; layout algorithms.
+</li><li> &rsquo;tty&rsquo; and &rsquo;screen&rsquo; CSS2 medias are supported.
+</li></ul>
 
-<LI>Table support with both 'fixed' and 'auto' layout algorithms.
+<hr size="6">
+<a name="Known-limitations"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Features" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#CSS-property-support" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Graphical-HTML2_002fCSS-mode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">6.7.3 Known limitations</h3>
 
-<LI>'tty' and 'screen' CSS2 medias are supported.
+<ul>
+<li> Cannot load external resources (e.g. style sheets) from other files.
+</li><li> No image handling (only a rectangle with &rsquo;ALT&rsquo; name is drawn).
+</li><li> No javascript.
+</li><li> No frames.
+</li></ul>
 
-</UL>
+<hr size="6">
+<a name="CSS-property-support"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Known-limitations" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Graphical-DocBook-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Graphical-HTML2_002fCSS-mode" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h3 class="subsection">6.7.4 CSS property support</h3>
 
+<p>The following properties are partially (see comments) or totally supported:
+</p>
+<ul>
+<li> display: The value &rsquo;inline-block&rsquo; is a QEmacs extension.
+</li><li> color
 
+</li><li> background-color
 
-<H3><A NAME="SEC33" HREF="qe-doc.html#TOC33">6.7.3 Known limitations</A></H3>
+</li><li> white-space: The value &rsquo;prewrap&rsquo; is a QEmacs extension.
+</li><li> direction
 
+</li><li> float
 
-<UL>
-<LI>Cannot load external resources (e.g. style sheets) from other files.
+</li><li> font-family
 
-<LI>No image handling (only a rectangle with 'ALT' name is drawn).
+</li><li> font-style
 
-<LI>No javascript.
+</li><li> font-weight
 
-<LI>No frames.
+</li><li> font-size
 
-</UL>
+</li><li> text-decoration
 
+</li><li> text-align
 
+</li><li> width
 
-<H3><A NAME="SEC34" HREF="qe-doc.html#TOC34">6.7.4 CSS property support</A></H3>
+</li><li> height
 
-<P>
-The following properties are partially (see comments) or totally supported:
+</li><li> unicode-bidi
 
+</li><li> border-width
 
+</li><li> border-left-width
 
-<UL>
-<LI>display: The value 'inline-block' is a QEmacs extension.
+</li><li> border-top-width
 
-<LI>color
+</li><li> border-right-width
 
-<LI>background-color
+</li><li> border-bottom-width
 
-<LI>white-space: The value 'prewrap' is a QEmacs extension.
+</li><li> border-color
 
-<LI>direction
+</li><li> border-left-color
 
-<LI>float
+</li><li> border-top-color
 
-<LI>font-family
+</li><li> border-right-color
 
-<LI>font-style
+</li><li> border-bottom-color
 
-<LI>font-weight
+</li><li> border-style
 
-<LI>font-size
+</li><li> border-left-style
 
-<LI>text-decoration
+</li><li> border-top-style
 
-<LI>text-align
+</li><li> border-right-style
 
-<LI>width
+</li><li> border-bottom-style
 
-<LI>height
+</li><li> border
 
-<LI>unicode-bidi
+</li><li> border-left
 
-<LI>border-width
+</li><li> border-top
 
-<LI>border-left-width
+</li><li> border-right
 
-<LI>border-top-width
+</li><li> border-bottom
 
-<LI>border-right-width
+</li><li> padding
 
-<LI>border-bottom-width
+</li><li> padding-left
 
-<LI>border-color
+</li><li> padding-top
 
-<LI>border-left-color
+</li><li> padding-right
 
-<LI>border-top-color
+</li><li> padding-bottom
 
-<LI>border-right-color
+</li><li> margin
 
-<LI>border-bottom-color
+</li><li> margin-left
 
-<LI>border-style
+</li><li> margin-top
 
-<LI>border-left-style
+</li><li> margin-right
 
-<LI>border-top-style
+</li><li> margin-bottom
 
-<LI>border-right-style
+</li><li> clear
 
-<LI>border-bottom-style
+</li><li> overflow
 
-<LI>border
+</li><li> visibility
 
-<LI>border-left
+</li><li> table-layout
 
-<LI>border-top
+</li><li> vertical-align
 
-<LI>border-right
+</li><li> border-collapse
 
-<LI>border-bottom
+</li><li> border-spacing
 
-<LI>padding
+</li><li> border-spacing-horizontal
 
-<LI>padding-left
+</li><li> border-spacing-vertical
 
-<LI>padding-top
+</li><li> line-height
 
-<LI>padding-right
+</li><li> content
 
-<LI>padding-bottom
+</li><li> caption-side
 
-<LI>margin
+</li><li> marker-offset
 
-<LI>margin-left
+</li><li> list-style-type
 
-<LI>margin-top
+</li><li> column-span: QEmacs extension
+</li><li> row-span: QEmacs extension
+</li><li> content-alt: QEmacs extension. Same behavior as property &rsquo;content&rsquo; but used for images 
 
-<LI>margin-right
+</li><li> list-style-position
 
-<LI>margin-bottom
+</li><li> counter-reset
 
-<LI>clear
+</li><li> counter-increment
 
-<LI>overflow
+</li><li> bidi-mode: QEmacs extension: use lower/upper case to test bidi algorithm
+</li><li> position: &lsquo;<samp>fixed</samp>&rsquo; is not supported. Only &rsquo;block&rsquo; boxes are positionned
+</li><li> top
 
-<LI>visibility
+</li><li> bottom
 
-<LI>table-layout
+</li><li> left
 
-<LI>vertical-align
+</li><li> right
 
-<LI>border-collapse
+</li></ul>
 
-<LI>border-spacing
+<p>The following properties are completely unsupported:
+</p>
+<ul>
+<li> background
 
-<LI>border-spacing-horizontal
+</li><li> background-attachment
 
-<LI>border-spacing-vertical
+</li><li> background-image
 
-<LI>line-height
+</li><li> background-position
 
-<LI>content
+</li><li> background-repeat
 
-<LI>caption-side
+</li><li> clip
 
-<LI>marker-offset
+</li><li> cursor
 
-<LI>list-style-type
+</li><li> empty-cells
 
-<LI>column-span: QEmacs extension
+</li><li> font
 
-<LI>row-span: QEmacs extension
+</li><li> font-size-adjust
 
-<LI>content-alt: QEmacs extension. Same behavior as property 'content' but used for images
+</li><li> font-stretch
 
-<LI>list-style-position
+</li><li> font-variant
 
-<LI>counter-reset
+</li><li> letter-spacing
 
-<LI>counter-increment
+</li><li> list-style
 
-<LI>bidi-mode: QEmacs extension: use lower/upper case to test bidi algorithm
+</li><li> list-style-image
 
-<LI>position: <SAMP>`fixed'</SAMP> is not supported. Only 'block' boxes are positionned
+</li><li> max-height
 
-<LI>top
+</li><li> max-width
 
-<LI>bottom
+</li><li> min-height
 
-<LI>left
+</li><li> min-width
 
-<LI>right
+</li><li> outline
 
-</UL>
+</li><li> outline-color
 
-<P>
-The following properties are completely unsupported:
+</li><li> outline-style
 
+</li><li> outline-width
 
+</li><li> quotes
 
-<UL>
+</li><li> text-indent
 
-<LI>background
+</li><li> text-shadow
 
-<LI>background-attachment
+</li><li> text-transform
 
-<LI>background-image
+</li><li> word-spacing
 
-<LI>background-position
+</li><li> z-index
 
-<LI>background-repeat
+</li><li> marks
 
-<LI>clip
+</li><li> page
 
-<LI>cursor
+</li><li> page-break-after
 
-<LI>empty-cells
+</li><li> page-break-before
 
-<LI>font
+</li><li> page-break-inside
 
-<LI>font-size-adjust
+</li><li> size
 
-<LI>font-stretch
+</li><li> orphans
 
-<LI>font-variant
+</li><li> widows
 
-<LI>letter-spacing
+</li><li> azimuth
 
-<LI>list-style
+</li><li> cue
 
-<LI>list-style-image
+</li><li> cue-after
 
-<LI>max-height
+</li><li> cue-before
 
-<LI>max-width
+</li><li> elevation
 
-<LI>min-height
+</li><li> pause
 
-<LI>min-width
+</li><li> pause-after
 
-<LI>outline
+</li><li> pause-before
 
-<LI>outline-color
+</li><li> pitch
 
-<LI>outline-style
+</li><li> pitch-range
 
-<LI>outline-width
+</li><li> pitch-during
 
-<LI>quotes
+</li><li> richness
 
-<LI>text-indent
+</li><li> speak
 
-<LI>text-shadow
+</li><li> speak-header
 
-<LI>text-transform
+</li><li> speak-punctuation
 
-<LI>word-spacing
+</li><li> speak-rate
 
-<LI>z-index
+</li><li> stress
 
-<LI>marks
+</li><li> voice-family
 
-<LI>page
+</li><li> volume
 
-<LI>page-break-after
+</li></ul>
 
-<LI>page-break-before
+<hr size="6">
+<a name="Graphical-DocBook-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#CSS-property-support" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Image-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.8 Graphical DocBook mode</h2>
 
-<LI>page-break-inside
+<p>This mode simply uses a different default style sheet from the HTML/CSS2
+mode. It is activated by &lsquo;<samp>M-x docbook-mode</samp>&rsquo;.
+</p>
+<hr size="6">
+<a name="Image-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Graphical-DocBook-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Audio_002fVideo-mode" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.9 Image mode</h2>
 
-<LI>size
-
-<LI>orphans
-
-<LI>widows
-
-<LI>azimuth
-
-<LI>cue
-
-<LI>cue-after
-
-<LI>cue-before
-
-<LI>elevation
-
-<LI>pause
-
-<LI>pause-after
-
-<LI>pause-before
-
-<LI>pitch
-
-<LI>pitch-range
-
-<LI>pitch-during
-
-<LI>richness
-
-<LI>speak
-
-<LI>speak-header
-
-<LI>speak-punctuation
-
-<LI>speak-rate
-
-<LI>stress
-
-<LI>voice-family
-
-<LI>volume
-
-</UL>
-
-
-
-<H2><A NAME="SEC35" HREF="qe-doc.html#TOC35">6.8 Graphical DocBook mode</A></H2>
-
-<P>
-This mode simply uses a different default style sheet from the HTML/CSS2
-mode. It is activated by <SAMP>`M-x docbook-mode'</SAMP>.
-
-
-
-
-<H2><A NAME="SEC36" HREF="qe-doc.html#TOC36">6.9 Image mode</A></H2>
-
-<P>
-When compiling qemacs with FFmpeg support (<A HREF="http://ffmpeg.org">http://ffmpeg.org</A>),
+<p>When compiling qemacs with FFmpeg support (<a href="http://ffmpeg.org">http://ffmpeg.org</a>),
 images can be viewed. The current implementation handles PNM, PAM, PNG,
 JPEG and GIF images (animated GIF images are handled as video
-data). <KBD>C-x C-d</KBD> can be used to have an interactive file viewer.
-
-
-<P>
-Available commands:
-
-
-<DL COMPACT>
-
-<DT><KBD>t</KBD>
-<DD>
-(<SAMP>`M-x image-rotate'</SAMP>) Rotate right image by 90 degrees.
-<DT><KBD>f</KBD>
-<DD>
-(<SAMP>`M-x toggle-full-screen'</SAMP>) Toggle full screen mode
-<DT><KBD>c</KBD>
-<DD>
-(<SAMP>`M-x image-convert'</SAMP>) Change the pixel format of the image (press tab
+data). <kbd>C-x C-d</kbd> can be used to have an interactive file viewer.
+</p>
+<p>Available commands:
+</p>
+<dl compact="compact">
+<dt> <kbd>t</kbd> </dt>
+<dd><p>(&lsquo;<samp>M-x image-rotate</samp>&rsquo;) Rotate right image by 90 degrees.
+</p></dd>
+<dt> <kbd>f</kbd></dt>
+<dd><p>(&lsquo;<samp>M-x toggle-full-screen</samp>&rsquo;) Toggle full screen mode
+</p></dd>
+<dt> <kbd>c</kbd></dt>
+<dd><p>(&lsquo;<samp>M-x image-convert</samp>&rsquo;) Change the pixel format of the image (press tab
 to have a complete list). The data loss implied by the pixel format
 change is displayed.
-<DT><KBD>b</KBD>
-<DD>
-(<SAMP>`M-x image-set-background-color'</SAMP>) Set the image background
+</p></dd>
+<dt> <kbd>b</kbd></dt>
+<dd><p>(&lsquo;<samp>M-x image-set-background-color</samp>&rsquo;) Set the image background
 color. The background is only visible if the image contains transparent
-pixels. The <SAMP>`transparent'</SAMP> color displayed a <SAMP>`gimp'</SAMP> like grid.
-</DL>
+pixels. The &lsquo;<samp>transparent</samp>&rsquo; color displayed a &lsquo;<samp>gimp</samp>&rsquo; like grid.
+</p></dd>
+</dl>
 
-<P>
-Status information: 
+<p>Status information: 
+</p>
+<ul>
+<li> The image resolution is displayed as &lsquo;<samp>NxM</samp>&rsquo;.
 
+</li><li> The FFmpeg pixel format is displayed.
 
+</li><li> &lsquo;<samp>I</samp>&rsquo; is displayed is the image is interleaved.
 
-<UL>
-<LI>The image resolution is displayed as <SAMP>`NxM'</SAMP>.
-
-<LI>The FFmpeg pixel format is displayed.
-
-<LI><SAMP>`I'</SAMP> is displayed is the image is interleaved.
-
-<LI><SAMP>`T'</SAMP> is displayed if the image contains transparent
-
-pixels. <SAMP>`A'</SAMP> is displayed if the image contains semi-transparent
+</li><li> &lsquo;<samp>T</samp>&rsquo; is displayed if the image contains transparent
+pixels. &lsquo;<samp>A</samp>&rsquo; is displayed if the image contains semi-transparent
 pixels.
 
-</UL>
+</li></ul>
 
+<hr size="6">
+<a name="Audio_002fVideo-mode"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Image-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">6.10 Audio/Video mode</h2>
 
-
-<H2><A NAME="SEC37" HREF="qe-doc.html#TOC37">6.10 Audio/Video mode</A></H2>
-
-<P>
-When compiling qemacs with FFmpeg support (<A HREF="http://ffmpeg.org">http://ffmpeg.org</A>),
+<p>When compiling qemacs with FFmpeg support (<a href="http://ffmpeg.org">http://ffmpeg.org</a>),
 video and audio files can be viewed. The X11 Xvideo extension is used
-if available for faster YUV rendering. <KBD>C-x C-d</KBD> can be used to
+if available for faster YUV rendering. <kbd>C-x C-d</kbd> can be used to
 have an interactive file viewer.
-
-
-<P>
-Audio only files are also rendered. The waveform is displayed at the
+</p>
+<p>Audio only files are also rendered. The waveform is displayed at the
 same time.
-
-
-<P>
-No editing commands will be supported in that mode. Saving is
+</p>
+<p>No editing commands will be supported in that mode. Saving is
 currently not possible.
+</p>
+<p>Available commands:
+</p>
+<dl compact="compact">
+<dt> <kbd>SPC</kbd></dt>
+<dt> <kbd>p</kbd></dt>
+<dd><p>Pause/Resume
+</p></dd>
+<dt> <kbd>f</kbd></dt>
+<dd><p>(&lsquo;<samp>M-x toggle-full-screen</samp>&rsquo;) Toggle full screen mode
+</p></dd>
+<dt> <kbd>v</kbd></dt>
+<dd><p>(&lsquo;<samp>M-x av-cycle-video</samp>&rsquo;) Cycle through available video channels.
+</p></dd>
+<dt> <kbd>a</kbd></dt>
+<dd><p>(&lsquo;<samp>M-x av-cycle-audio</samp>&rsquo;) Cycle through available audio channels.
+</p></dd>
+</dl>
 
+<hr size="6">
+<a name="fonts"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Audio_002fVideo-mode" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#VT100-display" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Editing-Modes" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<a name="Fonts"></a>
+<h1 class="chapter">7. Fonts</h1>
 
-<P>
-Available commands:
+<hr size="6">
+<a name="VT100-display"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#fonts" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#X11-display" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#fonts" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">7.1 VT100 display</h2>
 
-
-<DL COMPACT>
-
-<DT><KBD>SPC</KBD>
-<DD>
-<DT><KBD>p</KBD>
-<DD>
-Pause/Resume
-<DT><KBD>f</KBD>
-<DD>
-(<SAMP>`M-x toggle-full-screen'</SAMP>) Toggle full screen mode
-<DT><KBD>v</KBD>
-<DD>
-(<SAMP>`M-x av-cycle-video'</SAMP>) Cycle through available video channels.
-<DT><KBD>a</KBD>
-<DD>
-(<SAMP>`M-x av-cycle-audio'</SAMP>) Cycle through available audio channels.
-</DL>
-
-
-
-<H1><A NAME="SEC38" HREF="qe-doc.html#TOC38">7. Fonts</A></H1>
-
-
-
-<H2><A NAME="SEC39" HREF="qe-doc.html#TOC39">7.1 VT100 display</A></H2>
-
-<P>
-In order to display Unicode characters, you must have a recent xterm
+<p>In order to display Unicode characters, you must have a recent xterm
 from XFree version greater than 4.0.1.
-
-
-<P>
-As a short test, you can launch xterm with the following options to
+</p>
+<p>As a short test, you can launch xterm with the following options to
 select UTF8 charset and a unicode fixed X11 font:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">xterm -u8 -fn -misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
+</pre></td></tr></table>
 
-<PRE>
-xterm -u8 -fn -misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
-</PRE>
+<p>Then look at the qemacs TestPage in VT100 mode:
+</p><table><tr><td>&nbsp;</td><td><pre class="example">qe -nw tests/TestPage.txt
+</pre></td></tr></table>
 
-<P>
-Then look at the qemacs TestPage in VT100 mode:
-
-<PRE>
-qe -nw tests/TestPage.txt
-</PRE>
-
-<P>
-If you are using latin scripts, you can use any fixed font in any
+<p>If you are using latin scripts, you can use any fixed font in any
 terminal. Otherwise, if you use ideograms or other non latin scripts,
 you must configure your terminal emulator (usually xterm) to accept
-'double width' fonts. It means that some characters, such as ideograms,
+&rsquo;double width&rsquo; fonts. It means that some characters, such as ideograms,
 are meant to occupy two char cells instead of one. QEmacs knows that and
 does the text alyout accordingly.
-
-
-<P>
-The font <EM>Unifont</EM> is currently the best font for xterm. It is
+</p>
+<p>The font <em>Unifont</em> is currently the best font for xterm. It is
 usually included in the linux distributions. You can find it at
-<A HREF="http://czyborra.com/unifont/">http://czyborra.com/unifont/</A>.
+<a href="http://czyborra.com/unifont/">http://czyborra.com/unifont/</a>.
+</p>
+<hr size="6">
+<a name="X11-display"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#VT100-display" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Internal-QEmacs-fonts" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#fonts" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">7.2 X11 display</h2>
 
+<p>QEmacs knows three basic font families:
+</p>
+<ul>
+<li> &lsquo;<samp>sans</samp>&rsquo; for sans serif fonts.
+</li><li> &lsquo;<samp>serif</samp>&rsquo; for serif fonts.
+</li><li> &lsquo;<samp>fixed</samp>&rsquo; for fixed or monospace fonts.
+</li></ul>
 
-
-
-<H2><A NAME="SEC40" HREF="qe-doc.html#TOC40">7.2 X11 display</A></H2>
-
-<P>
-QEmacs knows three basic font families:
-
-
-
-<UL>
-<LI><SAMP>`sans'</SAMP> for sans serif fonts.
-
-<LI><SAMP>`serif'</SAMP> for serif fonts.
-
-<LI><SAMP>`fixed'</SAMP> for fixed or monospace fonts.
-
-</UL>
-
-<P>
-QEmacs maps these three families to system fonts. The default mapping
-is: <SAMP>`helvetica'</SAMP> for sans, <SAMP>`Times'</SAMP> for serif and <SAMP>`fixed'</SAMP>
+<p>QEmacs maps these three families to system fonts. The default mapping
+is: &lsquo;<samp>helvetica</samp>&rsquo; for sans, &lsquo;<samp>Times</samp>&rsquo; for serif and &lsquo;<samp>fixed</samp>&rsquo;
 for fixed.
-
-
-<P>
-For each family, you can specify any number of <EM>fallback fonts</EM> that
+</p>
+<p>For each family, you can specify any number of <em>fallback fonts</em> that
 QEmacs can use if the requested glyph is not found in the current
-font. Currently, the font <SAMP>`unifont'</SAMP> is used as fallback in all
+font. Currently, the font &lsquo;<samp>unifont</samp>&rsquo; is used as fallback in all
 cases.
-
-
-<P>
-You can use the command <CODE>set-system-font(family, fonts)</CODE> to change
-the default qemacs mapping. <CODE>family</CODE> is <CODE>sans</CODE>, <CODE>serif</CODE>
-or <CODE>fixed</CODE>, and <CODE>fonts</CODE> is a comma separated list of system
+</p>
+<p>You can use the command <code>set-system-font(family, fonts)</code> to change
+the default qemacs mapping. <code>family</code> is <code>sans</code>, <code>serif</code>
+or <code>fixed</code>, and <code>fonts</code> is a comma separated list of system
 fonts which are used as principal font and fallback fonts.
+</p>
+<hr size="6">
+<a name="Internal-QEmacs-fonts"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#X11-display" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#fonts" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#fonts" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">7.3 Internal QEmacs fonts</h2>
 
+<p>In the tool &lsquo;<samp>html2png</samp>&rsquo;, QEmacs uses internal fonts which are the
+&lsquo;<samp>Times</samp>&rsquo;, &lsquo;<samp>Helvetica</samp>&rsquo; and &lsquo;<samp>Unifont</samp>&rsquo; supplied in X11. They
+are highly compressed in the <em>FBF</em> font format.
+</p>
+<hr size="6">
+<a name="Html2png-Tool"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Internal-QEmacs-fonts" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#fonts" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">8. Html2png Tool</h1>
 
+<hr size="6">
+<a name="Introduction"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Html2png-Tool" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Invocation" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">8.1 Introduction</h2>
 
-
-<H2><A NAME="SEC41" HREF="qe-doc.html#TOC41">7.3 Internal QEmacs fonts</A></H2>
-
-<P>
-In the tool <SAMP>`html2png'</SAMP>, QEmacs uses internal fonts which are the
-<SAMP>`Times'</SAMP>, <SAMP>`Helvetica'</SAMP> and <SAMP>`Unifont'</SAMP> supplied in X11. They
-are highly compressed in the <EM>FBF</EM> font format.
-
-
-
-
-<H1><A NAME="SEC42" HREF="qe-doc.html#TOC42">8. Html2png Tool</A></H1>
-
-
-
-<H2><A NAME="SEC43" HREF="qe-doc.html#TOC43">8.1 Introduction</A></H2>
-
-<P>
-Html2png is a standalone HTML/XML/CSS2 renderer based on the QEmacs
+<p>Html2png is a standalone HTML/XML/CSS2 renderer based on the QEmacs
 internal renderer. It takes an HTML or XHTML file as input and produce a
 PNG image file containing the graphical rendering of the page. It is
 meant to be a test tool for the renderer. It can also be used as a
 XML/HTML validator since all parse errors are logged on the standard
 output.
-
-
-<P>
-Unlike other HTML renderers, HTML2PNG do not have any dependency on the
+</p>
+<p>Unlike other HTML renderers, HTML2PNG do not have any dependency on the
 operating system or the graphical interface. It uses its own fonts
 (which are embedded in the executable), its own widgets and its own
 charset tables.
-
-
-<P>
-By using the highly compressed FBF font format, the Times, Helvetica and
+</p>
+<p>By using the highly compressed FBF font format, the Times, Helvetica and
 Unifont fonts are embedded in the executable. It means that HTML2PNG can
 view documents in any languages, including Arabic, Hebrew, Japanese and
 Hangul.
+</p>
+<hr size="6">
+<a name="Invocation"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Next chapter"> &gt;&gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">8.2 Invocation</h2>
 
+<table><tr><td>&nbsp;</td><td><pre class="example">usage: html2png [-h] [-x] [-w width] [-o outfile] [-f charset] infile
+</pre></td></tr></table>
 
+<dl compact="compact">
+<dt> &lsquo;<samp>-h</samp>&rsquo;</dt>
+<dd><p>display the help
+</p></dd>
+<dt> &lsquo;<samp>-x</samp>&rsquo;</dt>
+<dd><p>use strict XML parser (xhtml type parsing)
+</p></dd>
+<dt> &lsquo;<samp>-w width</samp>&rsquo;</dt>
+<dd><p>set the image width (default=640)
+</p></dd>
+<dt> &lsquo;<samp>-f charset</samp>&rsquo;</dt>
+<dd><p>set the default charset (default=&rsquo;8859-1&rsquo;). Use -f ? to list supported charsets.
+</p></dd>
+<dt> &lsquo;<samp>-o outfile</samp>&rsquo;</dt>
+<dd><p>set the output filename (default=&rsquo;a.png&rsquo;)
+</p></dd>
+</dl>
 
+<hr size="6">
+<a name="Developper_0027s-Guide"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Invocation" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Plugins-1" title="Next section in reading order"> &gt; </a>]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Html2png-Tool" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1 class="chapter">9. Developper&rsquo;s Guide</h1>
 
-<H2><A NAME="SEC44" HREF="qe-doc.html#TOC44">8.2 Invocation</A></H2>
+<hr size="6">
+<a name="Plugins-1"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Previous section in reading order"> &lt; </a>]</td>
+<td valign="middle" align="left">[ &gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Beginning of this chapter or previous chapter"> &lt;&lt; </a>]</td>
+<td valign="middle" align="left">[<a href="#Developper_0027s-Guide" title="Up section"> Up </a>]</td>
+<td valign="middle" align="left">[ &gt;&gt; ]</td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left"> &nbsp; </td>
+<td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h2 class="section">9.1 Plugins</h2>
 
-
-<PRE>
-usage: html2png [-h] [-x] [-w width] [-o outfile] [-f charset] infile
-</PRE>
-
-<DL COMPACT>
-
-<DT><SAMP>`-h'</SAMP>
-<DD>
-display the help
-<DT><SAMP>`-x'</SAMP>
-<DD>
-use strict XML parser (xhtml type parsing)
-<DT><SAMP>`-w width'</SAMP>
-<DD>
-set the image width (default=640)
-<DT><SAMP>`-f charset'</SAMP>
-<DD>
-set the default charset (default='8859-1'). Use -f ? to list supported charsets.
-<DT><SAMP>`-o outfile'</SAMP>
-<DD>
-set the output filename (default='a.png')
-</DL>
-
-
-
-<H1><A NAME="SEC45" HREF="qe-doc.html#TOC45">9. Developper's Guide</A></H1>
-
-
-
-<H2><A NAME="SEC46" HREF="qe-doc.html#TOC46">9.1 Plugins</A></H2>
-
-<P>
-You can use the example in <TT>`plugin-example/'</TT> to develop dynamically
+<p>You can use the example in &lsquo;<tt>plugin-example/</tt>&rsquo; to develop dynamically
 linked qemacs plugins (aka modules).
-
-
-<P>
-Plugins can add any dynamic resource qemacs supports (modes, key
+</p>
+<p>Plugins can add any dynamic resource qemacs supports (modes, key
 bindings, ...). A plugin can be either statically linked or
 dynamically linked. Most of qemacs features are in fact statically
 linked plugins.
+</p>
+<hr size="6">
+<a name="SEC_About"></a>
+<table cellpadding="1" cellspacing="1" border="0">
+<tr><td valign="middle" align="left">[<a href="#Introduction-1" title="Cover (top) of document">Top</a>]</td>
+<td valign="middle" align="left">[Contents]</td>
+<td valign="middle" align="left">[Index]</td>
+<td valign="middle" align="left">[<a href="#SEC_About" title="About (help)"> ? </a>]</td>
+</tr></table>
+<h1>About This Document</h1>
+<p>
+  This document was generated by <em>Jason Wije</em> on <em>September 25, 2014</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+</p>
+<p>
+  The buttons in the navigation panels have the following meaning:
+</p>
+<table border="1">
+  <tr>
+    <th> Button </th>
+    <th> Name </th>
+    <th> Go to </th>
+    <th> From 1.2.3 go to</th>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt; ] </td>
+    <td align="center">Back</td>
+    <td>Previous section in reading order</td>
+    <td>1.2.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt; ] </td>
+    <td align="center">Forward</td>
+    <td>Next section in reading order</td>
+    <td>1.2.4</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &lt;&lt; ] </td>
+    <td align="center">FastBack</td>
+    <td>Beginning of this chapter or previous chapter</td>
+    <td>1</td>
+  </tr>
+  <tr>
+    <td align="center"> [ Up ] </td>
+    <td align="center">Up</td>
+    <td>Up section</td>
+    <td>1.2</td>
+  </tr>
+  <tr>
+    <td align="center"> [ &gt;&gt; ] </td>
+    <td align="center">FastForward</td>
+    <td>Next chapter</td>
+    <td>2</td>
+  </tr>
+  <tr>
+    <td align="center"> [Top] </td>
+    <td align="center">Top</td>
+    <td>Cover (top) of document</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Contents] </td>
+    <td align="center">Contents</td>
+    <td>Table of contents</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [Index] </td>
+    <td align="center">Index</td>
+    <td>Index</td>
+    <td> &nbsp; </td>
+  </tr>
+  <tr>
+    <td align="center"> [ ? ] </td>
+    <td align="center">About</td>
+    <td>About (help)</td>
+    <td> &nbsp; </td>
+  </tr>
+</table>
 
+<p>
+  where the <strong> Example </strong> assumes that the current position is at <strong> Subsubsection One-Two-Three </strong> of a document of the following structure:
+</p>
 
-<P><HR><P>
-This document was generated on 21 April 2003 using
-<A HREF="http://wwwinfo.cern.ch/dis/texi2html/">texi2html</A>&nbsp;1.56k.
-</BODY>
-</HTML>
+<ul>
+  <li> 1. Section One
+    <ul>
+      <li>1.1 Subsection One-One
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.2 Subsection One-Two
+        <ul>
+          <li>1.2.1 Subsubsection One-Two-One</li>
+          <li>1.2.2 Subsubsection One-Two-Two</li>
+          <li>1.2.3 Subsubsection One-Two-Three &nbsp; &nbsp;
+            <strong>&lt;== Current Position </strong></li>
+          <li>1.2.4 Subsubsection One-Two-Four</li>
+        </ul>
+      </li>
+      <li>1.3 Subsection One-Three
+        <ul>
+          <li>...</li>
+        </ul>
+      </li>
+      <li>1.4 Subsection One-Four</li>
+    </ul>
+  </li>
+</ul>
+
+<hr size="1">
+<p>
+ <font size="-1">
+  This document was generated by <em>Jason Wije</em> on <em>September 25, 2014</em> using <a href="http://www.nongnu.org/texi2html/"><em>texi2html 1.82</em></a>.
+ </font>
+ <br>
+
+</p>
+</body>
+</html>
