@@ -8,7 +8,7 @@
 tcc_opts=""
 libs="-L/usr/X11R6/lib -lXext -lXv -lX11"
 #tcc="tcc"
-tcc="../tcc/tcc"
+tcc="/usr/bin/tcc"
 if [ "$1" = "-bench" ] ; then
   tcc_opts="$tcc_opts -o /tmp/qe -bench"
   shift
@@ -27,7 +27,7 @@ if [ "$1" = "-b" ] ; then
   shift
 fi
 
-$tcc $tcc_opts $libs -DHAVE_QE_CONFIG_H -DQE_VERSION=\"0.3tcc\" -Iliburlio -- \
+$tcc $tcc_opts $libs -DHAVE_QE_CONFIG_H -DQE_VERSION=\"0.3tcc\" -Iliburlio \
            qe.c charset.c buffer.c input.c unicode_join.c \
            qfribidi.c \
            display.c tty.c util.c hex.c list.c \
@@ -37,4 +37,4 @@ $tcc $tcc_opts $libs -DHAVE_QE_CONFIG_H -DQE_VERSION=\"0.3tcc\" -Iliburlio -- \
            liburlio/cutils.c liburlio/urlmisc.c liburlio/mem.c \
            liburlio/urlio.c liburlio/file.c liburlio/dns.c \
            liburlio/tcp.c liburlio/http.c \
-           qeend.c -- $*
+           qeend.c $*
