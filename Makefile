@@ -12,7 +12,7 @@ include config.mak
 #CONFIG_UNICODE_JOIN=y
 #CONFIG_ALL_KMAPS=y
 
-CFLAGS:=-fno-strict-aliasing -Wall -g -L /opt/X11/lib -I /opt/X11/include $(CFLAGS)
+CFLAGS:=-fno-strict-aliasing -Wall -g -I /opt/X11/include $(CFLAGS)
 # use it for gcc >= 4.7.0
 #CFLAGS+=-Wno-unused-but-set-variable
 #CFLAGS+=-Werror
@@ -47,7 +47,7 @@ endif
 ifdef CONFIG_DLL
 LIBS+=-ldl
 # export some qemacs symbols
-LDFLAGS+=-Wl,-E
+# LDFLAGS+=-Wl,-E
 endif
 LIBS+=-lm
 
