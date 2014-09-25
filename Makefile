@@ -47,7 +47,7 @@ endif
 ifdef CONFIG_DLL
 LIBS+=-ldl
 # export some qemacs symbols
-LDFLAGS+=-Wl
+LDFLAGS+=-Wl,-E
 endif
 LIBS+=-lm
 
