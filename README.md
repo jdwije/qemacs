@@ -1,11 +1,16 @@
 qemacs 0.3.3 [jdog fork]
----
+===
 
-QEmacs *{Quick Emacs}* is a fast, lightweight emacs originally built by Fabrice Bellard. The **jdog fork** is a version of qemacs I am working on, it's major goals are the following:
+QEmacs *{Quick Emacs}* is a fast, lightweight emacs built by Fabrice Bellard. This is my fork of the project, the goals I am working toward are:
 
-- full HTML/CSS/JS browser rendering
-- a first class JS extension system
-- minimal code base premised on building from scratch
+1. Bug fixing and stabilising the software
+2. Getting cross platform compilation working again
+  - [x] OSX
+  - [ ] Linux
+  - [ ] Windows
+3. Adding a ruby extension system to compliment the existing C based system
+4. Updating the inbuilt html/css renderer to work with HTML5 and CSS3
+5. Maybe updgrade said renderer into an actual browser
 
 ## Compiling
 
