@@ -1,7 +1,7 @@
 qemacs 0.3.3 [jdog fork]
 ===
 
-QEmacs *{Quick Emacs}* is a fast, lightweight emacs built by Fabrice Bellard. This is my fork of the project, the goals I am working toward are:
+[QEmacs](http://www.bellard.org/qemacs/) *{Quick Emacs}* is a fast, lightweight emacs built by [Fabrice Bellard[(http://www.bellard.org). This is my fork of the project, the main goals I am working toward are:
 
 1. [ ] Bug fixing and stabilising the software
 2. [ ] Getting cross platform compilation working again
