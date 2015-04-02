@@ -1,4 +1,4 @@
-qemacs 0.3.3 [jdog fork]
+QEmacs
 ===
 
 [QEmacs](http://www.bellard.org/qemacs/) *{Quick Emacs}* is a fast, lightweight emacs built by [Fabrice Bellard](http://www.bellard.org). This is my fork of the project, the main goals I am working toward are:
@@ -12,6 +12,7 @@ qemacs 0.3.3 [jdog fork]
 4. [ ] Updating the in-built html/css renderer to work with HTML5 and CSS3
 5. [ ] Maybe updgrade said renderer into an actual browser
 
+and whatever else is in the todo list...
 
 ## Compiling
 
