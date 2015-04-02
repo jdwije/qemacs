@@ -578,9 +578,13 @@ extern EditBufferDataType raw_data_type;
 #undef __attribute__ 
 
 /* same method as the linux kernel... */
+#ifdef __APPLE__ && __MACH__
 #define __init_call	__attribute__ ((unused,__section__ (".initcall,init")))
 #define __exit_call	__attribute__ ((unused,__section__ (".exitcall,exit")))
-
+#else
+#define __init_call	__attribute__ ((unused,__section__ (".initcall.init")))
+#define __exit_call	__attribute__ ((unused,__section__ (".exitcall.exit")))
+#endif
 #define qe_module_init(fn) \
 	int (*__initcall_##fn)(void) __init_call = fn
 

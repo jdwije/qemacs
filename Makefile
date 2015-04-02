@@ -47,7 +47,9 @@ endif
 ifdef CONFIG_DLL
 LIBS+=-ldl
 # export some qemacs symbols
-LDFLAGS+=-Wl #,-E
+# XXX: These linker flags cause compile errors on OSX, specifically the -E opt.
+#      removing does not seem to break compilation in Linux...
+# LDFLAGS+=-Wl,-E
 endif
 LIBS+=-lm
 
