@@ -6,7 +6,7 @@ qemacs 0.3.3 [jdog fork]
 1. [ ] Bug fixing and stabilising the software
 2. [ ] Getting cross platform compilation working again
   - [x] OSX
-  - [ ] Linux
+  - [x] Linux
   - [ ] Windows
 3. [ ] Adding a ruby extension system to compliment the existing C based system
 4. [ ] Updating the in-built html/css renderer to work with HTML5 and CSS3
