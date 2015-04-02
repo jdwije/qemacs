@@ -98,7 +98,7 @@ static int video_mode_probe(ModeProbeData *pd)
     AVProbeData avpd;
     AVInputFormat *fmt;
     
-    avpd.filename = (char) pd->filename;
+    avpd.filename = pd->filename;
     avpd.buf = pd->buf;
     avpd.buf_size = pd->buf_size;
     
@@ -268,10 +268,10 @@ static void video_image_display(EditState *s)
     vp = &is->pictq[is->pictq_rindex];
     if (vp->bmp) {
         /* XXX: use variable in the frame */
-        aspect_ratio = is->video_st->codec->aspect_ratio;
+        aspect_ratio = is->video_st->codec.aspect_ratio;
         if (aspect_ratio <= 0.0)
-            aspect_ratio = (float)is->video_st->codec->width / 
-                (float)is->video_st->codec->height;
+            aspect_ratio = (float)is->video_st->codec.width / 
+                (float)is->video_st->codec.height;
         /* XXX: we suppose the screen has a 1.0 pixel ratio */
         height = s->height;
         width = ((int)rint(height * aspect_ratio)) & -3;
@@ -355,7 +355,7 @@ static void alloc_picture(void *opaque)
     if (vp->bmp)
         bmp_free(s->screen, vp->bmp);
     /* XXX: use generic function */
-    switch(is->video_st->codec->pix_fmt) {
+    switch(is->video_st->codec.pix_fmt) {
     case PIX_FMT_YUV420P:
     case PIX_FMT_YUV422P:
     case PIX_FMT_YUV444P:
@@ -372,13 +372,13 @@ static void alloc_picture(void *opaque)
  retry:
     if (is_yuv) {
         vp->bmp = bmp_alloc(s->screen, 
-                            is->video_st->codec->width,
-                            is->video_st->codec->height,
+                            is->video_st->codec.width,
+                            is->video_st->codec.height,
                             QEBITMAP_FLAG_VIDEO);
         /* currently we cannot resize, so we fallback to standard if
            no exact size */
-        if (vp->bmp->width != is->video_st->codec->width ||
-            vp->bmp->height != is->video_st->codec->height) {
+        if (vp->bmp->width != is->video_st->codec.width ||
+            vp->bmp->height != is->video_st->codec.height) {
             is_yuv = 0;
             if (vp->bmp)
                 bmp_free(s->screen, vp->bmp);
@@ -387,12 +387,12 @@ static void alloc_picture(void *opaque)
         }
     } else {
         vp->bmp = bmp_alloc(s->screen, 
-                            is->video_st->codec->width,
-                            is->video_st->codec->height,
+                            is->video_st->codec.width,
+                            is->video_st->codec.height,
                             0);
     }
-    vp->width = is->video_st->codec->width;
-    vp->height = is->video_st->codec->height;
+    vp->width = is->video_st->codec.width;
+    vp->height = is->video_st->codec.height;
 
     pthread_mutex_lock(&is->pictq_mutex);
     vp->allocated = 1;
@@ -423,8 +423,8 @@ static int output_picture(VideoState *is, AVPicture *src_pict)
 
     /* alloc or resize hardware picture buffer */
     if (!vp->bmp || 
-        vp->width != is->video_st->codec->width ||
-        vp->height != is->video_st->codec->height) {
+        vp->width != is->video_st->codec.width ||
+        vp->height != is->video_st->codec.height) {
 
         vp->allocated = 0;
 
@@ -453,14 +453,14 @@ static int output_picture(VideoState *is, AVPicture *src_pict)
             pict.linesize[i] = qepict.linesize[i];
         }
         img_convert(&pict, dst_pix_fmt, 
-                    src_pict, is->video_st->codec->pix_fmt, 
-                    is->video_st->codec->width, is->video_st->codec->height);
+                    src_pict, is->video_st->codec.pix_fmt, 
+                    is->video_st->codec.width, is->video_st->codec.height);
         /* update the bitmap content */
         bmp_unlock(s->screen, vp->bmp);
 
         /* compute delay for the next frame */
-        vp->delay =  (1000 * is->video_st->codec->frame_rate_base) / 
-            is->video_st->codec->frame_rate;
+        vp->delay =  (1000 * is->video_st->codec.frame_rate_base) / 
+            is->video_st->codec.frame_rate;
         /* XXX: just fixes .asf! */
         if (vp->delay > 40)
             vp->delay = 40;

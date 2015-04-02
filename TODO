@@ -1,7 +1,6 @@
 General TODO:
 ------------
 - regex search/replace (use glibc 2.1 regex.c file)
-	- dired file search and replace
 - tab cursor displayed size
 - fix kana input method
 - current path in compile set to current buffer path
@@ -60,7 +59,6 @@ HTML mode TODO:
 Ideas
 -----
 
-- CSS styling of the editor (ie: easy theming)
 - vi mode.
 - vertical scroll bar
 - better Makefile (select modes)

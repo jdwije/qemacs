@@ -12,8 +12,7 @@ include config.mak
 #CONFIG_UNICODE_JOIN=y
 #CONFIG_ALL_KMAPS=y
 
-CFLAGS:=-fno-strict-aliasing -Wall -g -I /opt/X11/include $(CFLAGS)
-
+CFLAGS:=-fno-strict-aliasing -Wall -g $(CFLAGS)
 # use it for gcc >= 4.7.0
 #CFLAGS+=-Wno-unused-but-set-variable
 #CFLAGS+=-Werror
@@ -24,9 +23,9 @@ endif
 ifdef TARGET_ARCH_X86
 #CFLAGS+=-fomit-frame-pointer
 ifeq ($(GCC_MAJOR),2)
-CFLAGS+=-m386 -malign-functions=0  -mtriple=arm-none-eabi
+CFLAGS+=-m386 -malign-functions=0
 else
-CFLAGS+=-march=i386 -falign-functions=0  -mtriple=arm-none-eabi
+CFLAGS+=-march=i386 -falign-functions=0
 endif
 endif
 DEFINES=-DHAVE_QE_CONFIG_H
@@ -48,7 +47,7 @@ endif
 ifdef CONFIG_DLL
 LIBS+=-ldl
 # export some qemacs symbols
-# LDFLAGS+=-Wl,-E
+LDFLAGS+=-Wl #,-E
 endif
 LIBS+=-lm
 
@@ -144,7 +143,7 @@ fbfrender.o: fbfrender.c fbfrender.h libfbf.h
 html2png.o: html2png.c qe.h
 
 %.o : %.c
-	$(CC) $(DEFINES) $(CFLAGS) -o $@ -c $< 
+	$(CC) $(DEFINES) $(CFLAGS) -o $@ -c $<
 
 clean:
 	make -C libqhtml clean
@@ -308,5 +307,4 @@ test:
 
 # documentation
 qe-doc.html: qe-doc.texi
-	pandoc $< -f textile -t html qe-doc.html
-	pandoc $< -f textile -t markdown qe-doc.md
+	texi2html -monolithic -number $<
