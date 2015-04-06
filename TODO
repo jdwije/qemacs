@@ -5,7 +5,7 @@ General TODO:
 - fix kana input method
 - current path in compile set to current buffer path
 - avoid problems with popups (kill_buffer, delete_window, split_window)
-- avoid error in new file
+- avoid error in new file 
 - faster video handling (generalize invalidate region system)
 - check file permissions.
 - faster search

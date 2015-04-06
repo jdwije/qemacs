@@ -284,6 +284,7 @@ static int term_init(QEditScreen *s, int w, int h)
     }
     event_mask = KeyPressMask | ButtonPressMask | ButtonReleaseMask | 
         ButtonMotionMask | ExposureMask | StructureNotifyMask;
+
     XSelectInput(display, window, event_mask);
 
     XGetWindowAttributes(display, window, &attr);

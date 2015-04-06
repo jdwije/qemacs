@@ -24,7 +24,6 @@
 
 static QEDisplay osx_dpy;
 
-
 static int osx_probe(void);
 static int osx_init(QEditScreen *s, int w, int h);
 static void osx_close(QEditScreen *s);
@@ -59,9 +58,189 @@ static void osx_bmp_lock(QEditScreen *s, QEBitmap *b, QEPicture *pict,
 static void osx_bmp_unlock(QEditScreen *s, QEBitmap *b);
 static int osx_bmp_alloc(QEditScreen *s, QEBitmap *b);
 
-id window; /* the main window */
 int start_w = 550;
 int start_h = 480;
+
+//id window; /* reference to the main window object */
+id PROGNAME = @"QEmacs"; /* used for title of applications throughout osx UI */
+AppDelegate * DELEGATE;
+
+
+/* the main cocoa application container */
+@implementation AppDelegate : NSObject
+
+
+- (id)init {
+    if (self = [super init]) {
+      // allocate and initialize window and stuff here ..
+      self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, 500, 500)
+						 styleMask:  NSTitledWindowMask | NSClosableWindowMask | 
+				                              NSMiniaturizableWindowMask | NSResizableWindowMask
+							        backing:NSBackingStoreBuffered defer:NO
+                                                           ] autorelease];
+      [self.window setBackgroundColor:[NSColor whiteColor]];
+      id menubar = [[NSMenu new] autorelease];
+      id appMenuItem = [[NSMenuItem new] autorelease];
+  
+      [menubar addItem:appMenuItem];
+      [NSApp setMainMenu:menubar];
+  
+      id appMenu = [[NSMenu new] autorelease];
+      id appName = PROGNAME;
+      id quitTitle = [@"Quit " stringByAppendingString:appName];
+      id quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
+						    action:@selector(terminate:) keyEquivalent:@"q"] autorelease];
+
+      [appMenu addItem:quitMenuItem];
+      [appMenuItem setSubmenu:appMenu];
+      [self.window cascadeTopLeftFromPoint:NSMakePoint(20,20)];
+      [self.window setTitle:appName];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [self.window release];
+    [super dealloc];
+}
+
+
+- (void)applicationWillFinishLaunching:(NSNotification *)notification {
+  [self.window makeKeyAndOrderFront:self];
+}
+
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{
+  // Insert code here to initialize your application
+
+  self.view = [[QEView alloc] initWithFrame:NSMakeRect(0,0,500,500)];
+  [[self.window contentView] addSubview:self.view];
+  // [self.window setContentView:self.view];
+  [self.view drawRect:NSMakeRect(0,0,350,350):[NSColor blueColor]];
+  
+  NSLog(@"application windows contentView is: %@", [self.window contentView]);
+  NSLog(@"subviews are: %@", [[self.window contentView] subviews]);
+  NSLog(@"view.window is: %@", self.view.window);
+  NSLog(@"contentView.window is: %@", [[self.window contentView] window]);
+  // self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, 500, 500)
+}
+
+@end
+
+
+/* A Cocoa Window container object with event handling methods integrated */
+@implementation QEWindow
+
+- (BOOL)acceptsFirstResponder {
+  return YES;
+}
+
+- (BOOL)canBecomeKeyWindow
+{
+  return YES;
+}
+
+- (void)keyDown:(NSEvent *)theEvent {
+  QEEvent ev1, *ev = &ev1;
+  int key;
+
+  if ([theEvent modifierFlags] & NSNumericPadKeyMask) { // arrow keys have this mask
+    NSString *theArrow = [theEvent charactersIgnoringModifiers];
+    unichar keyChar = 0;
+    if ( [theArrow length] == 0 )
+      return;            // reject dead keys
+    if ( [theArrow length] == 1 ) {
+      keyChar = [theArrow characterAtIndex:0];
+      if ( keyChar == NSLeftArrowFunctionKey ) {
+	key = KEY_LEFT;
+      }
+      if ( keyChar == NSRightArrowFunctionKey ) {
+	key = KEY_RIGHT;
+      }
+      if ( keyChar == NSUpArrowFunctionKey ) {
+	key = KEY_UP;
+      }
+      if ( keyChar == NSDownArrowFunctionKey ) {
+	key = KEY_DOWN;
+      }
+      //      [super keyDown:theEvent];
+    }
+  }
+  else {
+    
+  }
+
+  ev->key_event.type = QE_KEY_EVENT;
+  ev->key_event.key = key;
+  qe_handle_event(ev);
+
+  [super keyDown:theEvent];
+}
+
+// The following action methods are declared in NSResponder.h
+- (void)insertTab:(id)sender {
+  QEEvent ev1, *ev = &ev1;
+    if ([[self window] firstResponder] == self) {
+      ev->key_event.type = QE_KEY_EVENT;
+      ev->key_event.key = KEY_SHIFT_TAB;
+      qe_handle_event(ev);
+    }
+}
+ 
+- (void)insertBacktab:(id)sender {
+  QEEvent ev1, *ev = &ev1;
+    if ([[self window] firstResponder] == self) {
+      ev->key_event.type = QE_KEY_EVENT;
+      ev->key_event.key = KEY_SHIFT_TAB;
+      qe_handle_event(ev);
+    }
+}
+ 
+- (void)insertText:(id)string {
+  //    [super insertText:string];  // have superclass insert it
+}
+
+@end
+
+
+@implementation QEView
+
+
+// - (instancetype)initWithFrame:(NSRect)rect:(NSColor *) color {
+  
+//   [super initWithFrame:rect];
+  
+//   [self drawRect :rect :[NSColor color] ];
+  
+//   return self;
+// }
+
+- (void) drawRect:(NSRect)rect :(NSColor *)color {
+  //   [super drawRect:rect];
+  NSLog(@"drawing rectangle");
+
+  // This next line sets the the current fill color parameter of the Graphics Context
+  // [[NSColor colorWithCalibratedRed:r green: g  blue: b  alpha:1.0] setFill];
+  [[NSColor yellowColor] set];
+  // This next function fills a rect the same as dirtyRect with the current fill color of the Graphics Context.
+  NSRectFill(rect);
+  [self setNeedsDisplay:YES];
+  // You might want to use _bounds or self.bounds if you want to be sure to fill the entire bounds rect of the view. 
+}
+
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  NSLog(@"view loaded into memory");
+}
+
+@end
+
+
+
+ /////////////////////////////////////////////////////////////////////
+ // THE REST OF THE METHODS BIND THE COCOA OBJECT TO THE QE DPY API //
+ /////////////////////////////////////////////////////////////////////
 
 static int osx_probe(void)
 {
@@ -72,75 +251,60 @@ return 1;
 
 static int osx_init(QEditScreen *s, int w, int h) 
 {
-[NSAutoreleasePool new];
-[NSApplication sharedApplication];
-[NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+  NSAutoreleasePool * pool = [NSAutoreleasePool new];
+  NSApplication * application = [NSApplication sharedApplication];
+  [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+  DELEGATE = [[[AppDelegate alloc] init] autorelease];
+  [application setDelegate:DELEGATE];
+  //  memcpy(&s->dpy, &window, sizeof(QEDisplay));
+  [NSApp activateIgnoringOtherApps:YES];
+  [NSApp run];
 
-NSRect container_bg = NSMakeRect(0, 0, w, h);
-window = [[[NSWindow alloc] initWithContentRect:container_bg
-styleMask:NSTitledWindowMask backing:NSBackingStoreBuffered defer:NO]
-autorelease];
-NSRect background = NSMakeRect(0, 0, w, h);
-NSView *view = [[NSView alloc] initWithFrame:background];
-id menubar = [[NSMenu new] autorelease];
-id appMenuItem = [[NSMenuItem new] autorelease];
-[menubar addItem:appMenuItem];
-[NSApp setMainMenu:menubar];
-id appMenu = [[NSMenu new] autorelease];
-id appName = [[NSProcessInfo processInfo] processName];
-id quitTitle = [@"Quit " stringByAppendingString:appName];
-id quitMenuItem = [[[NSMenuItem alloc] initWithTitle:quitTitle
-
-action:@selector(terminate:) keyEquivalent:@"q"] autorelease];
-[appMenu addItem:quitMenuItem];
-[appMenuItem setSubmenu:appMenu];
-
-[window cascadeTopLeftFromPoint:NSMakePoint(20,20)];
-[window setTitle:appName];
-[window makeKeyAndOrderFront:nil];
-[window setContentView:view];
-
-[NSApp activateIgnoringOtherApps:YES];
-[NSApp run];
+  [pool drain];
+  return EXIT_SUCCESS;
 }
 
 
 
 static void osx_close(QEditScreen *s) {
-[window close];
+  //   [window close];
 }
 
 
 static void osx_flush(QEditScreen *s)
 {
-
+  
 }
 
 static int osx_is_user_input_pending(QEditScreen *s)
 {
-/* XXX: do it */
-return 0;
+  /* XXX: do it */
+  return 0;
+}
+
+static NSColor* qe2nscolor(QEColor color) {
+  int r,g,b,a;
+  a = (color >> 24) & 0xff;
+  r = (color >> 16) & 0xff;
+  g = (color >> 8) & 0xff;
+  b = (color) & 0xff;
+  if (a > 1)
+    a / 100;
+  return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];
 }
 
 static void osx_fill_rectangle(QEditScreen *s,
 				 int x1, int y1, int w, int h, QEColor color)
 {
-  unsigned int r, g, b, a;
-  a = (color >> 24) & 0xff;
-  r = (color >> 16) & 0xff;
-  g = (color >> 8) & 0xff;
-  b = (color) & 0xff;
-  // NSColor* rgbColor = [NSColor colorWithCalibratedRed:r green: g  blue: b  alpha:a];
-  NSRect rect = NSMakeRect(x1, y1, w, h);
-  [[NSColor cyanColor] set];
-  NSRectFill(rect);
-  [[window contentView] drawRect:rect];
+  NSLog(@"osx_fill_rectangle is being called");
+  [DELEGATE.view drawRect:NSMakeRect(x1,y1,w,h) :[NSColor blueColor]];
 }
 
 static QEFont *osx_open_font(QEditScreen *s, int style, int size)
 {
-QEFont *font;
-return font;
+  /* XXX: come back to this! */
+  QEFont *font;
+  return font;
 }
 
 static void osx_close_font(QEditScreen *s, QEFont *font)
@@ -152,6 +316,7 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
 			       QECharMetrics *metrics,
 			       const unsigned int *str, int len)
 {
+  /* XXX: do we even need to impliment an OSX specific version of this function? */
 int i, x;
 metrics->font_ascent = font->ascent;
 metrics->font_descent = font->descent;
@@ -166,6 +331,13 @@ static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  int x1, int y, const unsigned int *str, int len,
 			  QEColor color)
 {
+  /* XXX: come back to this! */
+  NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Helvetica" size:26], NSFontAttributeName,[NSColor blackColor], NSForegroundColorAttributeName, nil];
+
+  NSAttributedString * currentText=[[NSAttributedString alloc] initWithString:str attributes: attributes];
+
+  NSSize attrSize = [currentText size];
+  [currentText drawAtPoint:NSMakePoint(x1, y)];
 
 }
 
@@ -174,8 +346,6 @@ static void osx_set_clip(QEditScreen *s,
 {
   /* nothing to do */
 }
-
-
 
 int osx_driver_init () {
   static QEDisplay osx_dpy = {
@@ -202,7 +372,8 @@ int osx_driver_init () {
       osx_bmp_draw,
       osx_bmp_lock,
       osx_bmp_unlock,
-      osx_full_screen;*/
+      osx_full_screen;
+    */
   };
  
   return qe_register_display(&osx_dpy);
