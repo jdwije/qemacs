@@ -70,10 +70,10 @@ AppDelegate * DELEGATE;
 @implementation AppDelegate : NSObject
 
 
-- (id)init {
+- (id)init :(int) w :(int) h {
     if (self = [super init]) {
       // allocate and initialize window and stuff here ..
-      self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, 500, 500)
+      self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, w, h)
 						 styleMask:  NSTitledWindowMask | NSClosableWindowMask | 
 				                              NSMiniaturizableWindowMask | NSResizableWindowMask
 							        backing:NSBackingStoreBuffered defer:NO
@@ -112,18 +112,49 @@ AppDelegate * DELEGATE;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-  // Insert code here to initialize your application
 
-  self.view = [[QEView alloc] initWithFrame:NSMakeRect(0,0,500,500)];
+  // init code
+  self.view = [[QEView alloc] initWithFrame:[[self.window contentView] bounds]];
+
   [[self.window contentView] addSubview:self.view];
+
   // [self.window setContentView:self.view];
-  [self.view drawRect:NSMakeRect(0,0,350,350):[NSColor blueColor]];
+
   
+  if (self.view == nil || self.view.canDraw == NO) {
+    NSLog(@"main view is: %@", self.view);
+    NSLog(@"main view.canDraw is: %i", self.view.canDraw);
+    [self dealloc];
+    exit(0);
+  }
+
+  // [self.view setNeedsDisplay:YES];
+  // [[self.window contentView] setNeedsDisplay:YES];
+  // [[self.window contentView] display];
+  // [self.view display];
+
+  NSLog(@"view's window is: %@", self.view.window);
   NSLog(@"application windows contentView is: %@", [self.window contentView]);
   NSLog(@"subviews are: %@", [[self.window contentView] subviews]);
   NSLog(@"view.window is: %@", self.view.window);
+  NSLog(@"view.window is: %@", self.view.bounds);
+  @try {
+    // do something that might throw an exception
+    NSRect hackrect = self.view.visibleRect;
+  }
+  @catch (NSException *exception) {
+    // deal with the exception
+  }
+  //  NSLog(@"view.needsToDrawRect is: %@", self.view.needsToDrawRect);
+  //  NSLog(@"view.visibleRect is: %@", self.view.visibleRect);
+  
   NSLog(@"contentView.window is: %@", [[self.window contentView] window]);
   // self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, 500, 500)
+  NSLog(@"application windows are: %@", [NSApp windows]);
+  //  NSLog(@"application main window is: %@", [NSApp mainWindow]);
+  // Insert code here to initialize your application
+  // assert([NSApp mainWindow] != nil);
+  // assert([NSApp mainWindow] == self.window);
 }
 
 @end
@@ -211,10 +242,23 @@ AppDelegate * DELEGATE;
   
 //   [super initWithFrame:rect];
   
-//   [self drawRect :rect :[NSColor color] ];
+//   [self drawRect :rect :color];
   
 //   return self;
 // }
+
+- (void) drawRect:(NSRect)rect {
+  //   [super drawRect:rect];
+  NSLog(@"drawing rectangle");
+
+  // This next line sets the the current fill color parameter of the Graphics Context
+  // [[NSColor colorWithCalibratedRed:r green: g  blue: b  alpha:1.0] setFill];
+  [[NSColor blackColor] set];
+  // This next function fills a rect the same as dirtyRect with the current fill color of the Graphics Context.
+  NSRectFill(self.bounds);
+  // You might want to use _bounds or self.bounds if you want to be sure to fill the entire bounds rect of the view. 
+}
+
 
 - (void) drawRect:(NSRect)rect :(NSColor *)color {
   //   [super drawRect:rect];
@@ -222,7 +266,7 @@ AppDelegate * DELEGATE;
 
   // This next line sets the the current fill color parameter of the Graphics Context
   // [[NSColor colorWithCalibratedRed:r green: g  blue: b  alpha:1.0] setFill];
-  [[NSColor yellowColor] set];
+  [color set];
   // This next function fills a rect the same as dirtyRect with the current fill color of the Graphics Context.
   NSRectFill(rect);
   [self setNeedsDisplay:YES];
@@ -244,8 +288,8 @@ AppDelegate * DELEGATE;
 
 static int osx_probe(void)
 {
-/* XXX: need to come back to this */
-return 1;
+  /* XXX: need to come back to this */
+  return 1;
 }
 
 
@@ -254,7 +298,7 @@ static int osx_init(QEditScreen *s, int w, int h)
   NSAutoreleasePool * pool = [NSAutoreleasePool new];
   NSApplication * application = [NSApplication sharedApplication];
   [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
-  DELEGATE = [[[AppDelegate alloc] init] autorelease];
+  DELEGATE = [[[AppDelegate alloc] init:(w*14) :(h*14)] autorelease];
   [application setDelegate:DELEGATE];
   //  memcpy(&s->dpy, &window, sizeof(QEDisplay));
   [NSApp activateIgnoringOtherApps:YES];
