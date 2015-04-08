@@ -22,8 +22,14 @@
 #include "qe.h"
 #include "osx.h"
 
-static QEDisplay osx_dpy;
+/* some specific stuff required from unix.c */
+int url_exit_request;
+void url_block_reset(void);
+void url_block(void);
 
+
+
+static QEDisplay osx_dpy;
 static int osx_probe(void);
 static int osx_init(QEditScreen *s, int w, int h);
 static void osx_close(QEditScreen *s);
@@ -58,12 +64,17 @@ static void osx_bmp_lock(QEditScreen *s, QEBitmap *b, QEPicture *pict,
 static void osx_bmp_unlock(QEditScreen *s, QEBitmap *b);
 static int osx_bmp_alloc(QEditScreen *s, QEBitmap *b);
 
+static void osx_url_block(void);
+static NSColor * qe2nscolor(QEColor color);
+
 int start_w = 550;
 int start_h = 480;
 
 //id window; /* reference to the main window object */
 id PROGNAME = @"QEmacs"; /* used for title of applications throughout osx UI */
 AppDelegate * DELEGATE;
+NSAutoreleasePool * pool;
+NSApplication * application;
 
 
 /* the main cocoa application container */
@@ -71,7 +82,7 @@ AppDelegate * DELEGATE;
 
 
 - (id)init :(int) w :(int) h {
-    if (self = [super init]) {
+     if (self = [super init]) {
       // allocate and initialize window and stuff here ..
       self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, w, h)
 						 styleMask:  NSTitledWindowMask | NSClosableWindowMask | 
@@ -95,6 +106,15 @@ AppDelegate * DELEGATE;
       [appMenuItem setSubmenu:appMenu];
       [self.window cascadeTopLeftFromPoint:NSMakePoint(20,20)];
       [self.window setTitle:appName];
+      
+      id timer = [NSTimer timerWithTimeInterval: 0.0f
+                                    target: self
+                                  selector: @selector( timerFired: )
+                                  userInfo: nil
+				repeats: YES];
+
+      [[NSRunLoop currentRunLoop] addTimer: timer
+				   forMode: NSDefaultRunLoopMode];
     }
     return self;
 }
@@ -112,49 +132,23 @@ AppDelegate * DELEGATE;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-
-  // init code
-  self.view = [[QEView alloc] initWithFrame:[[self.window contentView] bounds]];
-
+  /* initialisation code */
+  self.view = [[QEMainView alloc] initWithFrame:[[self.window contentView] bounds]];
+  self.view.autoresizingMask = NSViewWidthSizable |  NSViewHeightSizable;
   [[self.window contentView] addSubview:self.view];
-
-  // [self.window setContentView:self.view];
-
-  
   if (self.view == nil || self.view.canDraw == NO) {
-    NSLog(@"main view is: %@", self.view);
-    NSLog(@"main view.canDraw is: %i", self.view.canDraw);
-    [self dealloc];
     exit(0);
   }
+}
 
-  // [self.view setNeedsDisplay:YES];
-  // [[self.window contentView] setNeedsDisplay:YES];
-  // [[self.window contentView] display];
-  // [self.view display];
 
-  NSLog(@"view's window is: %@", self.view.window);
-  NSLog(@"application windows contentView is: %@", [self.window contentView]);
-  NSLog(@"subviews are: %@", [[self.window contentView] subviews]);
-  NSLog(@"view.window is: %@", self.view.window);
-  NSLog(@"view.window is: %@", self.view.bounds);
-  @try {
-    // do something that might throw an exception
-    NSRect hackrect = self.view.visibleRect;
-  }
-  @catch (NSException *exception) {
-    // deal with the exception
-  }
-  //  NSLog(@"view.needsToDrawRect is: %@", self.view.needsToDrawRect);
-  //  NSLog(@"view.visibleRect is: %@", self.view.visibleRect);
-  
-  NSLog(@"contentView.window is: %@", [[self.window contentView] window]);
-  // self.window = [[[QEWindow alloc] initWithContentRect:NSMakeRect(0, 0, 500, 500)
-  NSLog(@"application windows are: %@", [NSApp windows]);
-  //  NSLog(@"application main window is: %@", [NSApp mainWindow]);
-  // Insert code here to initialize your application
-  // assert([NSApp mainWindow] != nil);
-  // assert([NSApp mainWindow] == self.window);
+// This is in the Application controller class.
+- (void) timerFired: (id) blah
+{
+    if (url_exit_request) {
+      [NSApp terminate:self];
+    }
+    url_block();
 }
 
 @end
@@ -235,28 +229,12 @@ AppDelegate * DELEGATE;
 @end
 
 
-@implementation QEView
-
-
-// - (instancetype)initWithFrame:(NSRect)rect:(NSColor *) color {
-  
-//   [super initWithFrame:rect];
-  
-//   [self drawRect :rect :color];
-  
-//   return self;
-// }
+@implementation QEMainView
 
 - (void) drawRect:(NSRect)rect {
-  //   [super drawRect:rect];
-  NSLog(@"drawing rectangle");
-
-  // This next line sets the the current fill color parameter of the Graphics Context
-  // [[NSColor colorWithCalibratedRed:r green: g  blue: b  alpha:1.0] setFill];
+  /* XXX: comeback and hook in BG style here */
   [[NSColor blackColor] set];
-  // This next function fills a rect the same as dirtyRect with the current fill color of the Graphics Context.
-  NSRectFill(self.bounds);
-  // You might want to use _bounds or self.bounds if you want to be sure to fill the entire bounds rect of the view. 
+  NSRectFill([[self.window contentView] bounds]);
 }
 
 
@@ -269,7 +247,6 @@ AppDelegate * DELEGATE;
   [color set];
   // This next function fills a rect the same as dirtyRect with the current fill color of the Graphics Context.
   NSRectFill(rect);
-  [self setNeedsDisplay:YES];
   // You might want to use _bounds or self.bounds if you want to be sure to fill the entire bounds rect of the view. 
 }
 
@@ -286,26 +263,36 @@ AppDelegate * DELEGATE;
  // THE REST OF THE METHODS BIND THE COCOA OBJECT TO THE QE DPY API //
  /////////////////////////////////////////////////////////////////////
 
+void osx_main_loop(void (*init)(void *opaque), void *opaque)
+{
+  NSLog(@"entering osx main loop");
+  url_block_reset();
+  init(opaque);
+  [NSApp run];
+  // for(;;) {
+  //   if (url_exit_request)
+  //     break;
+  //   url_block();
+  // }
+  [pool drain];
+}
+
 static int osx_probe(void)
 {
   /* XXX: need to come back to this */
   return 1;
 }
 
-
 static int osx_init(QEditScreen *s, int w, int h) 
 {
-  NSAutoreleasePool * pool = [NSAutoreleasePool new];
-  NSApplication * application = [NSApplication sharedApplication];
+  pool = [NSAutoreleasePool new];
+  application = [NSApplication sharedApplication];
   [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
   DELEGATE = [[[AppDelegate alloc] init:(w*14) :(h*14)] autorelease];
   [application setDelegate:DELEGATE];
   //  memcpy(&s->dpy, &window, sizeof(QEDisplay));
   [NSApp activateIgnoringOtherApps:YES];
-  [NSApp run];
-
-  [pool drain];
-  return EXIT_SUCCESS;
+  return 1;
 }
 
 
@@ -326,12 +313,15 @@ static int osx_is_user_input_pending(QEditScreen *s)
   return 0;
 }
 
-static NSColor* qe2nscolor(QEColor color) {
+static NSColor * qe2nscolor(QEColor color) {
   int r,g,b,a;
   a = (color >> 24) & 0xff;
   r = (color >> 16) & 0xff;
   g = (color >> 8) & 0xff;
   b = (color) & 0xff;
+
+  NSLog(@" r:%d g:%d b:%d a:%d", r,g,b,a);
+
   if (a > 1)
     a / 100;
   return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];

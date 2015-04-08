@@ -80,7 +80,7 @@ endif
 ifdef CONFIG_OSX
 CONFIG_X11=
 OBJS+= osx.o
-# no need to include x11 lib on osx anymore I /opt/X11/include 
+# XXX: no need to include x11 lib on osx anymore I /opt/X11/include 
 LDFLAGS+=-framework Cocoa
 LIBS+=-lobjc
 endif
@@ -197,7 +197,7 @@ bufed.c qestyles.h x11.c buffer.c ligtoqe.c \
 qfribidi.c clang.c latex-mode.c xml.c dired.c list.c qfribidi.h html2png.c \
 charsetmore.c charset_table.c cptoqe.c \
 libfbf.c fbfrender.c cfb.c fbftoqe.c libfbf.h fbfrender.h cfb.h \
-display.c osx.m display.h mpeg.c shell.c \
+display.c osx.h osx.m display.h mpeg.c shell.c \
 docbook.c unifont.lig kmaps xterm-146-dw-patch \
 ligatures qe-doc.texi qe-doc.html \
 tests/HELLO.txt tests/TestPage.txt tests/test-hebrew \

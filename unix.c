@@ -51,7 +51,7 @@ struct QETimer {
 static fd_set url_rfds, url_wfds;
 static int url_fdmax;
 static URLHandler url_handlers[256];
-static int url_exit_request;
+int url_exit_request;
 static LIST_HEAD(pid_handlers);
 static LIST_HEAD(bottom_halves);
 static QETimer *first_timer;
@@ -218,7 +218,7 @@ static inline int check_timers(int max_delay)
     return timeout - cur_time;
 }
 
-static void url_block_reset(void)
+void url_block_reset(void)
 {
     FD_ZERO(&url_rfds);
     FD_ZERO(&url_wfds);
@@ -229,7 +229,7 @@ static void url_block_reset(void)
 #define MAX_DELAY 500
 
 /* block until one event */
-static void url_block(void)
+void url_block(void)
 {
     URLHandler *uh;
     int ret, i, pid, status, delay;

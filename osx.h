@@ -2,14 +2,14 @@
 
 @end
 
-@interface QEView : NSView
+@interface QEMainView : NSView
 
 @end
 
 @interface AppDelegate : NSObject <NSApplicationDelegate, NSWindowDelegate>
 
   @property (assign) IBOutlet QEWindow *window;
-  @property (assign) IBOutlet QEView *view;
+  @property (assign) IBOutlet QEMainView *view;
 
 @end
 

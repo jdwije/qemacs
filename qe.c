@@ -6419,7 +6419,11 @@ int main(int argc, char **argv)
     args.argc = argc;
     args.argv = argv;
 
+#ifdef CONFIG_OSX
+    osx_main_loop(qe_init, &args);
+#else
     url_main_loop(qe_init, &args);
+#endif
 
     close_input_methods();
 
