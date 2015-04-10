@@ -6368,7 +6368,7 @@ void qe_init(void *opaque)
     /* will be positionned by do_refresh() */
     s = edit_new(b, 0, 0, 0, 0, WF_MODELINE);
     
-    /* at this stage, no screen is defined. Maybe should implement a
+    /* XXX: at this stage, no screen is defined. Maybe should implement a
        dummy display driver to have a consistent state */
     parse_config(s);
 
@@ -6376,6 +6376,7 @@ void qe_init(void *opaque)
 
     /* select the suitable display manager */
     dpy = probe_display();
+
     if (!dpy) {
         fprintf(stderr, "No suitable display found, exiting\n");
         exit(1);
@@ -6430,3 +6431,4 @@ int main(int argc, char **argv)
     dpy_close(&global_screen);
     return 0;
 }
+

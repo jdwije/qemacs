@@ -31,6 +31,8 @@ void url_block(void);
 
 static QEDisplay osx_dpy;
 static int osx_probe(void);
+static int force_tty = 0;
+
 static int osx_init(QEditScreen *s, int w, int h);
 static void osx_close(QEditScreen *s);
 static void osx_resize(QEditScreen *s, int w, int h);
@@ -63,7 +65,7 @@ static void osx_bmp_lock(QEditScreen *s, QEBitmap *b, QEPicture *pict,
 			   int x1, int y1, int w1, int h1);
 static void osx_bmp_unlock(QEditScreen *s, QEBitmap *b);
 static int osx_bmp_alloc(QEditScreen *s, QEBitmap *b);
-
+static int osx_qe_init();
 static void osx_url_block(void);
 static NSColor * qe2nscolor(QEColor color);
 
@@ -75,11 +77,10 @@ id PROGNAME = @"QEmacs"; /* used for title of applications throughout osx UI */
 AppDelegate * DELEGATE;
 NSAutoreleasePool * pool;
 NSApplication * application;
-
+int DPY_READY = NULL;
 
 /* the main cocoa application container */
 @implementation AppDelegate : NSObject
-
 
 - (id)init :(int) w :(int) h {
      if (self = [super init]) {
@@ -106,15 +107,7 @@ NSApplication * application;
       [appMenuItem setSubmenu:appMenu];
       [self.window cascadeTopLeftFromPoint:NSMakePoint(20,20)];
       [self.window setTitle:appName];
-      
-      id timer = [NSTimer timerWithTimeInterval: 0.0f
-                                    target: self
-                                  selector: @selector( timerFired: )
-                                  userInfo: nil
-				repeats: YES];
-
-      [[NSRunLoop currentRunLoop] addTimer: timer
-				   forMode: NSDefaultRunLoopMode];
+     
     }
     return self;
 }
@@ -139,11 +132,20 @@ NSApplication * application;
   if (self.view == nil || self.view.canDraw == NO) {
     exit(0);
   }
+  
+  DPY_READY = 1;
+
+  self.url_timer = [NSTimer timerWithTimeInterval: 0.0f
+				     target: self
+				   selector: @selector( qeMainLoop: )
+				   userInfo: nil
+				    repeats: YES];
+
+  [[NSRunLoop currentRunLoop] addTimer: self.url_timer
+			       forMode: NSDefaultRunLoopMode];
 }
 
-
-// This is in the Application controller class.
-- (void) timerFired: (id) blah
+- (void) qeMainLoop: (id) e
 {
     if (url_exit_request) {
       [NSApp terminate:self];
@@ -263,24 +265,20 @@ NSApplication * application;
  // THE REST OF THE METHODS BIND THE COCOA OBJECT TO THE QE DPY API //
  /////////////////////////////////////////////////////////////////////
 
-void osx_main_loop(void (*init)(void *opaque), void *opaque)
-{
-  NSLog(@"entering osx main loop");
-  url_block_reset();
-  init(opaque);
-  [NSApp run];
-  // for(;;) {
-  //   if (url_exit_request)
-  //     break;
-  //   url_block();
-  // }
-  [pool drain];
-}
-
 static int osx_probe(void)
 {
-  /* XXX: need to come back to this */
-  return 1;
+   // char *dpy;
+
+   //  if (force_tty)
+   //      return 0;
+
+   //  /* XXX: SECURITYSESSIONID is set by login.app on user login. It is NOT available when SSH'ing into 
+   //     the machine. */
+   //  dpy = getenv("SECURITYSESSIONID");
+   //  if (dpy == NULL ||
+   //      dpy[0] == '\0')
+   //      return 0;
+    return 1;
 }
 
 static int osx_init(QEditScreen *s, int w, int h) 
@@ -290,8 +288,8 @@ static int osx_init(QEditScreen *s, int w, int h)
   [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
   DELEGATE = [[[AppDelegate alloc] init:(w*14) :(h*14)] autorelease];
   [application setDelegate:DELEGATE];
-  //  memcpy(&s->dpy, &window, sizeof(QEDisplay));
   [NSApp activateIgnoringOtherApps:YES];
+  memcpy(&s->dpy, &osx_dpy, sizeof(QEDisplay));
   return 1;
 }
 
@@ -334,10 +332,33 @@ static void osx_fill_rectangle(QEditScreen *s,
   [DELEGATE.view drawRect:NSMakeRect(x1,y1,w,h) :[NSColor blueColor]];
 }
 
-static QEFont *osx_open_font(QEditScreen *s, int style, int size)
+static QEFont *osx_open_font(QEditScreen *s, int style, int fontsize)
 {
   /* XXX: come back to this! */
+  // typedef struct QEFont {
+  //     int ascent;
+  //     int descent;
+  //     void *private;
+  //     int system_font; /* TRUE if system font */
+  //     /* cache data */
+  //     int style;
+  //     int size;
+  //     int timestamp;
+  // } QEFont;
   QEFont *font;
+  NSFontManager *fontManager = [NSFontManager sharedFontManager];
+  NSFont *qfont = [fontManager fontWithFamily:@"Verdana"
+					      size:fontsize];
+  
+  if (!qfont)
+    NSLog(@"could not load system font");
+    exit(0);
+
+  font->ascent = qfont.ascender;
+  font->descent = qfont.descender;
+  font->system_font = true;
+  font->private = qfont;
+
   return font;
 }
 
@@ -366,13 +387,6 @@ static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  QEColor color)
 {
   /* XXX: come back to this! */
-  NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:[NSFont fontWithName:@"Helvetica" size:26], NSFontAttributeName,[NSColor blackColor], NSForegroundColorAttributeName, nil];
-
-  NSAttributedString * currentText=[[NSAttributedString alloc] initWithString:str attributes: attributes];
-
-  NSSize attrSize = [currentText size];
-  [currentText drawAtPoint:NSMakePoint(x1, y)];
-
 }
 
 static void osx_set_clip(QEditScreen *s,
@@ -381,37 +395,46 @@ static void osx_set_clip(QEditScreen *s,
   /* nothing to do */
 }
 
+static QEDisplay osx_dpy = {
+  "osx",
+  osx_probe,
+  osx_init,
+  osx_close,
+  NULL,
+  osx_flush,
+  osx_is_user_input_pending,
+  osx_fill_rectangle,
+  osx_open_font,
+  osx_close_font,
+  osx_text_metrics,
+  osx_draw_text,
+  osx_set_clip,
+  NULL, /* no selection handling */
+  NULL, /* no selection handling */
+  /* bitmap support */
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  NULL,
+  /* fullscreen support */
+  NULL,
+};
+
+void osx_main_loop(void (*init)(void *opaque), void *opaque)
+{
+  NSLog(@"entering osx main loop");
+  url_block_reset();
+  init(opaque);
+  [NSApp run];
+  [pool drain];
+}
+
 int osx_driver_init () {
-  static QEDisplay osx_dpy = {
-    "osx",
-    osx_probe,
-    osx_init,
-    osx_close,
-    NULL,
-    osx_flush,
-    osx_is_user_input_pending,
-    osx_fill_rectangle,
-    osx_open_font,
-    osx_close_font,
-    osx_text_metrics,
-    osx_draw_text,
-    osx_set_clip,
-    NULL, /* no selection handling */
-    NULL, /* no selection handling */
-    /*
-      osx_selection_activate,
-      osx_selection_request,
-      osx_bmp_alloc,
-      osx_bmp_free,
-      osx_bmp_draw,
-      osx_bmp_lock,
-      osx_bmp_unlock,
-      osx_full_screen;
-    */
-  };
- 
   return qe_register_display(&osx_dpy);
 }
+
+
 
 qe_module_init(osx_driver_init);
 

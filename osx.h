@@ -11,5 +11,7 @@
   @property (assign) IBOutlet QEWindow *window;
   @property (assign) IBOutlet QEMainView *view;
 
+  @property (assign) NSTimer * url_timer;
+
 @end
 

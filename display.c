@@ -71,7 +71,7 @@ void set_clip_rectangle(QEditScreen *s, CSSRect *r)
     s->clip_y1 = y1;
     s->clip_x2 = x2;
     s->clip_y2 = y2;
-
+    
     s->dpy.dpy_set_clip(s, x1, y1, x2 - x1, y2 - y1);
 }
 
@@ -84,7 +84,7 @@ void push_clip_rectangle(QEditScreen *s, CSSRect *or, CSSRect *r)
     or->y1 = s->clip_y1;
     or->x2 = s->clip_x2;
     or->y2 = s->clip_y2;
-
+    
     /* load and clip new rectangle against the current one */
     x1 = r->x1;
     y1 = r->y1;
@@ -105,7 +105,7 @@ void push_clip_rectangle(QEditScreen *s, CSSRect *or, CSSRect *r)
     s->clip_y1 = y1;
     s->clip_x2 = x2;
     s->clip_y2 = y2;
-
+    
     s->dpy.dpy_set_clip(s, x1, y1, x2 - x1, y2 - y1);
 }
 
@@ -124,7 +124,6 @@ QEDisplay *probe_display(void)
 {
     QEDisplay *p, *dpy;
     int probe_max, probe;
-
     p = first_dpy;
     dpy = NULL;
     probe_max = 0;
