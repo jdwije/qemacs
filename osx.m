@@ -126,6 +126,7 @@ int DPY_READY = NULL;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
   /* initialisation code */
+  NSLog(@"window will initialise");
   self.view = [[QEMainView alloc] initWithFrame:[[self.window contentView] bounds]];
   self.view.autoresizingMask = NSViewWidthSizable |  NSViewHeightSizable;
   [[self.window contentView] addSubview:self.view];
@@ -134,7 +135,7 @@ int DPY_READY = NULL;
   }
   
   DPY_READY = 1;
-
+  
   self.url_timer = [NSTimer timerWithTimeInterval: 0.0f
 				     target: self
 				   selector: @selector( qeMainLoop: )
@@ -283,12 +284,8 @@ static int osx_probe(void)
 
 static int osx_init(QEditScreen *s, int w, int h) 
 {
-  pool = [NSAutoreleasePool new];
-  application = [NSApplication sharedApplication];
-  [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
   DELEGATE = [[[AppDelegate alloc] init:(w*14) :(h*14)] autorelease];
   [application setDelegate:DELEGATE];
-  [NSApp activateIgnoringOtherApps:YES];
   memcpy(&s->dpy, &osx_dpy, sizeof(QEDisplay));
   return 1;
 }
@@ -347,18 +344,11 @@ static QEFont *osx_open_font(QEditScreen *s, int style, int fontsize)
   // } QEFont;
   QEFont *font;
   NSFontManager *fontManager = [NSFontManager sharedFontManager];
-  NSFont *qfont = [fontManager fontWithFamily:@"Verdana"
-					      size:fontsize];
+  NSFont *qfont = [fontManager fontWithFamily:@"Times"
+				       traits:NSUnboldFontMask
+				       weight: 0
+					 size:fontsize];
   
-  if (!qfont)
-    NSLog(@"could not load system font");
-    exit(0);
-
-  font->ascent = qfont.ascender;
-  font->descent = qfont.descender;
-  font->system_font = true;
-  font->private = qfont;
-
   return font;
 }
 
@@ -424,8 +414,14 @@ static QEDisplay osx_dpy = {
 void osx_main_loop(void (*init)(void *opaque), void *opaque)
 {
   NSLog(@"entering osx main loop");
+  pool = [NSAutoreleasePool new];
+  application = [NSApplication sharedApplication];
+  [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+  [NSApp activateIgnoringOtherApps:YES];
+
   url_block_reset();
   init(opaque);
+
   [NSApp run];
   [pool drain];
 }
@@ -435,6 +431,4 @@ int osx_driver_init () {
 }
 
 
-
 qe_module_init(osx_driver_init);
-

@@ -26,7 +26,7 @@ and whatever else is in the todo list...
 
 ## Documentation
 
-See [qe-doc.md](http://github.com/jdwije/qemacs/blob/master/qe-doc.md). Alernative read qe-doc.html or qe-doc.texi.
+See [qe-doc.md](http://github.com/jdwije/qemacs/blob/master/qe-doc.md) or alternatively read qe-doc.html or qe-doc.texi for the official docs.
 
 ## Licensing
 

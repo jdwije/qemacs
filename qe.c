@@ -16,6 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 #include "qe.h"
 #include "qfribidi.h"
 #ifdef CONFIG_DLL
@@ -697,8 +698,8 @@ int cursor_func(DisplayState *ds,
         m->cursor_height = h; 
         m->linec = line_num;
 #if 0
-        printf("cursor_func: xc=%d yc=%d linec=%d offset: %d<=%d<%d\n", 
-               m->xc, m->yc, m->linec, offset1, m->offsetc, offset2);
+	//        printf("cursor_func: xc=%d yc=%d linec=%d offset: %d<=%d<%d\n", 
+	//     m->xc, m->yc, m->linec, offset1, m->offsetc, offset2);
 #endif
         return -1;
     } else {
@@ -2766,7 +2767,7 @@ int text_display(EditState *s, DisplayState *ds, int offset)
             embedding_level = bd[0].level;
             /* XXX: use embedding level for all cases ? */
             if (c < ' ' && c != '\t') {
-                display_printf(ds, offset0, offset, "^%c", '@' + c);
+	      display_printf(ds, offset0, offset, "^%c", '@' + c);
             } else if (c >= 0x10000) {
                 /* currently, we cannot display these chars */
                 display_printf(ds, offset0, offset, "\\U%08x", c);
@@ -5159,7 +5160,7 @@ void do_refresh(EditState *s1)
     EditState *e;
     int new_status_height, new_mode_line_height, content_height;
     int width, height;
-
+    printf("doing refresh");
     /* recompute various dimensions */
     if (qs->screen->media & CSS_MEDIA_TTY) {
         qs->separator_width = 1;
@@ -6245,7 +6246,7 @@ void qe_init(void *opaque)
     QEDisplay *dpy;
     int i, optind, is_player;
     char *home_path;
-
+    printf("doing init");
     /* compute resources path */
     strcpy(qe_state.res_path, 
            CONFIG_QE_PREFIX "/share/qe:" CONFIG_QE_PREFIX "/lib/qe:"
@@ -6416,7 +6417,6 @@ int main(int argc, char **argv)
 #endif
 {
     QEArgs args;
-
     args.argc = argc;
     args.argv = argv;
 
