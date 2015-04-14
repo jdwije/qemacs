@@ -6246,7 +6246,9 @@ void qe_init(void *opaque)
     QEDisplay *dpy;
     int i, optind, is_player;
     char *home_path;
+  
     printf("doing init");
+
     /* compute resources path */
     strcpy(qe_state.res_path, 
            CONFIG_QE_PREFIX "/share/qe:" CONFIG_QE_PREFIX "/lib/qe:"
