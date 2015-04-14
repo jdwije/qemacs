@@ -4,6 +4,7 @@
 @interface QEMainView : NSView
 
 @property NSRect clip;
+@property QEStyleDef default_style;
 
 @end
 

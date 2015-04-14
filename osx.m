@@ -289,16 +289,19 @@ int dpy_rdy = 0;
 - (void) drawRect:(NSRect)rect {
   /* XXX: comeback and hook in BG style here, this should really be a separate fn. */
   NSLog(@"OSX GUI: filling background rectangle.");
-  [[NSColor blackColor] set];
+  QEStyleDef default_style;
+  get_style(NULL, &default_style, 0);
+  NSColor* c = get_ns_color(default_style.bg_color);
+  [c set];
   NSRectFill([[self.window contentView] bounds]);
 }
 
-- (void) drawText :(NSString *)text :(int)x1 :(int)y {
+- (void) drawText :(NSString *)text :(int)x1 :(int)y :(NSColor*)color {
   NSTextView *textView = [[NSTextView alloc] initWithFrame:self.clip];
   NSLog(@"OSX GUI: inserting text.");
   NSLog(@"%@", NSStringFromRect(self.clip));
   [textView setDrawsBackground:NO];
-  [textView setTextColor:[NSColor whiteColor]];
+  [textView setTextColor:color];
   [textView insertText :text];
   [self addSubview :textView];
 }
@@ -362,7 +365,7 @@ static void osx_fill_rectangle(QEditScreen *s,
 			       int x1, int y1, int w, int h, QEColor color)
 {
   NSLog(@"QE API: filling rectangle.");
-  [delegate.view drawRect:NSMakeRect(x1,y1,w,h) :[NSColor blueColor]];
+  [delegate.view drawRect:NSMakeRect(x1,y1,w,h) :get_ns_color(color)];
 }
 
 static QEFont *osx_open_font(QEditScreen *s, int style, int fontsize)
@@ -395,13 +398,17 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
 			     const unsigned int *str, int len)
 {
   NSLog(@"QE API: getting text metrics");
-  /* XXX: do we even need to impliment an OSX specific version of this function? */
   int i, x;
+  unsigned int cc;
   metrics->font_ascent = font->ascent;
   metrics->font_descent = font->descent;
   x = 0;
-  for(i=0;i<len;i++)
-    x += 10; // font_xsize;
+  for(i=0;i<len;i++) {
+    /* XXX: come back to this, we need to read the char here and 
+       get it's width given the specified font, using int 5 as a proxy for now. */
+    NSLog(@"%i", str[i]);
+      x += 5;
+  }
   metrics->width = x;
 }
 
@@ -413,11 +420,12 @@ static NSColor * get_ns_color(QEColor color) {
   g = (color >> 8) & 0xff;
   b = (color) & 0xff;
 
-  NSLog(@" r:%d g:%d b:%d a:%d", r,g,b,a);
+  NSLog(@" r:%i g:%i b:%i a:%i", r,g,b,a);
 
   if (a > 1)
     a / 100;
-  return [NSColor colorWithCalibratedRed:r green:g blue:b alpha:a];
+
+  return [NSColor colorWithCalibratedRed:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a];
 }
 
 /* converts qe str to NSString equivalent */
@@ -435,7 +443,7 @@ static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  QEColor color)
 {
   NSLog(@"QE API: drawing text.");
-  [delegate.view drawText :@"some text" :x1 :y];
+  [delegate.view drawText :@"some text" :x1 :y :get_ns_color(color)];
 }
 
 static void osx_set_clip(QEditScreen *s,
