@@ -26,12 +26,15 @@ void fill_rectangle(QEditScreen *s,
     int x2, y2;
     x2 = x1 + w;
     y2 = y1 + h;
-    
+    /* XXX: remember to cleanup output dumps here */
+    fprintf(stderr, "qe.c: %s", "filling rect \n");
+    fprintf(stderr, "qe.c: %i %i %i %i \n", x1, x2, y1, y2);
+    fprintf(stderr, "qe.c: %i %i %i %i \n", s->clip_x1, s->clip_x2, s->clip_y1, s->clip_y2);
     /* quick clip rejection */
     if (x2 <= s->clip_x1 || y2 <= s->clip_y1 ||
         x1 >= s->clip_x2 || y1 >= s->clip_y2)
         return;
-    
+    fprintf(stderr, "qe.c: %s", "rect not rejected 1 \n");
     /* region update */
     if (x2 > s->clip_x2)
         x2 = s->clip_x2;
@@ -45,7 +48,7 @@ void fill_rectangle(QEditScreen *s,
     /* rejection if zero size */
     if (x1 >= x2 || y1 >= y2)
         return;
-
+    fprintf(stderr, "qe.c: %s", "rect not rejected 2 \n");
     s->dpy.dpy_fill_rectangle(s, x1, y1, x2 - x1, y2 - y1, color);
 }
 

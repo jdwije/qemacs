@@ -1,0 +1,2 @@
+/* block until one event */
+
