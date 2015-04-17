@@ -8,7 +8,7 @@
 
 @end
 
-struct QE_OSX_Rect {
+typedef struct QE_OSX_Rect {
   NSRect frame;
   NSColor * color;
 };
@@ -19,7 +19,7 @@ struct QE_OSX_Rect {
 @property QEStyleDef default_style;
 @property (assign) IBOutlet QERectLayer *rect_layer;
 @property (assign) int drawBackground;
-@property (assign) struct QE_OSX_Rect *drawable_rects;
+@property (assign) NSMutableArray *drawable_rects;
 
 @end
 
@@ -31,6 +31,7 @@ struct QE_OSX_Rect {
 
 @property void (*qinit)(void *args);
 @property void *qargs;
+@property (assign) QEditScreen *screen_ref;
 
 @end
 

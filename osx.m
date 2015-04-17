@@ -102,6 +102,7 @@ int dpy_rdy = 0;
 						 name:NSWindowWillCloseNotification
 					       object:self.window];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidResize:) name:NSWindowDidResizeNotification object:self.window];
 
 
     [self.window setBackgroundColor:[NSColor whiteColor]];
@@ -121,12 +122,35 @@ int dpy_rdy = 0;
     [appMenuItem setSubmenu:appMenu];
     [self.window cascadeTopLeftFromPoint:NSMakePoint(20,20)];
     [self.window setTitle:appName];
-     
   }
   return self;
 }
 
+
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+  QEEvent ev1, *ev = &ev1;
+  NSRect bounds = [[self.window contentView] bounds];
+
+  self.screen_ref->width = (int) bounds.size.width;
+  self.screen_ref->height = (int) bounds.size.height;
+
+  ev->expose_event.type = QE_EXPOSE_EVENT;
+  qe_handle_event(ev);
+}
+
 - (void)dealloc {
+
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+						  name:NSWindowDidResizeNotification
+						object:self.window];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+						    name:NSWindowWillCloseNotification
+						  object:self.window];
+
+
   [self.window release];
   [super dealloc];
 }
@@ -135,7 +159,6 @@ int dpy_rdy = 0;
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   [self.window makeKeyAndOrderFront:self];
 }
-
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
@@ -266,18 +289,23 @@ int dpy_rdy = 0;
 
 @implementation QEMainView
 
+-(void)flush 
+{
+  [self.drawable_rects removeAllObjects];
+}
 
 -(QEMainView*)initWithFrame:(NSRect)rect 
 {
   [super initWithFrame:rect];
-  // self.rect_layer = [[QERectLayer alloc] initWithFrame:[self bounds]];
-  // self.rect_layer.autoresizingMask = NSViewWidthSizable |  NSViewHeightSizable;
-  // [self doDrawBackground];
-  // [self addSubview:self.rect_layer];
-  
-  self.drawBackground = 1;
-  self.drawable_rects = malloc(sizeof(struct QE_OSX_Rect) * 3);
-
+  if (self) {
+    // self.rect_layer = [[QERectLayer alloc] initWithFrame:[self bounds]];
+    // self.rect_layer.autoresizingMask = NSViewWidthSizable |  NSViewHeightSizable;
+    // [self doDrawBackground];
+    // [self addSubview:self.rect_layer];
+    self.drawBackground = 1;
+    // self.drawable_rects = malloc(sizeof(struct QE_OSX_Rect) * 3);
+    self.drawable_rects = [[NSMutableArray alloc] init];
+  }
   return self;
 }
 
@@ -334,13 +362,15 @@ int dpy_rdy = 0;
   int i = 0;
   
   /* draw bg if required */
-  if (self.drawBackground > 0){
+  if (self.drawBackground > 0) {
     [self doDrawBackground];
+    self.drawBackground = 0;
   }
   
-  /* draw all requested rectangles */
+  /* draw all required rectangles */
   for (i; i<[self.drawable_rects count]; i++) {
-    struct QE_OSX_Rect c_rect = self.drawable_rects[i];
+    struct QE_OSX_Rect c_rect;
+    [self.drawable_rects[i] getValue:&c_rect];
     [self intDrawRect :c_rect.frame :c_rect.color];
     i++;
   }
@@ -360,16 +390,13 @@ int dpy_rdy = 0;
   NSColor* c = get_ns_color(default_style.bg_color);
   [c set];
   NSRectFill([[self.window contentView] bounds]);
-  self.drawBackground = 0;
-
 }
 
 - (void) drawRect:(NSRect)rect :(NSColor *)color {
   struct QE_OSX_Rect qstruct;
   qstruct.frame = rect;
   qstruct.color = color;
-  /* XXX: segfaultin' here */
-  self.drawable_rects[sizeof(self.drawable_rects)] = qstruct;
+  [self.drawable_rects addObject:[NSValue valueWithBytes:&qstruct objCType:@encode(struct QE_OSX_Rect)]];
 }
 
 - (void)viewDidLoad {
@@ -411,6 +438,8 @@ static int osx_init(QEditScreen *s, int w, int h)
   s->clip_x2 = s->width;
   s->clip_y2 = s->height;
   
+  delegate.screen_ref = s;
+
   return 1;
 }
 
@@ -437,7 +466,9 @@ static void osx_fill_rectangle(QEditScreen *s,
 			       int x1, int y1, int w, int h, QEColor color)
 {
   NSLog(@"QE API: filling rectangle at x1:%i y1:%i w:%i h:%i.", x1, y1, w,h);
-  [delegate.view drawRect:NSMakeRect(x1,y1,w,h) :[NSColor blueColor]];
+  NSLog(@"Our color value is %@", get_ns_color(color));
+  NSColor *c = get_ns_color(color);
+  [delegate.view drawRect:NSMakeRect(x1,y1,w,h) :c];
 }
 
 static QEFont *osx_open_font(QEditScreen *s, int style, int fontsize)
@@ -486,19 +517,20 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
 
 /* converts a QEColor to an NSColor */
 static NSColor * get_ns_color(QEColor color) {
-  int r,g,b,a;
+  unsigned int r,g,b,a;
+  CGFloat a_adj;
   a = (color >> 24) & 0xff;
   r = (color >> 16) & 0xff;
   g = (color >> 8) & 0xff;
   b = (color) & 0xff;
 
-  if (a > 1)
-    a / 100;
+  NSLog(@"raw r:%i g:%i b:%i a:%i", r,g,b,a);
+  
+  a_adj = (CGFloat) (a/255); /* convert to percentage between 0-1 */
 
-  NSLog(@" r:%i g:%i b:%i a:%i", r,g,b,a);
+  NSLog(@"filtered r:%i g:%i b:%i a:%f", r,g,b,a_adj);
 
-
-  return [NSColor colorWithCalibratedRed:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a];
+  return [[NSColor colorWithCalibratedRed:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a_adj] retain];
 }
 
 /* converts qe str to NSString equivalent */
@@ -516,7 +548,7 @@ static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  QEColor color)
 {
   NSLog(@"QE API: drawing text.");
-  [delegate.view drawText :get_ns_string(str,len) :x1 :y :get_ns_color(color)];
+  // [delegate.view drawText :get_ns_string(str,len) :x1 :y :get_ns_color(color)];
 }
 
 static void osx_set_clip(QEditScreen *s,
