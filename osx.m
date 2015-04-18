@@ -146,9 +146,9 @@ int dpy_rdy = 0;
 						  name:NSWindowDidResizeNotification
 						object:self.window];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-						    name:NSWindowWillCloseNotification
-						  object:self.window];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+						  name:NSWindowWillCloseNotification
+						object:self.window];
 
 
   [self.window release];
@@ -289,9 +289,16 @@ int dpy_rdy = 0;
 
 @implementation QEMainView
 
--(void)flush 
+-(void)flushCleanup 
 {
+  int i;
+  /* iterate over drawable rects and release QE_OSX_Rect's before emptying */
+  for(i=0;i<[self.drawable_rects count]; i++) {
+    // [self.drawable_rects[i] release];
+  }
   [self.drawable_rects removeAllObjects];
+  /* iterate over drawable text and release QE_OSX_Text's before emptying */
+  [self.drawable_text removeAllObjects];
 }
 
 -(QEMainView*)initWithFrame:(NSRect)rect 
@@ -303,8 +310,10 @@ int dpy_rdy = 0;
     // [self doDrawBackground];
     // [self addSubview:self.rect_layer];
     self.drawBackground = 1;
+    self.flush_request = NO;
     // self.drawable_rects = malloc(sizeof(struct QE_OSX_Rect) * 3);
     self.drawable_rects = [[NSMutableArray alloc] init];
+    self.drawable_text = [[NSMutableArray alloc] init];
   }
   return self;
 }
@@ -343,39 +352,61 @@ int dpy_rdy = 0;
   }
 }
 
+
 - (void) drawText :(NSString *)text :(int)x1 :(int)y :(NSColor*)color {
-  NSRect rect = [self bounds];
-  rect.origin.x = x1;
-  rect.origin.y = y;
-  rect.size.height = rect.size.height - y;
-  rect.size.width = rect.size.width - x1;
-  NSTextView *textView = [[NSTextView alloc] initWithFrame:rect];
-  NSLog(@"OSX GUI: inserting text at x:%i y:%i.", x1, y);
-  NSLog(@"%@", NSStringFromRect(rect));
-  [textView setDrawsBackground:NO];
-  [textView setTextColor:color];
-  [textView insertText :text];
-  [self addSubview :textView];
+  struct QE_OSX_Text qstruct;
+  qstruct.text = text;
+  qstruct.color = color;
+  qstruct.x = (CGFloat) x1;
+  qstruct.y = (CGFloat) y;
+  NSLog(@"adding to text drawables");
+  [self.drawable_text addObject:[NSValue valueWithBytes:&qstruct objCType:@encode(struct QE_OSX_Text)]];
+}
+
+- (void) intDrawText :(NSString *)text :(CGFloat)x1 :(CGFloat)y :(NSColor*)color {
+  NSMutableDictionary * stringAttributes;
+  stringAttributes = [NSMutableDictionary dictionary];
+  [stringAttributes setObject:[NSFont fontWithName:@"Monaco" size:12] forKey:NSFontAttributeName];
+  [stringAttributes setObject:color forKey:NSForegroundColorAttributeName];
+  [stringAttributes retain];
+  NSLog(@"OSX GUI: inserting text at x:%f y:%f.", x1, y);
+  /* XXX: text IS being drawn correctly (divide y by 2 to confirm), it's just that our display dimensions are not proeprly
+     set so shit is being draw offscreen!!! */
+  [text drawAtPoint:NSMakePoint(x1, y) withAttributes:stringAttributes];
+  [stringAttributes release];
 }
 
 - (void) drawRect:(NSRect)rect {
-  int i = 0;
+  int i;
   
-  /* draw bg if required */
+  if (self.flush_request == NO) /* ony draw if requested by QE Core */
+    return;
+
   if (self.drawBackground > 0) {
     [self doDrawBackground];
     self.drawBackground = 0;
   }
   
-  /* draw all required rectangles */
-  for (i; i<[self.drawable_rects count]; i++) {
+  for (i = 0; i<[self.drawable_rects count]; i++) {
     struct QE_OSX_Rect c_rect;
     [self.drawable_rects[i] getValue:&c_rect];
     [self intDrawRect :c_rect.frame :c_rect.color];
     i++;
   }
   
-  /* draw text last */
+  NSLog(@"text count: %i",[self.drawable_text count]);
+
+  for (i = 0; i<[self.drawable_text count]; i++) {
+    struct QE_OSX_Text c_text;
+    [self.drawable_text[i] getValue:&c_text];
+    [self intDrawText :c_text.text :(CGFloat)c_text.x :(CGFloat)c_text.y :c_text.color];
+    i++;
+  }
+  
+  [self flushCleanup]; /* cleanup our drawable arrays and dealloc as required */
+  
+  self.flush_request = NO; /* reset to 'NO' since we are done drawing. QE Core will set this to 'YES'
+			      when a redraw is required */
 }
 
 - (void) intDrawRect:(NSRect)rect :(NSColor*)c {
@@ -454,6 +485,7 @@ static void osx_close(QEditScreen *s) {
 static void osx_flush(QEditScreen *s)
 {
   NSLog(@"QE API: flushing screen.");
+  delegate.view.flush_request = YES;
 }
 
 static int osx_is_user_input_pending(QEditScreen *s)
@@ -548,7 +580,7 @@ static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  QEColor color)
 {
   NSLog(@"QE API: drawing text.");
-  // [delegate.view drawText :get_ns_string(str,len) :x1 :y :get_ns_color(color)];
+  [delegate.view drawText :get_ns_string(str,len) :x1 :y :get_ns_color(color)];
 }
 
 static void osx_set_clip(QEditScreen *s,

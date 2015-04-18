@@ -13,6 +13,14 @@ typedef struct QE_OSX_Rect {
   NSColor * color;
 };
 
+
+typedef struct QE_OSX_Text {
+  NSString *text;
+  NSColor *color;
+  CGFloat x;
+  CGFloat y;
+};
+
 @interface QEMainView : NSView
 
 @property NSRect clip;
@@ -20,6 +28,9 @@ typedef struct QE_OSX_Rect {
 @property (assign) IBOutlet QERectLayer *rect_layer;
 @property (assign) int drawBackground;
 @property (assign) NSMutableArray *drawable_rects;
+@property (assign) NSMutableArray *drawable_text;
+
+@property (assign) Boolean flush_request;
 
 @end
 
