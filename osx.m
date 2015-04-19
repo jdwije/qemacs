@@ -458,6 +458,44 @@ int dpy_rdy = 0;
 // THE REST OF THE METHODS BIND THE COCOA APPLICATION TO THE QE DPY API //
 //////////////////////////////////////////////////////////////////////////
 
+
+
+/* converts a QEColor to an NSColor */
+static NSColor * get_ns_color(QEColor color) {
+  unsigned int r,g,b,a;
+  CGFloat a_adj;
+  a = (color >> 24) & 0xff;
+  r = (color >> 16) & 0xff;
+  g = (color >> 8) & 0xff;
+  b = (color) & 0xff;
+
+  NSLog(@"raw r:%i g:%i b:%i a:%i", r,g,b,a);
+  
+  a_adj = (CGFloat) (a/255); /* convert to percentage between 0-1 */
+
+  NSLog(@"filtered r:%i g:%i b:%i a:%f", r,g,b,a_adj);
+
+  return [[NSColor colorWithCalibratedRed:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a_adj] retain];
+}
+
+/* converts qe str to NSString equivalent */
+static NSString* get_ns_string (const unsigned int *str, int len) {
+  int i;
+  unsigned int cc;
+  // return [NSString initWithBytes:cc_arr
+  //                      length:len
+  //                    encoding:NSUTF8StringEncoding ]
+  //  NSString *nstr = [[NSString alloc] initWithBytes:str length:len encoding:NSUTF8StringEncoding];
+  
+
+  //NSData *data = [NSData dataWithBytes:str length:len];
+  // NSString *nstr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+  NSString *nstr = [[NSString alloc] initWithCharacters:str length:len];
+  //  NSString *nstr = [ NSString stringWithUTF8String: [str cStringUsingEncoding: [ NSString defaultCStringEncoding ] ] ];
+  NSLog(@"converted NSString is:  %@", nstr);
+  return nstr;
+}
+
 static int osx_probe(void)
 {
   /* XXX: we might not need to fully impliment this because this method should only be called after the display is 
@@ -552,51 +590,13 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
 			     const unsigned int *str, int len)
 {
   NSLog(@"QE API: getting text metrics");
-  int i, x;
-  unsigned int cc;
+  NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font->private, NSFontAttributeName, nil];
+  NSSize str_size = [[[NSAttributedString alloc] initWithString:get_ns_string(str,len) attributes:attributes] size];
   metrics->font_ascent = font->ascent;
   metrics->font_descent = font->descent;
-  x = 0;
-  for(i=0;i<len;i++) {
-    cc = str[i];
-    /* XXX: come back to this, we need to read the char here and 
-       get it's width given the specified font, using int 5 as a proxy for now. */
-    //    q->byte1 = (cc >> 8) & 0xff;
-    //    q->byte2 = (cc) & 0xff;
-      x += 10;
-  }
-  metrics->width = x;
+  metrics->width = (int) str_size.width;
 }
 
-/* converts a QEColor to an NSColor */
-static NSColor * get_ns_color(QEColor color) {
-  unsigned int r,g,b,a;
-  CGFloat a_adj;
-  a = (color >> 24) & 0xff;
-  r = (color >> 16) & 0xff;
-  g = (color >> 8) & 0xff;
-  b = (color) & 0xff;
-
-  NSLog(@"raw r:%i g:%i b:%i a:%i", r,g,b,a);
-  
-  a_adj = (CGFloat) (a/255); /* convert to percentage between 0-1 */
-
-  NSLog(@"filtered r:%i g:%i b:%i a:%f", r,g,b,a_adj);
-
-  return [[NSColor colorWithCalibratedRed:(CGFloat)r green:(CGFloat)g blue:(CGFloat)b alpha:(CGFloat)a_adj] retain];
-}
-
-/* converts qe str to NSString equivalent */
-static NSString* get_ns_string (const unsigned int *str, int len) {
-  int i;
-  unsigned int cc;
-  // return [NSString initWithBytes:cc_arr
-  //                      length:len
-  //                    encoding:NSUTF8StringEncoding ]
-  NSString *nstr = [[NSString alloc] initWithCharacters:str length:len];
-  NSLog(@"converted NSString is:  %@", nstr);
-  return nstr;
-}
 
 static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  int x1, int y, const unsigned int *str, int len,
