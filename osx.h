@@ -16,6 +16,7 @@ typedef struct QE_OSX_Rect {
 
 typedef struct QE_OSX_Text {
   NSString *text;
+  NSFont *font;
   NSColor *color;
   CGFloat x;
   CGFloat y;
@@ -28,6 +29,7 @@ typedef struct QE_OSX_Text {
 @property (assign) IBOutlet QERectLayer *rect_layer;
 @property (assign) int drawBackground;
 @property (assign) NSMutableArray *drawable_rects;
+@property (assign) NSFont *current_font;
 @property (assign) NSMutableArray *drawable_text;
 
 @property (assign) Boolean flush_request;

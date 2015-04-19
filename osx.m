@@ -27,9 +27,6 @@ int url_exit_request;
 void url_block_reset(void);
 void url_block(void);
 
-int screen_width;
-int screen_height;
-
 static QEDisplay osx_dpy;
 static int osx_probe(void);
 static int force_tty = 0;
@@ -38,7 +35,6 @@ static int osx_init(QEditScreen *s, int w, int h);
 static void osx_close(QEditScreen *s);
 static void osx_resize(QEditScreen *s, int w, int h);
 static void osx_fill_rectangle(QEditScreen *s, int x1, int y1, int w, int h, QEColor color);
-static QEFont *osx_open_font(QEditScreen *s, int style, int size);
 static QEFont *osx_open_font(QEditScreen *s, int style, int size);
 static void osx_close_font(QEditScreen *s, QEFont *font);
 static void osx_text_metrics(QEditScreen *s, QEFont *font, 
@@ -122,6 +118,7 @@ int dpy_rdy = 0;
     [appMenuItem setSubmenu:appMenu];
     [self.window cascadeTopLeftFromPoint:NSMakePoint(20,20)];
     [self.window setTitle:appName];
+    NSLog(@"init frame size   width:%f  height:%f", [self.window frame].size.width, [self.window frame].size.height );
   }
   return self;
 }
@@ -131,10 +128,15 @@ int dpy_rdy = 0;
 - (void)windowDidResize:(NSNotification *)notification
 {
   QEEvent ev1, *ev = &ev1;
-  NSRect bounds = [[self.window contentView] bounds];
+  NSSize size = [[self.window contentView] frame].size;
+  int w = (int) size.width, h = (int) size.height;
+    
+  self.screen_ref->width = w;
+  self.screen_ref->height = h;
+  self.view.drawBackground = 1;
 
-  self.screen_ref->width = (int) bounds.size.width;
-  self.screen_ref->height = (int) bounds.size.height;
+  NSLog(@"%f", [self.window frame].size.height );
+  NSLog(@"width:%i height:%i",w,h);
 
   ev->expose_event.type = QE_EXPOSE_EVENT;
   qe_handle_event(ev);
@@ -289,15 +291,20 @@ int dpy_rdy = 0;
 
 @implementation QEMainView
 
+
+- (CGFloat)widthOfString:(NSString *)string withFont:(NSFont *)font 
+{
+  NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:font, NSFontAttributeName, nil];
+  return [[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width;
+}
+
+
 -(void)flushCleanup 
 {
   int i;
-  /* iterate over drawable rects and release QE_OSX_Rect's before emptying */
-  for(i=0;i<[self.drawable_rects count]; i++) {
-    // [self.drawable_rects[i] release];
-  }
+  /* free things up first */
+  
   [self.drawable_rects removeAllObjects];
-  /* iterate over drawable text and release QE_OSX_Text's before emptying */
   [self.drawable_text removeAllObjects];
 }
 
@@ -318,24 +325,26 @@ int dpy_rdy = 0;
   return self;
 }
 
--(QEFont *)openFont :(CGFloat)fsize :(int)fstyle
+-(QEFont *)openFont :(CGFloat)size :(int)style
 
 {
   QEFont *font;
   font = malloc(sizeof(QEFont));
-
+  
   if (!font)
     return NULL;
-
-  NSFont *qfont = [NSFont fontWithName:@"Arial" size:fsize];
+  
+  NSFont *qfont = [[NSFont fontWithName:@"Monaco" size:size] retain];
   NSLog(@"qfont %@", qfont);
+  
+  self.current_font = qfont;
 
   font->ascent = (int) [qfont ascender];
   font->descent = (int) ([qfont descender] * -1);
-  font->system_font = true;
-
-  NSLog(@"%f %i", [qfont ascender], font->ascent);
-  NSLog(@"%f %i", [qfont descender], font->descent);
+  font->private = qfont;
+  
+  NSLog(@"font ascender ns:%f qe:%i", [qfont ascender], font->ascent);
+  NSLog(@"font descender ns:%f qe:%i", [qfont descender], font->descent);
 
   return font;
 }
@@ -359,21 +368,9 @@ int dpy_rdy = 0;
   qstruct.color = color;
   qstruct.x = (CGFloat) x1;
   qstruct.y = (CGFloat) y;
+  qstruct.font = self.current_font;
   NSLog(@"adding to text drawables");
   [self.drawable_text addObject:[NSValue valueWithBytes:&qstruct objCType:@encode(struct QE_OSX_Text)]];
-}
-
-- (void) intDrawText :(NSString *)text :(CGFloat)x1 :(CGFloat)y :(NSColor*)color {
-  NSMutableDictionary * stringAttributes;
-  stringAttributes = [NSMutableDictionary dictionary];
-  [stringAttributes setObject:[NSFont fontWithName:@"Monaco" size:12] forKey:NSFontAttributeName];
-  [stringAttributes setObject:color forKey:NSForegroundColorAttributeName];
-  [stringAttributes retain];
-  NSLog(@"OSX GUI: inserting text at x:%f y:%f.", x1, y);
-  /* XXX: text IS being drawn correctly (divide y by 2 to confirm), it's just that our display dimensions are not proeprly
-     set so shit is being draw offscreen!!! */
-  [text drawAtPoint:NSMakePoint(x1, y) withAttributes:stringAttributes];
-  [stringAttributes release];
 }
 
 - (void) drawRect:(NSRect)rect {
@@ -387,20 +384,19 @@ int dpy_rdy = 0;
     self.drawBackground = 0;
   }
   
-  for (i = 0; i<[self.drawable_rects count]; i++) {
+  for (NSValue *item in [self drawable_rects]) {
     struct QE_OSX_Rect c_rect;
-    [self.drawable_rects[i] getValue:&c_rect];
+    [item getValue:&c_rect];
     [self intDrawRect :c_rect.frame :c_rect.color];
     i++;
   }
   
   NSLog(@"text count: %i",[self.drawable_text count]);
 
-  for (i = 0; i<[self.drawable_text count]; i++) {
+  for (NSValue *item in [self drawable_text]) {
     struct QE_OSX_Text c_text;
-    [self.drawable_text[i] getValue:&c_text];
-    [self intDrawText :c_text.text :(CGFloat)c_text.x :(CGFloat)c_text.y :c_text.color];
-    i++;
+    [item getValue:&c_text];
+    [self intDrawText :c_text.text :c_text.x :c_text.y :c_text.color :c_text.font];
   }
   
   [self flushCleanup]; /* cleanup our drawable arrays and dealloc as required */
@@ -409,9 +405,28 @@ int dpy_rdy = 0;
 			      when a redraw is required */
 }
 
+
+- (void) intDrawText :(NSString *)text :(CGFloat)x1 :(CGFloat)y :(NSColor*)color :(NSFont*)font {
+  NSMutableDictionary * stringAttributes;
+  NSRect bounds = [self bounds];
+  CGFloat adj_y = ((CGFloat) bounds.size.height) - ((CGFloat) y); // + (CGFloat) 10;
+  stringAttributes = [NSMutableDictionary dictionary];
+  [stringAttributes setObject:font forKey:NSFontAttributeName];
+  [stringAttributes setObject:color forKey:NSForegroundColorAttributeName];
+  [stringAttributes retain];
+  
+  NSLog(@"OSX GUI: inserting text at x:%f adj_y:%f  y:%f.", x1, adj_y, y);
+  NSLog(@"OSX GUI: inserting text in bounds: %@", NSStringFromRect(bounds));
+  NSLog(@"OSX GUI: inserting text with QE bounds: width:%i height:%i", delegate.screen_ref->width, delegate.screen_ref->height);
+  [text drawAtPoint:NSMakePoint((CGFloat)x1, (CGFloat)adj_y) withAttributes:stringAttributes];
+  [stringAttributes release];
+}
+
 - (void) intDrawRect:(NSRect)rect :(NSColor*)c {
   [c set];
-  NSRectFill(rect);
+  NSRect bounds = [self bounds];
+  NSRect adj_rect = NSMakeRect( rect.origin.x, (bounds.size.height - rect.origin.y), rect.size.width, rect.size.height );
+  NSRectFill(adj_rect);
 }
 
 - (void) doDrawBackground {
@@ -460,9 +475,12 @@ static int osx_init(QEditScreen *s, int w, int h)
   //  NSRect frame = [delegate.window frame];
   //  [delegate.window setFrame:NSMakeRect(frame.origin.x,frame.origin.y, start_width, start_height) display:YES];
   NSRect bounds = [delegate.view bounds];
+  NSLog(@"sizes::: %i   %i", bounds.size.width, w);
+  NSLog(@"sizes::: %i   %i", bounds.size.height, h);
+  NSLog(@"%@", NSStringFromRect(bounds));
   [delegate.view doDrawBackground];
-  s->width = bounds.size.width;
-  s->height = bounds.size.height;
+  s->width = 750;
+  s->height = 500;
   s->charset = &charset_utf8;
   s->clip_x1 = 0;
   s->clip_y1 = 0;
@@ -525,6 +543,7 @@ static QEFont *osx_open_font(QEditScreen *s, int style, int fontsize)
 static void osx_close_font(QEditScreen *s, QEFont *font)
 {
   NSLog(@"QE API: closing font.");
+  [font->private realease];
   free(font);
 }
 
@@ -539,10 +558,12 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
   metrics->font_descent = font->descent;
   x = 0;
   for(i=0;i<len;i++) {
+    cc = str[i];
     /* XXX: come back to this, we need to read the char here and 
        get it's width given the specified font, using int 5 as a proxy for now. */
-    NSLog(@"%i", str[i]);
-      x += 5;
+    //    q->byte1 = (cc >> 8) & 0xff;
+    //    q->byte2 = (cc) & 0xff;
+      x += 10;
   }
   metrics->width = x;
 }
@@ -568,11 +589,13 @@ static NSColor * get_ns_color(QEColor color) {
 /* converts qe str to NSString equivalent */
 static NSString* get_ns_string (const unsigned int *str, int len) {
   int i;
-  char buf[len];
-  
-  NSString *nsstr = @"some more text";
-
-  return nsstr;
+  unsigned int cc;
+  // return [NSString initWithBytes:cc_arr
+  //                      length:len
+  //                    encoding:NSUTF8StringEncoding ]
+  NSString *nstr = [[NSString alloc] initWithCharacters:str length:len];
+  NSLog(@"converted NSString is:  %@", nstr);
+  return nstr;
 }
 
 static void osx_draw_text(QEditScreen *s, QEFont *font,
@@ -580,7 +603,7 @@ static void osx_draw_text(QEditScreen *s, QEFont *font,
 			  QEColor color)
 {
   NSLog(@"QE API: drawing text.");
-  [delegate.view drawText :get_ns_string(str,len) :x1 :y :get_ns_color(color)];
+  [delegate.view drawText :get_ns_string(str,len) :(CGFloat)x1 :(CGFloat)(y - 10) :get_ns_color(color)];
 }
 
 static void osx_set_clip(QEditScreen *s,
@@ -625,9 +648,7 @@ void osx_main_loop(void (*init)(void *opaque), void *opaque)
   [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
   [NSApp activateIgnoringOtherApps:YES];
   
-  screen_width = 500;
-  screen_height = 250;
-  delegate = [[[QEDelegate alloc] init:screen_width :screen_height] autorelease];
+  delegate = [[[QEDelegate alloc] init:750 :500] autorelease];
   [application setDelegate:delegate];
   
   delegate.qinit = init;
