@@ -1,3 +1,4 @@
+
 /*
  * OSX Driver for QEMacs
  * Copyright (c) 2015 Jason Wijegooneratne
@@ -481,18 +482,11 @@ static NSColor * get_ns_color(QEColor color) {
 /* converts qe str to NSString equivalent */
 static NSString* get_ns_string (const unsigned int *str, int len) {
   int i;
-  unsigned int cc;
-  // return [NSString initWithBytes:cc_arr
-  //                      length:len
-  //                    encoding:NSUTF8StringEncoding ]
-  //  NSString *nstr = [[NSString alloc] initWithBytes:str length:len encoding:NSUTF8StringEncoding];
-  
-
-  //NSData *data = [NSData dataWithBytes:str length:len];
-  // NSString *nstr = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-  NSString *nstr = [[NSString alloc] initWithCharacters:str length:len];
-  //  NSString *nstr = [ NSString stringWithUTF8String: [str cStringUsingEncoding: [ NSString defaultCStringEncoding ] ] ];
-  NSLog(@"converted NSString is:  %@", nstr);
+  char cstr[len];
+  for(i=0;i<len;i++) {
+    cstr[i] = (char) str[i];
+  }
+  NSString *nstr = [[NSString alloc] initWithCString:cstr length:len];
   return nstr;
 }
 
