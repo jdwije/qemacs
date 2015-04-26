@@ -53,3 +53,25 @@ typedef struct QE_OSX_Text {
 @end
 
 
+
+#define OSXK_ESC 53;
+
+#define OSXK_LEFT 123;
+#define OSXK_RIGHT 124;
+#define OSXK_DOWN 125;
+#define OSXK_UP 126;
+
+#define OSXK_F1 122;
+#define OSXK_F2 120;
+#define OSXK_F3 99;
+#define OSXK_F4 118;
+#define OSXK_F5 96;
+#define OSXK_F6 97;
+#define OSXK_F7 98;
+#define OSXK_F8 100;
+
+#define OSXK_F9 101;
+#define OSXK_F10 109;
+#define OSXK_F11 103;
+#define OSXK_F12 111;
+

@@ -158,7 +158,6 @@ int dpy_rdy = 0;
   [super dealloc];
 }
 
-
 - (void)applicationWillFinishLaunching:(NSNotification *)notification {
   [self.window makeKeyAndOrderFront:self];
 }
@@ -171,7 +170,7 @@ int dpy_rdy = 0;
   self.view = [[QEMainView alloc] initWithFrame:[[self.window contentView] bounds]];
   self.view.autoresizingMask = NSViewWidthSizable |  NSViewHeightSizable;
   [[self.window contentView] addSubview:self.view];
-
+  
   if (self.view == nil || self.view.canDraw == NO)
     exit(0);
 
@@ -215,9 +214,10 @@ int dpy_rdy = 0;
   return YES;
 }
 
+
 - (void)keyDown:(NSEvent *)theEvent {
   QEEvent ev1, *ev = &ev1;
-  int key;
+  char key;
 
   if ([theEvent modifierFlags] & NSNumericPadKeyMask) { // arrow keys have this mask
     NSString *theArrow = [theEvent charactersIgnoringModifiers];
@@ -238,11 +238,25 @@ int dpy_rdy = 0;
       if ( keyChar == NSDownArrowFunctionKey ) {
 	key = KEY_DOWN;
       }
-      //      [super keyDown:theEvent];
+      // [super keyDown:theEvent];
     }
+
+  }
+  else if (([theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask ) {
+    NSString *theKey = [theEvent charactersIgnoringModifiers];
+    char keyChar = [theKey characterAtIndex:0];
+    key = KEY_META(' ') + keyChar - ' ';
+    NSLog(@"meta triggered");
   }
   else {
-    
+    NSString *theKey = [theEvent charactersIgnoringModifiers];
+    char keyChar = [theKey characterAtIndex:0];
+    NSLog(@"got: %c", keyChar);
+    NSLog(@"got: %i", keyChar);
+    if (keyChar == 97){
+      key = KEY_F1;
+      NSLog(@"help should have triggered");
+    }
   }
 
   ev->key_event.type = QE_KEY_EVENT;
@@ -272,7 +286,7 @@ int dpy_rdy = 0;
 }
  
 - (void)insertText:(id)string {
-  
+  NSLog(@"qe event inserting text: %@",string);
 }
 
 @end
