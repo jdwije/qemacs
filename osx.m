@@ -217,15 +217,32 @@ int dpy_rdy = 0;
 
 - (void)keyDown:(NSEvent *)theEvent {
   QEEvent ev1, *ev = &ev1;
-  char key;
+  int key, keyInt;
+  NSString *theKey = [theEvent charactersIgnoringModifiers];
+  const char keyChar = [theKey characterAtIndex:0];
+ 
+  keyInt = (int) keyChar;
 
-  if ([theEvent modifierFlags] & NSNumericPadKeyMask) { // arrow keys have this mask
+  /* handle mod keys */
+  if ([theEvent modifierFlags] & NSControlKeyMask){
+    key = KEY_CTRL_LEFT;
+  }
+  else if ([theEvent modifierFlags] & NSAlternateKeyMask){
+    NSLog(@"meta triggered with key: %c", keyChar);
+    key = KEY_META(' ') + keyInt - ' ';
+  }
+  else if ([theEvent modifierFlags] & NSShiftKeyMask){
+    //    key = 
+  }
+  else if ([theEvent modifierFlags] & NSCommandKeyMask){
+    
+  }
+  /* handle arrow keys */
+  else if ([theEvent modifierFlags] & NSNumericPadKeyMask) { // arrow keys have this mask
     NSString *theArrow = [theEvent charactersIgnoringModifiers];
-    unichar keyChar = 0;
     if ( [theArrow length] == 0 )
       return;            // reject dead keys
     if ( [theArrow length] == 1 ) {
-      keyChar = [theArrow characterAtIndex:0];
       if ( keyChar == NSLeftArrowFunctionKey ) {
 	key = KEY_LEFT;
       }
@@ -238,32 +255,19 @@ int dpy_rdy = 0;
       if ( keyChar == NSDownArrowFunctionKey ) {
 	key = KEY_DOWN;
       }
-      // [super keyDown:theEvent];
     }
-
   }
-  else if (([theEvent modifierFlags] & NSDeviceIndependentModifierFlagsMask) == NSAlternateKeyMask ) {
-    NSString *theKey = [theEvent charactersIgnoringModifiers];
-    char keyChar = [theKey characterAtIndex:0];
-    key = KEY_META(' ') + keyChar - ' ';
-    NSLog(@"meta triggered");
-  }
-  else {
-    NSString *theKey = [theEvent charactersIgnoringModifiers];
-    char keyChar = [theKey characterAtIndex:0];
-    NSLog(@"got: %c", keyChar);
-    NSLog(@"got: %i", keyChar);
-    if (keyChar == 97){
-      key = KEY_F1;
-      NSLog(@"help should have triggered");
-    }
+  /* no mod flags handle key press */
+  else { 
+    NSLog(@"got character: %c", keyChar);
+    key = (int) keyChar;
   }
 
   ev->key_event.type = QE_KEY_EVENT;
   ev->key_event.key = key;
   qe_handle_event(ev);
-
-  [super keyDown:theEvent];
+  //  [[self contentView] setNeedsDisplay:YES];
+  [delegate.view queueRedraw];
 }
 
 // The following action methods are declared in NSResponder.h
@@ -313,6 +317,12 @@ int dpy_rdy = 0;
   return [[[NSAttributedString alloc] initWithString:string attributes:attributes] size].width;
 }
 
+-(void) queueRedraw
+{
+  self.drawBackground = 1;
+  self.flush_request = YES;
+  [self setNeedsDisplay:YES];
+}
 
 -(void)flushCleanup 
 {
