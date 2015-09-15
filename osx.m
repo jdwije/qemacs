@@ -35,7 +35,12 @@ static int force_tty = 0;
 static int osx_init(QEditScreen *s, int w, int h);
 static void osx_close(QEditScreen *s);
 static void osx_resize(QEditScreen *s, int w, int h);
-static void osx_fill_rectangle(QEditScreen *s, int x1, int y1, int w, int h, QEColor color);
+static void osx_fill_rectangle(QEditScreen *s,
+			       int x1,
+			       int y1,
+			       int w,
+			       int h,
+			       QEColor color);
 static QEFont *osx_open_font(QEditScreen *s, int style, int size);
 static void osx_close_font(QEditScreen *s, QEFont *font);
 static void osx_text_metrics(QEditScreen *s, QEFont *font, 
