@@ -5160,7 +5160,7 @@ void do_refresh(EditState *s1)
     EditState *e;
     int new_status_height, new_mode_line_height, content_height;
     int width, height;
-    fprintf(stderr, "qe.c: %s", "doing refresh\n");
+
     /* recompute various dimensions */
     if (qs->screen->media & CSS_MEDIA_TTY) {
         qs->separator_width = 1;
@@ -6246,8 +6246,6 @@ void qe_init(void *opaque)
     QEDisplay *dpy;
     int i, optind, is_player;
     char *home_path;
-    fprintf(stderr, "qe.c: %s", "doing init\n");
-    printf("doing init");
 
     /* compute resources path */
     strcpy(qe_state.res_path, 
