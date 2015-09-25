@@ -465,6 +465,7 @@ int dpy_rdy = 0;
 
 - (void) setClipRectangle :(int)x :(int)y :(int)w :(int)h
 {
+  return; // XXX: clipping disabled as cocoa handles this
   if (x == 0 && y == 0 && w == 0 && h == 0) {
     NSRect mainFrame = [[self.window contentView] bounds];
     [self setClip:NSMakeRect(mainFrame.origin.x,
@@ -492,32 +493,39 @@ int dpy_rdy = 0;
 
 - (void) drawRect:(NSRect)rect
 {
+  NSGraphicsContext* theContext = [NSGraphicsContext currentContext];
   int i;
 
   /* only draw if requested by QE Core */
   if (self.flush_request == NO)
     return;
-  
+
   if (self.drawBackground > 0) {
+    [theContext saveGraphicsState];
     [[self window] drawBackground];
     self.drawBackground = 0;
+    [theContext restoreGraphicsState];
   }
   
   for (NSValue *item in [self drawable_rects]) {
+    [theContext saveGraphicsState];
     struct QE_OSX_Rect c_rect;
     [item getValue:&c_rect];
     [self intDrawRect :c_rect.frame :c_rect.color];
+    [theContext restoreGraphicsState];
     i++;
   }
   
   for (NSValue *item in [self drawable_text]) {
     struct QE_OSX_Text c_text;
+    [theContext saveGraphicsState];
     [item getValue:&c_text];
     [self intDrawText :c_text.text
 		      :c_text.x
 		      :c_text.y
 		      :c_text.color
 		      :c_text.font];
+    [theContext restoreGraphicsState];
   }
   
   /* cleanup our drawable arrays and dealloc as required */
@@ -525,7 +533,18 @@ int dpy_rdy = 0;
   
   /* reset to 'NO' since we are done drawing. QE Core will set this to 'YES'
      when a redraw is required */
-  self.flush_request = NO; 
+  self.flush_request = NO;
+  QEEvent ev1, *ev = &ev1;
+    NSSize size = [[self.window
+		      contentView] frame].size;
+  int w = (int) size.width, h = (int) size.height;
+    
+  // self.screen_ref->width = w;
+  // self.screen_ref->height = h;
+  // self.drawBackground = 1;
+
+  ev->expose_event.type = QE_EXPOSE_EVENT;
+  qe_handle_event(ev);
 }
 
 
@@ -651,7 +670,7 @@ static void osx_close(QEditScreen *s)
 
 static void osx_flush(QEditScreen *s)
 {
-  delegate.view.flush_request = YES;
+    delegate.view.flush_request = YES;
 }
 
 static int osx_is_user_input_pending(QEditScreen *s)
