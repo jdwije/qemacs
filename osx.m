@@ -161,54 +161,54 @@ int dpy_rdy = 0;
   if (self = [super init]) {
     // allocate and initialize window and stuff here ..
     self.window = [[[QEWindow alloc]
-		     initWithContentRect:NSMakeRect(0, 0, w, h)
-			       styleMask:
-		       NSTitledWindowMask
-		     | NSClosableWindowMask
-		     | NSMiniaturizableWindowMask
-		     | NSResizableWindowMask
-				 backing:NSBackingStoreBuffered
-				   defer:NO
-		    ] autorelease];
+                     initWithContentRect:NSMakeRect(0, 0, w, h)
+                               styleMask:
+                       NSTitledWindowMask
+                     | NSClosableWindowMask
+                     | NSMiniaturizableWindowMask
+                     | NSResizableWindowMask
+                                 backing:NSBackingStoreBuffered
+                                   defer:NO
+                    ] autorelease];
     
     [[NSNotificationCenter defaultCenter]
       addObserver:self
-	 selector:@selector(shutdown)
-	     name:NSWindowWillCloseNotification
-	   object:self.window];
+         selector:@selector(shutdown)
+             name:NSWindowWillCloseNotification
+           object:self.window];
 
     [[NSNotificationCenter defaultCenter]
       addObserver:self
-	 selector:@selector(windowDidResize:)
-	     name:NSWindowDidResizeNotification
-	   object:self.window];
+         selector:@selector(windowDidResize:)
+             name:NSWindowDidResizeNotification
+           object:self.window];
 
 
     /* setup basic window properties such as background menu
        and title */
     [self.window setBackgroundColor:[NSColor whiteColor]];
-    
+
     id menubar = [[NSMenu new] autorelease];
     id appMenuItem = [[NSMenuItem new] autorelease];
-  
+
     [menubar addItem:appMenuItem];
     [NSApp setMainMenu:menubar];
-  
+
     id appMenu = [[NSMenu new] autorelease];
     id appName = progname;
     id quitTitle = [@"Quit " stringByAppendingString:appName];
     id quitMenuItem = [[[NSMenuItem alloc]
-			 initWithTitle:quitTitle
-				action:@selector(terminate:)
-			 keyEquivalent:@"q"]
-			autorelease];
+                         initWithTitle:quitTitle
+                                action:@selector(terminate:)
+                         keyEquivalent:@"q"]
+                        autorelease];
 
     [appMenu addItem:quitMenuItem];
     [appMenuItem setSubmenu:appMenu];
     [self.window
-	cascadeTopLeftFromPoint:NSMakePoint(20,20)];
+        cascadeTopLeftFromPoint:NSMakePoint(20,20)];
     [self.window
-	setTitle:appName];
+        setTitle:appName];
   }
   return self;
 }
@@ -217,9 +217,9 @@ int dpy_rdy = 0;
 {
   QEEvent ev1, *ev = &ev1;
   NSSize size = [[self.window
-		      contentView] frame].size;
+                      contentView] frame].size;
   int w = (int) size.width, h = (int) size.height;
-    
+
   self.screen_ref->width = w;
   self.screen_ref->height = h;
   self.view.drawBackground = 1;
@@ -229,16 +229,16 @@ int dpy_rdy = 0;
 }
 
 - (void)dealloc {
-  
-  [[NSNotificationCenter defaultCenter]
-    removeObserver:self
-	      name:NSWindowDidResizeNotification
-	    object:self.window];
 
   [[NSNotificationCenter defaultCenter]
     removeObserver:self
-	      name:NSWindowWillCloseNotification
-	    object:self.window];
+              name:NSWindowDidResizeNotification
+            object:self.window];
+
+  [[NSNotificationCenter defaultCenter]
+    removeObserver:self
+              name:NSWindowWillCloseNotification
+            object:self.window];
 
   [self.window release];
   [super dealloc];
@@ -253,27 +253,27 @@ int dpy_rdy = 0;
   /* initialisation code */
   dpy_rdy = 1; /* set dpy ready for drawing */
   self.view = [[QEMainView alloc]
-		initWithFrame:[[self.window contentView] bounds]];
+                initWithFrame:[[self.window contentView] bounds]];
   self.view.autoresizingMask = NSViewWidthSizable |  NSViewHeightSizable;
   [[self.window contentView] addSubview:self.view];
-  
+
   if (self.view == nil || self.view.canDraw == NO)
     exit(0);
 
   url_block_reset();
   self.qinit(self.qargs);
-  
-  /* create thread to call the qeMainLoop fn without blocking, 
+
+  /* create thread to call the qeMainLoop fn without blocking,
      this is the OSX specific version of url_main_loop() in unix.c */
   [NSThread detachNewThreadSelector:@selector(qeMainLoop)
-			   toTarget:self withObject:nil];
+                           toTarget:self withObject:nil];
 
 }
 
 - (void) qeMainLoop
 {
   while (!url_exit_request) {
-    /* XXX: need to check how necessary is it to create an 
+    /* XXX: need to check how necessary is it to create an
        auto-release pool here */
     NSAutoreleasePool *pond = [[NSAutoreleasePool alloc] init];
     url_block();
@@ -314,7 +314,7 @@ int dpy_rdy = 0;
   int key, keyInt;
   NSString *theKey = [theEvent charactersIgnoringModifiers];
   const char keyChar = [theKey characterAtIndex:0];
- 
+
   keyInt = (int) keyChar;
 
   /* handle mod keys */
@@ -325,10 +325,10 @@ int dpy_rdy = 0;
     key = KEY_META(' ') + keyInt - ' ';
   }
   else if ([theEvent modifierFlags] & NSShiftKeyMask){
-    //    key = 
+    //    key =
   }
   else if ([theEvent modifierFlags] & NSCommandKeyMask){
-    
+
   }
   /* handle arrow keys */
   else if ([theEvent modifierFlags] & NSNumericPadKeyMask) {
@@ -338,21 +338,21 @@ int dpy_rdy = 0;
       return;            // reject dead keys
     if ( [theArrow length] == 1 ) {
       if ( keyChar == NSLeftArrowFunctionKey ) {
-	key = KEY_LEFT;
+        key = KEY_LEFT;
       }
       if ( keyChar == NSRightArrowFunctionKey ) {
-	key = KEY_RIGHT;
+        key = KEY_RIGHT;
       }
       if ( keyChar == NSUpArrowFunctionKey ) {
-	key = KEY_UP;
+        key = KEY_UP;
       }
       if ( keyChar == NSDownArrowFunctionKey ) {
-	key = KEY_DOWN;
+        key = KEY_DOWN;
       }
     }
   }
   /* no mod flags handle key press */
-  else { 
+  else {
     key = (int) keyChar;
   }
 
@@ -383,7 +383,7 @@ int dpy_rdy = 0;
     qe_handle_event(ev);
   }
 }
- 
+
 - (void)insertText:(id)string
 {
 
@@ -406,13 +406,13 @@ int dpy_rdy = 0;
 @implementation QEMainView
 
 
-- (CGFloat)widthOfString:(NSString *)string withFont:(NSFont *)font 
+- (CGFloat)widthOfString:(NSString *)string withFont:(NSFont *)font
 {
   NSDictionary *attributes = [NSDictionary
-			       dictionaryWithObjectsAndKeys:font,
-			       NSFontAttributeName, nil];
+                               dictionaryWithObjectsAndKeys:font,
+                               NSFontAttributeName, nil];
   return [[[NSAttributedString alloc]
-	    initWithString:string attributes:attributes] size].width;
+            initWithString:string attributes:attributes] size].width;
 }
 
 -(void) queueRedraw
@@ -422,14 +422,14 @@ int dpy_rdy = 0;
   [self setNeedsDisplay:YES];
 }
 
--(void)flushCleanup 
+-(void)flushCleanup
 {
   /* free things up first */
   [self.drawable_rects removeAllObjects];
   [self.drawable_text removeAllObjects];
 }
 
--(QEMainView*)initWithFrame:(NSRect)rect 
+-(QEMainView*)initWithFrame:(NSRect)rect
 {
   [super initWithFrame:rect];
   if (self) {
@@ -450,10 +450,10 @@ int dpy_rdy = 0;
 {
   QEFont *font;
   font = malloc(sizeof(QEFont));
-  
+
   if (!font)
     return NULL;
-  
+
   NSFont *qfont = [[NSFont fontWithName:@"Monaco" size:size] retain];
   self.current_font = qfont;
   font->ascent = (int) [qfont ascender];
@@ -469,8 +469,8 @@ int dpy_rdy = 0;
   if (x == 0 && y == 0 && w == 0 && h == 0) {
     NSRect mainFrame = [[self.window contentView] bounds];
     [self setClip:NSMakeRect(mainFrame.origin.x,
-			     mainFrame.origin.y,
-			     mainFrame.size.width, mainFrame.size.height)];
+                             mainFrame.origin.y,
+                             mainFrame.size.width, mainFrame.size.height)];
   }
   else {
     [self setClip:NSMakeRect((CGFloat)x, (CGFloat)y, (CGFloat)w, (CGFloat)h)];
@@ -488,7 +488,7 @@ int dpy_rdy = 0;
   qstruct.font = self.current_font;
   [self.drawable_text
       addObject:[NSValue valueWithBytes:&qstruct
-			       objCType:@encode(struct QE_OSX_Text)]];
+                               objCType:@encode(struct QE_OSX_Text)]];
 }
 
 - (void) drawRect:(NSRect)rect
@@ -506,7 +506,7 @@ int dpy_rdy = 0;
     self.drawBackground = 0;
     [theContext restoreGraphicsState];
   }
-  
+
   for (NSValue *item in [self drawable_rects]) {
     [theContext saveGraphicsState];
     struct QE_OSX_Rect c_rect;
@@ -515,30 +515,30 @@ int dpy_rdy = 0;
     [theContext restoreGraphicsState];
     i++;
   }
-  
+
   for (NSValue *item in [self drawable_text]) {
     struct QE_OSX_Text c_text;
     [theContext saveGraphicsState];
     [item getValue:&c_text];
     [self intDrawText :c_text.text
-		      :c_text.x
-		      :c_text.y
-		      :c_text.color
-		      :c_text.font];
+                      :c_text.x
+                      :c_text.y
+                      :c_text.color
+                      :c_text.font];
     [theContext restoreGraphicsState];
   }
-  
+
   /* cleanup our drawable arrays and dealloc as required */
   [self flushCleanup];
-  
+
   /* reset to 'NO' since we are done drawing. QE Core will set this to 'YES'
      when a redraw is required */
   self.flush_request = NO;
   QEEvent ev1, *ev = &ev1;
     NSSize size = [[self.window
-		      contentView] frame].size;
+                      contentView] frame].size;
   int w = (int) size.width, h = (int) size.height;
-    
+
   // self.screen_ref->width = w;
   // self.screen_ref->height = h;
   // self.drawBackground = 1;
@@ -549,10 +549,10 @@ int dpy_rdy = 0;
 
 
 - (void) intDrawText :(NSString *)text
-		     :(CGFloat)x1
-		     :(CGFloat)y
-		     :(NSColor*)color
-		     :(NSFont*)font
+                     :(CGFloat)x1
+                     :(CGFloat)y
+                     :(NSColor*)color
+                     :(NSFont*)font
 {
   NSMutableDictionary * stringAttributes;
   NSRect bounds = [self bounds];
@@ -583,7 +583,7 @@ int dpy_rdy = 0;
   qstruct.color = color;
   [self.drawable_rects
       addObject:[NSValue valueWithBytes:&qstruct
-			       objCType:@encode(struct QE_OSX_Rect)]];
+                               objCType:@encode(struct QE_OSX_Rect)]];
 }
 
 - (void)viewDidLoad
@@ -613,9 +613,9 @@ static NSColor * get_ns_color(QEColor color)
   a_adj = (CGFloat) (a/255); /* convert to percentage between 0-1 */
 
   return [[NSColor colorWithCalibratedRed:(CGFloat)r
-				    green:(CGFloat)g
-				     blue:(CGFloat)b
-				    alpha:(CGFloat)a_adj] retain];
+                                    green:(CGFloat)g
+                                     blue:(CGFloat)b
+                                    alpha:(CGFloat)a_adj] retain];
 }
 
 /* converts qe str to NSString equivalent */
@@ -632,13 +632,13 @@ static NSString* get_ns_string (const unsigned int *str, int len)
 
 static int osx_probe(void)
 {
-  /* XXX: we might not need to fully impliment this because this 
-     method should only be called after the display is already initialised 
+  /* XXX: we might not need to fully impliment this because this
+     method should only be called after the display is already initialised
      due to overriding the main loop! need to double check however... */
   return 1;
 }
 
-static int osx_init(QEditScreen *s, int w, int h) 
+static int osx_init(QEditScreen *s, int w, int h)
 {
 
   memcpy(&s->dpy, &osx_dpy, sizeof(QEDisplay));
@@ -680,11 +680,11 @@ static int osx_is_user_input_pending(QEditScreen *s)
 }
 
 static void osx_fill_rectangle(QEditScreen *s,
-			       int x1,
-			       int y1,
-			       int w,
-			       int h,
-			       QEColor color)
+                               int x1,
+                               int y1,
+                               int w,
+                               int h,
+                               QEColor color)
 {
   NSColor *c = get_ns_color(color);
   [delegate.view drawRect:NSMakeRect(x1,y1,w,h) :c];
@@ -714,16 +714,16 @@ static void osx_close_font(QEditScreen *s, QEFont *font)
   free(font);
 }
 
-static void osx_text_metrics(QEditScreen *s, QEFont *font, 
-			     QECharMetrics *metrics,
-			     const unsigned int *str, int len)
+static void osx_text_metrics(QEditScreen *s, QEFont *font,
+                             QECharMetrics *metrics,
+                             const unsigned int *str, int len)
 {
   NSDictionary *attributes = [NSDictionary
-			       dictionaryWithObjectsAndKeys:font->private,
-			       NSFontAttributeName, nil];
+                               dictionaryWithObjectsAndKeys:font->private,
+                               NSFontAttributeName, nil];
   NSSize str_size = [[[NSAttributedString alloc]
-		       initWithString:get_ns_string(str,len)
-			   attributes:attributes] size];
+                       initWithString:get_ns_string(str,len)
+                           attributes:attributes] size];
   metrics->font_ascent = font->ascent;
   metrics->font_descent = font->descent;
   metrics->width = (int) str_size.width;
@@ -731,20 +731,20 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
 
 
 static void osx_draw_text(QEditScreen *s, QEFont *font,
-			  int x1, int y, const unsigned int *str, int len,
-			  QEColor color)
+                          int x1, int y, const unsigned int *str, int len,
+                          QEColor color)
 {
   [delegate.view drawText :get_ns_string(str,len)
-			  :(CGFloat)x1
-			  :(CGFloat)(y - 10)
-			  :get_ns_color(color)];
+                          :(CGFloat)x1
+                          :(CGFloat)(y - 10)
+                          :get_ns_color(color)];
 }
 
 static void osx_set_clip(QEditScreen *s,
-			 int x,
-			 int y,
-			 int w,
-			 int h)
+                         int x,
+                         int y,
+                         int w,
+                         int h)
 {
   [delegate.view setClipRectangle:x :y :w :h];
 }
@@ -781,10 +781,10 @@ void osx_main_loop(void (*init)(void *opaque), void *opaque)
   application = [NSApplication sharedApplication];
   [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
   [NSApp activateIgnoringOtherApps:YES];
-  
+
   delegate = [[[QEDelegate alloc] init:750 :500] autorelease];
   [application setDelegate:delegate];
-  
+
   delegate.qinit = init;
   delegate.qargs = opaque;
 
