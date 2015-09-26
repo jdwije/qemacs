@@ -1,4 +1,3 @@
-
 /*
  * OSX Driver for QEMacs
  * Copyright (c) 2015 Jason Wijegooneratne
@@ -405,7 +404,6 @@ int dpy_rdy = 0;
 
 @implementation QEMainView
 
-
 - (CGFloat)widthOfString:(NSString *)string withFont:(NSFont *)font
 {
   NSDictionary *attributes = [NSDictionary
@@ -422,7 +420,7 @@ int dpy_rdy = 0;
   [self setNeedsDisplay:YES];
 }
 
--(void)flushCleanup
+-(void) flushCleanup
 {
   /* free things up first */
   [self.drawable_rects removeAllObjects];
@@ -746,7 +744,7 @@ static void osx_set_clip(QEditScreen *s,
                          int w,
                          int h)
 {
-  [delegate.view setClipRectangle:x :y :w :h];
+  // [delegate.view setClipRectangle:x :y :w :h];
 }
 
 static QEDisplay osx_dpy = {
