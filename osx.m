@@ -476,9 +476,6 @@ int dpy_rdy = 0;
   NSSize stringSize = attributedString.size;
   CGFloat strWidth = stringSize.width;
   CGFloat strHeight = stringSize.height;
-  //   [self setNeedsDisplayInRect:NSMakeRect(x1, y, strWidth, strHeight)];
-  //    NSLog(text);
-  //   NSLog(@"x1 %u y %u width %u height %u", x1, y, strWidth, strHeight);
 }
 
 - (void) drawRect:(NSRect)rect
@@ -487,10 +484,10 @@ int dpy_rdy = 0;
   int i;
 
   if (self.drawBackground > 0) {
-    // [theContext saveGraphicsState];
-    // [[self window] drawBackground];
+    [theContext saveGraphicsState];
+    [[self window] drawBackground];
     self.drawBackground = 0;
-    // [theContext restoreGraphicsState];
+    [theContext restoreGraphicsState];
   }
 
   for (NSValue *item in [self drawable_rects]) {
@@ -767,6 +764,5 @@ int osx_driver_init ()
   qe_register_display(&osx_dpy);
   return 1;
 }
-
 
 qe_module_init(osx_driver_init);
