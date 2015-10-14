@@ -159,7 +159,7 @@ int dpy_rdy = 0;
 - (id)init :(int) w :(int) h {
   if (self = [super init]) {
     // allocate and initialize window and stuff here ..
-    NSLog(@"w: %u h: %u", w, h);
+    // NSLog(@"w: %u h: %u", w, h);
     self.window = [[[QEWindow alloc]
                      initWithContentRect:NSMakeRect(0, 0, w, h)
                                styleMask:
@@ -476,6 +476,9 @@ int dpy_rdy = 0;
   NSSize stringSize = attributedString.size;
   CGFloat strWidth = stringSize.width;
   CGFloat strHeight = stringSize.height;
+  NSRect rect = NSMakeRect(x1, y, 750, strHeight);
+  [self setNeedsDisplayInRect:rect];
+
 }
 
 - (void) drawRect:(NSRect)rect
@@ -485,8 +488,8 @@ int dpy_rdy = 0;
 
   if (self.drawBackground > 0) {
     [theContext saveGraphicsState];
-    [[self window] drawBackground];
-    self.drawBackground = 0;
+    // [[self window] drawBackground];
+    // self.drawBackground = 0;
     [theContext restoreGraphicsState];
   }
 
@@ -534,12 +537,14 @@ int dpy_rdy = 0;
   [text drawAtPoint:NSMakePoint((CGFloat)x1, (CGFloat)y)
      withAttributes:stringAttributes];
   [stringAttributes release];
+  // NSLog(text);
 }
 
 - (void) intDrawRect:(NSRect)rect :(NSColor*)c
   {
     [c set];
     NSRectFill(rect);
+    // NSLog(@"%@", NSStringFromRect(rect));
   }
 
 - (void) drawRect:(NSRect)rect :(NSColor *)color
@@ -550,7 +555,6 @@ int dpy_rdy = 0;
   [self.drawable_rects
       addObject:[NSValue valueWithBytes:&qstruct
                                objCType:@encode(struct QE_OSX_Rect)]];
-  [self setNeedsDisplayInRect:rect];
 }
 
 - (void)viewDidLoad
