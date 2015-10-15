@@ -446,12 +446,7 @@ int dpy_rdy = 0;
 
 - (void) setClipRectangle :(int)x :(int)y :(int)w :(int)h
 {
-    // [self setNeedsDisplayInRect:NSMakeRect((CGFloat)x,
-//                                            (CGFloat)y,
-//                                            (CGFloat)w,
-//                                            (CGFloat)h)];
 }
-
 
 - (void) drawText :(NSString *)text :(int)x1 :(int)y :(NSColor*)color
 {
@@ -464,21 +459,12 @@ int dpy_rdy = 0;
   [self.drawable_text
       addObject:[NSValue valueWithBytes:&qstruct
                                objCType:@encode(struct QE_OSX_Text)]];
-  // mark area for update
-  NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                             @"Monaco", NSFontNameAttribute,
-                                              [NSNumber numberWithFloat
-                                                  :self.current_font.xHeight],
-                                           NSFontSizeAttribute, nil];
-  NSAttributedString* attributedString = [[NSAttributedString alloc]
-                                           initWithString:text
-                                               attributes:attributes];
-  NSSize stringSize = attributedString.size;
-  CGFloat strWidth = stringSize.width;
-  CGFloat strHeight = stringSize.height;
-  NSRect rect = NSMakeRect(x1, y, 750, strHeight);
-  [self setNeedsDisplayInRect:rect];
-
+  // calculate string dimension then mark area for update
+  CGSize size = [text sizeWithAttributes:@{NSFontAttributeName:self.current_font}];
+  CGFloat strWidth = size.width;
+  CGFloat strHeight = size.height;
+  NSRect updateRect = NSMakeRect(x1, y, strWidth, strHeight);
+  [self setNeedsDisplayInRect:updateRect];
 }
 
 - (void) drawRect:(NSRect)rect
