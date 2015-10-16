@@ -448,21 +448,22 @@ int dpy_rdy = 0;
 {
 }
 
-- (void) drawText :(NSString *)text :(int)x1 :(int)y :(NSColor*)color
+- (void) drawText :(NSString *)text :(int)x1 :(int)y :(NSColor*)color :(NSFont*)font
 {
   struct QE_OSX_Text qstruct;
   qstruct.text = text;
   qstruct.color = color;
   qstruct.x = (CGFloat) x1;
   qstruct.y = (CGFloat) y;
-  qstruct.font = self.current_font;
+  qstruct.font = font;
+  // add text to the drawables array
   [self.drawable_text
       addObject:[NSValue valueWithBytes:&qstruct
                                objCType:@encode(struct QE_OSX_Text)]];
-  // calculate string dimension then mark area for update
-  CGSize size = [text sizeWithAttributes:@{NSFontAttributeName:self.current_font}];
-  CGFloat strWidth = size.width;
-  CGFloat strHeight = size.height;
+  // calculate text dimensions then mark area for update
+  CGSize strSize = [text sizeWithAttributes:@{NSFontAttributeName:font}];
+  CGFloat strWidth = strSize.width;
+  CGFloat strHeight = font.xHeight;
   NSRect updateRect = NSMakeRect(x1, y, strWidth, strHeight);
   [self setNeedsDisplayInRect:updateRect];
 }
@@ -471,13 +472,6 @@ int dpy_rdy = 0;
 {
   NSGraphicsContext* theContext = [NSGraphicsContext currentContext];
   int i;
-
-  if (self.drawBackground > 0) {
-    [theContext saveGraphicsState];
-    // [[self window] drawBackground];
-    // self.drawBackground = 0;
-    [theContext restoreGraphicsState];
-  }
 
   for (NSValue *item in [self drawable_rects]) {
     [theContext saveGraphicsState];
@@ -541,6 +535,7 @@ int dpy_rdy = 0;
   [self.drawable_rects
       addObject:[NSValue valueWithBytes:&qstruct
                                objCType:@encode(struct QE_OSX_Rect)]];
+  [self setNeedsDisplayInRect:rect];
 }
 
 - (void)viewDidLoad
@@ -639,7 +634,7 @@ static void osx_fill_rectangle(QEditScreen *s,
 {
   NSColor *c = get_ns_color(color);
   NSRect bounds = [delegate.view bounds];
-  int adjustedY = (int) CGRectGetHeight(bounds) - y1 - 12;
+  int adjustedY = (int) (CGRectGetHeight(bounds) - y1 - h);
   [delegate.view drawRect:NSMakeRect(x1, adjustedY, w, h) :c];
   //  NSLog(@"w is: %u & height is: %u", w, h);
 }
@@ -680,21 +675,22 @@ static void osx_text_metrics(QEditScreen *s, QEFont *font,
                            attributes:attributes] size];
   metrics->font_ascent = font->ascent;
   metrics->font_descent = font->descent;
-  metrics->width = (int) str_size.width;
+  metrics->width = str_size.width;
 }
-
 
 static void osx_draw_text(QEditScreen *s, QEFont *font,
                           int x1, int y, const unsigned int *str, int len,
                           QEColor color)
 {
   NSRect bounds = [delegate.view bounds];
-  // XXX: the + 10 is a hack for not knowing how to get the title bar height!
-  CGFloat adjustedY = (CGFloat) CGRectGetHeight(bounds) - y;
+  // XXX: The (- 3) is a dirty hack to get around our hard coded font...
+  CGFloat adjustedY = (CGFloat) CGRectGetHeight(bounds) - y - 3;
   [delegate.view drawText :get_ns_string(str,len)
                           :x1
                           :adjustedY
-                          :get_ns_color(color)];
+                          :get_ns_color(color)
+                          :font->private
+   ];
 }
 
 static void osx_set_clip(QEditScreen *s,
