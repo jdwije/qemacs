@@ -314,6 +314,7 @@ int dpy_rdy = 0;
   int key, keyInt;
   NSString *theKey = [theEvent charactersIgnoringModifiers];
   const char keyChar = [theKey characterAtIndex:0];
+  int keyCode = [theEvent keyCode];
 
   keyInt = (int) keyChar;
 
@@ -337,16 +338,16 @@ int dpy_rdy = 0;
     if ( [theArrow length] == 0 )
       return;            // reject dead keys
     if ( [theArrow length] == 1 ) {
-      if ( keyChar == NSLeftArrowFunctionKey ) {
+      if (keyCode == 123) {
         key = KEY_LEFT;
       }
-      if ( keyChar == NSRightArrowFunctionKey ) {
+      if (keyCode ==  124) {
         key = KEY_RIGHT;
       }
-      if ( keyChar == NSUpArrowFunctionKey ) {
+      if (keyCode == 126) {
         key = KEY_UP;
       }
-      if ( keyChar == NSDownArrowFunctionKey ) {
+      if (keyCode == 125) {
         key = KEY_DOWN;
       }
     }
@@ -470,6 +471,11 @@ int dpy_rdy = 0;
 
 - (void) drawRect:(NSRect)rect
 {
+
+  if (self.flush_request == NO) {
+    return;
+  }
+
   NSGraphicsContext* theContext = [NSGraphicsContext currentContext];
   int i;
 
