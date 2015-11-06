@@ -1,8 +1,9 @@
 language: c
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y libx11-dev
+script: ./configure && make && make test
 os:
   - linux
   - osx
-install:
-  - ./configure
-script:
-  - make
+
