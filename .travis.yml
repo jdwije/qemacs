@@ -1,7 +1,7 @@
 language: c
 before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y libx11-dev
+  - chmod +x build/install-dependencies.sh
+  - ./build/install-dependencies.sh
 script: ./configure && make && make test
 os:
   - linux
