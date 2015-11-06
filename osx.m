@@ -316,7 +316,7 @@ int dpy_rdy = 0;
   keyInt = (int) keyChar;
   /* handle mod keys */
   if ([theEvent modifierFlags] & NSControlKeyMask){
-      key = KEY_CTRL_LEFT;
+    key = KEY_CTRL(keyInt);
   }
   else if ([theEvent modifierFlags] & NSAlternateKeyMask){
     key = KEY_META(' ') + keyInt - ' ';
