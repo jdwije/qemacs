@@ -23,8 +23,6 @@
 
 @interface QEWindow : NSWindow @end
 
-@interface QERectLayer : NSView @end
-
 @interface QEMainView : NSView
 
 typedef struct QE_OSX_Rect {
@@ -42,7 +40,6 @@ typedef struct QE_OSX_Text {
 
 @property NSRect clip;
 @property QEStyleDef default_style;
-@property (assign) IBOutlet QERectLayer *rect_layer;
 @property (assign) int drawBackground;
 @property (assign) NSMutableArray *drawable_rects;
 @property (assign) NSFont *current_font;
@@ -317,10 +314,9 @@ int dpy_rdy = 0;
   int keyCode = [theEvent keyCode];
 
   keyInt = (int) keyChar;
-
   /* handle mod keys */
   if ([theEvent modifierFlags] & NSControlKeyMask){
-    key = KEY_CTRL_LEFT;
+      key = KEY_CTRL_LEFT;
   }
   else if ([theEvent modifierFlags] & NSAlternateKeyMask){
     key = KEY_META(' ') + keyInt - ' ';
@@ -428,7 +424,7 @@ int dpy_rdy = 0;
   return self;
 }
 
--(QEFont *)openFont :(CGFloat)size :(int)style
+-(QEFont *)openFont :(NSString*)style :(CGFloat)size
 {
   QEFont *font;
   font = malloc(sizeof(QEFont));
@@ -436,7 +432,7 @@ int dpy_rdy = 0;
   if (!font)
     return NULL;
 
-  NSFont *qfont = [[NSFont fontWithName:@"Monaco" size:size] retain];
+  NSFont *qfont = [[NSFont fontWithName:style size:size] retain];
   self.current_font = qfont;
   font->ascent = (int) [qfont ascender];
   font->descent = (int) ([qfont descender] * -1);
@@ -479,7 +475,13 @@ int dpy_rdy = 0;
   NSGraphicsContext* theContext = [NSGraphicsContext currentContext];
   int i;
 
-  for (NSValue *item in [self drawable_rects]) {
+  // we copy the drawable arrays in case they are mutated during iteration.
+  NSMutableArray *dRects = [[NSMutableArray alloc]
+                             initWithArray:self.drawable_rects copyItems:YES];
+  NSMutableArray *dText = [[NSMutableArray alloc]
+                            initWithArray:self.drawable_text copyItems:YES];
+
+  for (NSValue *item in dRects) {
     [theContext saveGraphicsState];
     struct QE_OSX_Rect c_rect;
     [item getValue:&c_rect];
@@ -488,7 +490,7 @@ int dpy_rdy = 0;
     i++;
   }
 
-  for (NSValue *item in [self drawable_text]) {
+  for (NSValue *item in dText) {
     struct QE_OSX_Text c_text;
     [theContext saveGraphicsState];
     [item getValue:&c_text];
@@ -502,6 +504,7 @@ int dpy_rdy = 0;
 
   /* cleanup our drawable arrays and dealloc as required */
   [self flushCleanup];
+
 
   /* reset to 'NO' since we are done drawing. QE Core will set this to 'YES'
      when a redraw is required */
@@ -658,7 +661,21 @@ static QEFont *osx_open_font(QEditScreen *s, int style, int fontsize)
   //     int size;
   //     int timestamp;
   // } QEFont;
-  QEFont *font = [delegate.view openFont :fontsize :style];
+  const NSString *family;
+  switch(style & QE_FAMILY_MASK) {
+  default:
+  case QE_FAMILY_FIXED:
+    family = @"Monaco";
+    break;
+  case QE_FAMILY_SANS:
+    family = @"PT Sans";
+    break;
+  case QE_FAMILY_SERIF:
+    family = @"PT Serif";
+    break;
+  }
+
+  QEFont *font = [delegate.view openFont :family :fontsize];
 
   return font;
 }
