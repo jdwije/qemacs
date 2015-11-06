@@ -1,8 +1,8 @@
 language: c
 before_install:
-  - chmod +x build/install-dependencies.sh
-  - ./build/install-dependencies.sh
-script: ./configure && make && make test
+  - sudo chmod +x build/install-dependencies.sh
+  - sudo ./build/install-dependencies.sh
+script: ./configure && make
 os:
   - linux
   - osx
