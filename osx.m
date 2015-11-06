@@ -168,6 +168,10 @@ int dpy_rdy = 0;
                                    defer:NO
                     ] autorelease];
 
+    [self.window  setCollectionBehavior:
+                 NSWindowCollectionBehaviorFullScreenPrimary];
+
+
     [[NSNotificationCenter defaultCenter]
       addObserver:self
          selector:@selector(shutdown)
@@ -725,6 +729,12 @@ static void osx_set_clip(QEditScreen *s,
   [delegate.view setClipRectangle:x :y :w :h];
 }
 
+static void osx_full_screen(QEditScreen *s, int full_screen)
+{
+  [delegate.window toggleFullScreen:delegate];
+}
+
+
 static QEDisplay osx_dpy = {
   "osx",
   osx_probe,
@@ -748,7 +758,7 @@ static QEDisplay osx_dpy = {
   NULL,
   NULL,
   /* fullscreen support */
-  NULL,
+  osx_full_screen,
 };
 
 void osx_main_loop(void (*init)(void *opaque), void *opaque)
