@@ -1,0 +1,10 @@
+language:
+  - c
+  - objective-c
+os:
+  - linux
+  - osx
+install:
+  - ./configure
+script:
+  - make
