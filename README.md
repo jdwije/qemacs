@@ -3,6 +3,8 @@ QEmacs
 
 This is a development fork of [QEmacs](http://www.bellard.org/qemacs/).
 
+[![Build Status](https://travis-ci.org/jdwije/qemacs.svg?branch=osx-driver)](https://travis-ci.org/jdwije/qemacs)
+
 1. [ ] Bug fixing and stabilizing the software
 2. [ ] Getting cross platform compilation working again and port to OSX
   - [x] OSX
