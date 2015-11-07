@@ -16,6 +16,7 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
+
 #include "qe.h"
 #include "qfribidi.h"
 #ifdef CONFIG_DLL
@@ -697,8 +698,8 @@ int cursor_func(DisplayState *ds,
         m->cursor_height = h; 
         m->linec = line_num;
 #if 0
-        printf("cursor_func: xc=%d yc=%d linec=%d offset: %d<=%d<%d\n", 
-               m->xc, m->yc, m->linec, offset1, m->offsetc, offset2);
+	//        printf("cursor_func: xc=%d yc=%d linec=%d offset: %d<=%d<%d\n", 
+	//     m->xc, m->yc, m->linec, offset1, m->offsetc, offset2);
 #endif
         return -1;
     } else {
@@ -2766,7 +2767,7 @@ int text_display(EditState *s, DisplayState *ds, int offset)
             embedding_level = bd[0].level;
             /* XXX: use embedding level for all cases ? */
             if (c < ' ' && c != '\t') {
-                display_printf(ds, offset0, offset, "^%c", '@' + c);
+	      display_printf(ds, offset0, offset, "^%c", '@' + c);
             } else if (c >= 0x10000) {
                 /* currently, we cannot display these chars */
                 display_printf(ds, offset0, offset, "\\U%08x", c);
@@ -6368,7 +6369,7 @@ void qe_init(void *opaque)
     /* will be positionned by do_refresh() */
     s = edit_new(b, 0, 0, 0, 0, WF_MODELINE);
     
-    /* at this stage, no screen is defined. Maybe should implement a
+    /* XXX: at this stage, no screen is defined. Maybe should implement a
        dummy display driver to have a consistent state */
     parse_config(s);
 
@@ -6376,6 +6377,7 @@ void qe_init(void *opaque)
 
     /* select the suitable display manager */
     dpy = probe_display();
+
     if (!dpy) {
         fprintf(stderr, "No suitable display found, exiting\n");
         exit(1);
@@ -6415,14 +6417,18 @@ int main(int argc, char **argv)
 #endif
 {
     QEArgs args;
-
     args.argc = argc;
     args.argv = argv;
 
+#ifdef CONFIG_OSX
+    osx_main_loop(qe_init, &args);
+#else
     url_main_loop(qe_init, &args);
+#endif
 
     close_input_methods();
 
     dpy_close(&global_screen);
     return 0;
 }
+

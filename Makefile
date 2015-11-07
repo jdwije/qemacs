@@ -76,6 +76,15 @@ ifdef CONFIG_CFB
 OBJS+= libfbf.o fbfrender.o cfb.o fbffonts.o
 endif
 
+
+ifdef CONFIG_OSX
+CONFIG_X11=
+OBJS+= osx.o
+# XXX: no need to include x11 lib on osx anymore I /opt/X11/include 
+LDFLAGS+=-framework Cocoa
+LIBS+=-lobjc
+endif
+
 ifdef CONFIG_X11
 OBJS+= x11.o
 ifdef CONFIG_XRENDER
@@ -147,6 +156,9 @@ html2png.o: html2png.c qe.h
 %.o : %.c
 	$(CC) $(DEFINES) $(CFLAGS) -o $@ -c $<
 
+%.o : %.m
+	$(CC) $(DEFINES) $(CFLAGS) -o $@ -c $<
+
 clean:
 	make -C libqhtml clean
 	rm -f *.o *~ TAGS gmon.out core \
@@ -185,7 +197,7 @@ bufed.c qestyles.h x11.c buffer.c ligtoqe.c \
 qfribidi.c clang.c latex-mode.c xml.c dired.c list.c qfribidi.h html2png.c \
 charsetmore.c charset_table.c cptoqe.c \
 libfbf.c fbfrender.c cfb.c fbftoqe.c libfbf.h fbfrender.h cfb.h \
-display.c display.h mpeg.c shell.c \
+display.c osx.h osx.m display.h mpeg.c shell.c \
 docbook.c unifont.lig kmaps xterm-146-dw-patch \
 ligatures qe-doc.texi qe-doc.html \
 tests/HELLO.txt tests/TestPage.txt tests/test-hebrew \

@@ -31,6 +31,7 @@
 
 /************************/
 
+
 /* low level I/O events */
 void set_read_handler(int fd, void (*cb)(void *opaque), void *opaque);
 void set_write_handler(int fd, void (*cb)(void *opaque), void *opaque);
@@ -578,7 +579,7 @@ extern EditBufferDataType raw_data_type;
 #undef __attribute__ 
 
 /* same method as the linux kernel... */
-#ifdef __APPLE__ && __MACH__
+#ifdef __APPLE__ // && __MACH__
 #define __init_call	__attribute__ ((unused,__section__ (".initcall,init")))
 #define __exit_call	__attribute__ ((unused,__section__ (".exitcall,exit")))
 #else

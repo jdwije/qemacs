@@ -42,6 +42,7 @@ esac
 gprof="no"
 network="yes"
 win32="no"
+osxcocoa="no"
 lshared="no"
 extralibs="-lm"
 simpleidct="yes"
@@ -80,7 +81,8 @@ make="gmake"
 ;;
 Darwin)
 # add this for osx compile
-CFLAGS="-I /opt/X11/include"
+x11="no"
+osxcocoa="yes"
 ;;
 *) ;;
 esac
@@ -270,6 +272,7 @@ echo "Install prefix   $prefix"
 echo "Source path      $source_path"
 echo "C compiler       $cc"
 echo "X11 support      $x11"
+echo "OSX Cocoa        $osxcocoa"
 echo "Xvideo support   $xv"
 #echo "Xrender support  $xrender"
 echo "libpng support   $png"
@@ -343,6 +346,11 @@ fi
 if test "$x11" = "yes" ; then
   echo "#define CONFIG_X11 1" >> $TMPH
   echo "CONFIG_X11=yes" >> config.mak
+fi
+
+if test "$osxcocoa" = "yes" ; then
+  echo "#define CONFIG_OSX 1" >> $TMPH
+  echo "CONFIG_OSX=yes" >> config.mak
 fi
 
 if test "$xv" = "yes" ; then
